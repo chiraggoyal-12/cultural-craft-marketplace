@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { products, Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
@@ -65,21 +65,6 @@ const ProductShowcase = () => {
               </div>
               
               <CardContent className="p-4">
-                <div className="flex items-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-3 w-3 ${
-                        i < Math.floor(product.rating)
-                          ? "fill-primary text-primary"
-                          : "text-muted-foreground"
-                      }`}
-                    />
-                  ))}
-                  <span className="text-xs text-muted-foreground ml-1">
-                    ({product.reviewCount})
-                  </span>
-                </div>
                 
                 <Link to={`/product/${product.id}`}>
                   <h3 className="font-semibold text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">

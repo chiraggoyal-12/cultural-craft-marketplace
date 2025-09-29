@@ -135,9 +135,6 @@ const NewArrivalsSection = () => {
                       ₹{product.price.toLocaleString()}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    ★ {product.rating}
-                  </span>
                 </div>
                 
                 <p className="text-xs text-muted-foreground mt-1 line-clamp-1">

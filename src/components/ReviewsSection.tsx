@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ThumbsUp, Camera, Video, MoreHorizontal } from 'lucide-react';
+import { ThumbsUp, Camera, Video, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,7 +16,6 @@ import { Label } from '@/components/ui/label';
 
 interface Review {
   id: string;
-  rating: number;
   title?: string;
   content?: string;
   is_verified_purchase: boolean;
@@ -43,7 +42,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
   const [sortBy, setSortBy] = useState('most_helpful');
   const [showWriteReview, setShowWriteReview] = useState(false);
   const [reviewData, setReviewData] = useState({
-    rating: 5,
     title: '',
     content: ''
   });
@@ -64,9 +62,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
       switch (sortBy) {
         case 'newest':
           query = query.order('created_at', { ascending: false });
-          break;
-        case 'highest_rated':
-          query = query.order('rating', { ascending: false });
           break;
         case 'most_helpful':
         default:
@@ -104,7 +99,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
         .insert({
           product_id: productId,
           user_id: user.id,
-          rating: reviewData.rating,
           title: reviewData.title,
           content: reviewData.content,
           is_verified_purchase: false // Would need order verification logic
@@ -118,7 +112,7 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
       });
 
       setShowWriteReview(false);
-      setReviewData({ rating: 5, title: '', content: '' });
+      setReviewData({ title: '', content: '' });
       fetchReviews();
     } catch (error: any) {
       toast({
@@ -129,35 +123,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
     }
   };
 
-  const renderStars = (rating: number, interactive = false, onRatingChange?: (rating: number) => void) => {
-    return (
-      <div className="flex gap-1">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`h-4 w-4 ${
-              star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-            } ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''}`}
-            onClick={() => interactive && onRatingChange?.(star)}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  const getAverageRating = () => {
-    if (reviews.length === 0) return 0;
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return (sum / reviews.length).toFixed(1);
-  };
-
-  const getRatingDistribution = () => {
-    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    reviews.forEach(review => {
-      distribution[review.rating as keyof typeof distribution]++;
-    });
-    return distribution;
-  };
 
   if (loading) {
     return <div className="animate-pulse space-y-4">
@@ -167,11 +132,9 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
     </div>;
   }
 
-  const distribution = getRatingDistribution();
-
   return (
     <div className="space-y-6">
-      {/* Rating Summary */}
+      {/* Review Summary */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -185,12 +148,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
                   <DialogTitle>Write a Review</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
-                  <div>
-                    <Label>Rating</Label>
-                    {renderStars(reviewData.rating, true, (rating) => 
-                      setReviewData(prev => ({ ...prev, rating }))
-                    )}
-                  </div>
                   <div>
                     <Label htmlFor="review-title">Title (optional)</Label>
                     <Input
@@ -220,12 +177,8 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
         </CardHeader>
         <CardContent>
           <div className="text-center">
-            <div className="text-4xl font-bold">{getAverageRating()}</div>
-            <div className="flex justify-center my-2">
-              {renderStars(Math.round(Number(getAverageRating())))}
-            </div>
             <div className="text-sm text-muted-foreground">
-              Based on {reviews.length} review{reviews.length !== 1 ? 's' : ''}
+              {reviews.length} review{reviews.length !== 1 ? 's' : ''}
             </div>
           </div>
         </CardContent>
@@ -242,7 +195,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
             <SelectContent>
               <SelectItem value="most_helpful">Most Helpful</SelectItem>
               <SelectItem value="newest">Newest</SelectItem>
-              <SelectItem value="highest_rated">Highest Rated</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -281,7 +233,6 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      {renderStars(review.rating)}
                       <span className="text-sm text-muted-foreground">
                         {new Date(review.created_at).toLocaleDateString()}
                       </span>

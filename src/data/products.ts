@@ -17,7 +17,6 @@ export interface Product {
   featured: boolean;
   bestseller: boolean;
   newArrival: boolean;
-  rating: number;
   reviewCount: number;
 }
 
@@ -64,7 +63,6 @@ export const products: Product[] = [
     featured: true,
     bestseller: true,
     newArrival: false,
-    rating: 4.8,
     reviewCount: 24
   },
   {
@@ -85,7 +83,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: false,
     newArrival: true,
-    rating: 4.6,
     reviewCount: 12
   },
 
@@ -108,7 +105,6 @@ export const products: Product[] = [
     featured: true,
     bestseller: false,
     newArrival: false,
-    rating: 4.9,
     reviewCount: 38
   },
   {
@@ -129,7 +125,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: true,
     newArrival: false,
-    rating: 4.7,
     reviewCount: 19
   },
   {
@@ -150,7 +145,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: false,
     newArrival: true,
-    rating: 4.8,
     reviewCount: 15
   },
 
@@ -173,7 +167,6 @@ export const products: Product[] = [
     featured: true,
     bestseller: false,
     newArrival: false,
-    rating: 4.9,
     reviewCount: 42
   },
   {
@@ -194,7 +187,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: true,
     newArrival: false,
-    rating: 4.7,
     reviewCount: 28
   },
 
@@ -217,7 +209,6 @@ export const products: Product[] = [
     featured: true,
     bestseller: false,
     newArrival: true,
-    rating: 4.6,
     reviewCount: 8
   },
   {
@@ -238,7 +229,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: false,
     newArrival: false,
-    rating: 4.5,
     reviewCount: 11
   },
   {
@@ -259,7 +249,6 @@ export const products: Product[] = [
     featured: false,
     bestseller: true,
     newArrival: false,
-    rating: 4.8,
     reviewCount: 22
   }
 ];

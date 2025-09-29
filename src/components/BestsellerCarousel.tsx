@@ -144,9 +144,6 @@ const BestsellerCarousel = () => {
                           ₹{product.price.toLocaleString()}
                         </span>
                       </div>
-                      <span className="text-xs text-muted-foreground">
-                        ★ {product.rating}
-                      </span>
                     </div>
                   </CardContent>
                 </Card>
