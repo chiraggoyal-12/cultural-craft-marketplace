@@ -46,7 +46,7 @@ const ShopPage = () => {
       case "popularity":
         return b.reviewCount - a.reviewCount;
       case "rating":
-        return b.rating - a.rating;
+        return b.reviewCount - a.reviewCount;
       default:
         return b.newArrival ? 1 : -1;
     }
@@ -253,16 +253,8 @@ const ShopPage = () => {
                       {/* Rating */}
                       <div className="flex items-center gap-1 mb-2">
                         <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i}
-                              className={`w-3 h-3 ${
-                                i < Math.floor(product.rating) 
-                                  ? "text-gold fill-current" 
-                                  : "text-muted-foreground"
-                              }`}
-                            />
-                          ))}
+                          <span className="text-xs text-muted-foreground">
+                            {product.reviewCount} reviews
                         </div>
                         <span className="text-xs text-muted-foreground">
                           ({product.reviewCount})

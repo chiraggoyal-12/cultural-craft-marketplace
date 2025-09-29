@@ -125,22 +125,10 @@ const ProductPage = () => {
               {product.featured && <Badge className="bg-accent text-accent-foreground">Featured</Badge>}
             </div>
 
-            {/* Rating */}
+            {/* Review Count */}
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i}
-                    className={`w-4 h-4 ${
-                      i < Math.floor(product.rating) 
-                        ? "text-gold fill-current" 
-                        : "text-muted-foreground"
-                    }`}
-                  />
-                ))}
-              </div>
               <span className="text-sm text-muted-foreground">
-                {product.rating} ({product.reviewCount} reviews)
+                {product.reviewCount} reviews
               </span>
             </div>
 

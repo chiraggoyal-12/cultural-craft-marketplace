@@ -101,7 +101,8 @@ const ReviewsSection: React.FC<ReviewsProps> = ({ productId }) => {
           user_id: user.id,
           title: reviewData.title,
           content: reviewData.content,
-          is_verified_purchase: false // Would need order verification logic
+          is_verified_purchase: false, // Would need order verification logic
+          rating: 5 // Default rating since it's required in DB
         });
 
       if (error) throw error;
