@@ -4,11 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Eye, ShoppingCart } from 'lucide-react';
-import { products, categories } from '@/data/products';
+import { categories } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
+import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 
 const FeaturedCategoryGrid = () => {
   const { addItem } = useCart();
+  const { products } = useProductsWithMedia();
 
   // Select featured products per category
   const categoryProducts = {

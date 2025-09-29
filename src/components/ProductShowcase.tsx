@@ -3,13 +3,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products, Product } from "@/data/products";
+import { Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const ProductShowcase = () => {
   const { addItem } = useCart();
   const { addToWishlist, isInWishlist } = useWishlist();
+  const { products } = useProductsWithMedia();
 
   const getProductBadge = (product: Product) => {
     if (product.newArrival) return "New";

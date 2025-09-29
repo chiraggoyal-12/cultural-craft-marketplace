@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight, Eye, ShoppingCart, Play } from 'lucide-react';
-import { products } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
+import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 
 const BestsellerCarousel = () => {
   const { addItem } = useCart();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { products } = useProductsWithMedia();
 
   // Get bestsellers and featured products
   const bestsellerProducts = [

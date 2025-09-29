@@ -4,18 +4,19 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Heart, Eye, Play } from 'lucide-react';
-import { products, getNewArrivals } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 
 const NewArrivalsSection = () => {
   const { addItem } = useCart();
   const { addToWishlist, isInWishlist } = useWishlist();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const { products } = useProductsWithMedia();
 
   // Get new arrivals and mix with some featured if we need more products
   const newProducts = [
-    ...getNewArrivals(),
+    ...products.filter(p => p.newArrival),
     ...products.filter(p => p.featured && !p.newArrival).slice(0, 3)
   ].slice(0, 6);
 
