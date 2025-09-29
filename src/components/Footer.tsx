@@ -1,4 +1,4 @@
-import { Heart, Instagram, Facebook, Youtube, Linkedin } from "lucide-react";
+import { Heart, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -102,15 +102,6 @@ const Footer = () => {
             <div className="flex space-x-3 mb-4">
               <Button variant="ghost" size="icon" className="hover:bg-primary/10">
                 <Instagram className="w-5 h-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <Facebook className="w-5 h-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <Youtube className="w-5 h-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <Linkedin className="w-5 h-5" />
               </Button>
             </div>
             
