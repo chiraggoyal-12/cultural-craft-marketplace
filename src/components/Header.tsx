@@ -29,9 +29,6 @@ const Header = () => {
               <h1 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
                 Handora
               </h1>
-              <span className="hidden sm:block text-sm text-muted-foreground">
-                Connecting Cultures
-              </span>
             </Link>
           </div>
 
