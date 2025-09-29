@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import CategorySection from "@/components/CategorySection";
-import FeaturedCategoryGrid from "@/components/FeaturedCategoryGrid";
+
 import BestsellerCarousel from "@/components/BestsellerCarousel";
 import LifestyleShowcase from "@/components/LifestyleShowcase";
 import NewArrivalsSection from "@/components/NewArrivalsSection";
@@ -16,7 +16,6 @@ const Index = () => {
       <main>
         <HeroSection />
         <CategorySection />
-        <FeaturedCategoryGrid />
         <BestsellerCarousel />
         <LifestyleShowcase />
         <NewArrivalsSection />
