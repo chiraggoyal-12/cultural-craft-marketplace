@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -241,9 +241,11 @@ const ShopPage = () => {
                   
                   <CardContent className={`p-4 ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : ""}`}>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-                        {product.name}
-                      </h3>
+                      <Link to={`/product/${product.id}`}>
+                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors cursor-pointer">
+                          {product.name}
+                        </h3>
+                      </Link>
                       <p className="text-sm text-muted-foreground mb-2">
                         {product.shortDescription}
                       </p>
@@ -288,9 +290,11 @@ const ShopPage = () => {
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         {product.inStock ? "Add to Cart" : "Out of Stock"}
                       </Button>
-                      <Button variant="outline" size="icon">
-                        👁️
-                      </Button>
+                      <Link to={`/product/${product.id}`}>
+                        <Button variant="outline" size="icon">
+                          👁️
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
