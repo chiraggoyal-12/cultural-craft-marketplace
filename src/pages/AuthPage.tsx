@@ -263,25 +263,6 @@ const AuthPage = () => {
                       )}
                     </Button>
                   </div>
-                  
-                  {/* Password Requirements */}
-                  {password.length > 0 && (
-                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
-                      <p className="text-sm font-medium text-muted-foreground">Password Requirements:</p>
-                      {getPasswordRequirements().map((req, index) => (
-                        <div key={index} className="flex items-center gap-2 text-sm">
-                          {req.isValid ? (
-                            <Check className="h-4 w-4 text-green-600" />
-                          ) : (
-                            <X className="h-4 w-4 text-red-500" />
-                          )}
-                          <span className={req.isValid ? "text-green-600" : "text-muted-foreground"}>
-                            {req.text}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">Confirm Password</Label>
