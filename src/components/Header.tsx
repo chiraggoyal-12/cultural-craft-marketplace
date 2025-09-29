@@ -1,16 +1,19 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, Heart, User, ShoppingCart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/contexts/CartContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { itemCount } = useCart();
 
   const categories = [
-    "Culinary Crafts",
-    "Divine Artistry", 
-    "Artisan Home & Serenity",
-    "Crafted Sip & Smoke"
+    { name: "Culinary Crafts", slug: "culinary-crafts" },
+    { name: "Divine Artistry", slug: "divine-artistry" }, 
+    { name: "Artisan Home & Serenity", slug: "artisan-home-serenity" },
+    { name: "Crafted Sip & Smoke", slug: "crafted-sip-smoke" }
   ];
 
   return (
@@ -20,19 +23,21 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <h1 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              Handora
-            </h1>
-            <span className="hidden sm:block text-sm text-muted-foreground">
-              Connecting Cultures
-            </span>
+            <Link to="/" className="flex items-center space-x-2">
+              <h1 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                Handora
+              </h1>
+              <span className="hidden sm:block text-sm text-muted-foreground">
+                Connecting Cultures
+              </span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <a href="/" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors">
               Home
-            </a>
+            </Link>
             <div className="relative group">
               <button className="text-foreground hover:text-primary transition-colors flex items-center">
                 Shop
@@ -43,13 +48,13 @@ const Header = () => {
               <div className="absolute top-full left-0 mt-2 w-64 bg-card rounded-lg shadow-elegant border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 <div className="p-4 space-y-2">
                   {categories.map((category) => (
-                    <a
-                      key={category}
-                      href={`/shop/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                    <Link
+                      key={category.slug}
+                      to={`/shop/${category.slug}`}
                       className="block px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
                     >
-                      {category}
-                    </a>
+                      {category.name}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -79,17 +84,23 @@ const Header = () => {
 
           {/* Right Icons */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <Heart className="w-5 h-5" />
+            <Button variant="ghost" size="icon" className="hidden sm:flex" asChild>
+              <Link to="/wishlist">
+                <Heart className="w-5 h-5" />
+              </Link>
             </Button>
             <Button variant="ghost" size="icon">
               <User className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                0
-              </span>
+            <Button variant="ghost" size="icon" className="relative" asChild>
+              <Link to="/cart">
+                <ShoppingCart className="w-5 h-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </Link>
             </Button>
             
             {/* Mobile Menu Button */}
@@ -121,19 +132,19 @@ const Header = () => {
       {isMenuOpen && (
         <div className="lg:hidden border-t border-border bg-card">
           <nav className="container mx-auto px-4 py-4 space-y-4">
-            <a href="/" className="block text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="block text-foreground hover:text-primary transition-colors">
               Home
-            </a>
+            </Link>
             <div className="space-y-2">
               <span className="block text-sm font-medium text-muted-foreground">Shop Categories</span>
               {categories.map((category) => (
-                <a
-                  key={category}
-                  href={`/shop/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                <Link
+                  key={category.slug}
+                  to={`/shop/${category.slug}`}
                   className="block pl-4 text-foreground hover:text-primary transition-colors"
                 >
-                  {category}
-                </a>
+                  {category.name}
+                </Link>
               ))}
             </div>
             <a href="/about" className="block text-foreground hover:text-primary transition-colors">
