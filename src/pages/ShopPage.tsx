@@ -250,14 +250,10 @@ const ShopPage = () => {
                         {product.shortDescription}
                       </p>
                       
-                      {/* Rating */}
+                      {/* Review Count */}
                       <div className="flex items-center gap-1 mb-2">
-                        <div className="flex">
-                          <span className="text-xs text-muted-foreground">
-                            {product.reviewCount} reviews
-                        </div>
                         <span className="text-xs text-muted-foreground">
-                          ({product.reviewCount})
+                          {product.reviewCount} reviews
                         </span>
                       </div>
                       
