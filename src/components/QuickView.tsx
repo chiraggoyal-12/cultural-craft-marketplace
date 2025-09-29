@@ -146,7 +146,7 @@ const QuickView: React.FC<QuickViewProps> = ({ product, trigger }) => {
                 </div>
               )}
 
-              <p className="text-3xl font-bold text-primary">${product.price}</p>
+              <p className="text-3xl font-bold text-primary">₹{product.price.toLocaleString()}</p>
             </div>
 
             {/* Product Info */}

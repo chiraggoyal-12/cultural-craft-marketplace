@@ -123,7 +123,7 @@ const RecentlyViewed: React.FC = () => {
                 />
               </div>
               <h4 className="font-medium text-sm truncate">{product.name}</h4>
-              <p className="text-primary font-semibold text-sm">${product.price}</p>
+              <p className="text-primary font-semibold text-sm">₹{product.price.toLocaleString()}</p>
             </CardContent>
           </Card>
         ))}

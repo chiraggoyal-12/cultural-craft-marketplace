@@ -291,7 +291,7 @@ const CheckoutPage = () => {
                           <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                         </div>
-                        <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                        <p className="font-medium">₹{(item.price * item.quantity).toLocaleString()}</p>
                       </div>
                     ))}
                   </div>
@@ -302,7 +302,7 @@ const CheckoutPage = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>₹{total.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Shipping</span>
@@ -310,12 +310,12 @@ const CheckoutPage = () => {
                     </div>
                     <div className="flex justify-between">
                       <span>Tax</span>
-                      <span>${tax.toFixed(2)}</span>
+                      <span>₹{Math.round(tax).toLocaleString()}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between text-lg font-bold">
                       <span>Total</span>
-                      <span>${finalTotal.toFixed(2)}</span>
+                      <span>₹{Math.round(finalTotal).toLocaleString()}</span>
                     </div>
                   </div>
                   
@@ -325,7 +325,7 @@ const CheckoutPage = () => {
                     size="lg"
                     disabled={processing}
                   >
-                    {processing ? "Processing..." : `Place Order - $${finalTotal.toFixed(2)}`}
+                    {processing ? "Processing..." : `Place Order - ₹${Math.round(finalTotal).toLocaleString()}`}
                   </Button>
                   
                   <div className="text-center text-sm text-muted-foreground">

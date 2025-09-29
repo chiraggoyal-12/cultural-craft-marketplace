@@ -421,7 +421,7 @@ const UserDashboard: React.FC = () => {
                                 <div className="flex-1 min-w-0">
                                   <p className="font-medium text-sm truncate">{item.product_name}</p>
                                   <p className="text-xs text-muted-foreground">
-                                    Qty: {item.quantity} × ${item.unit_price}
+                                    Qty: {item.quantity} × ₹{item.unit_price.toLocaleString()}
                                   </p>
                                 </div>
                               </div>
@@ -638,7 +638,7 @@ const UserDashboard: React.FC = () => {
                             <h4 className="font-semibold truncate">{product.name}</h4>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-lg font-bold text-primary">
-                                ${product.price}
+                                ₹{product.price.toLocaleString()}
                               </span>
                               {item.price_when_added && item.price_when_added !== product.price && (
                                 <Badge variant="destructive" className="text-xs">

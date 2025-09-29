@@ -194,7 +194,7 @@ const PredictiveSearch: React.FC<PredictiveSearchProps> = ({
                     <h4 className="font-medium truncate">{product.name}</h4>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-sm font-semibold text-primary">
-                        ${product.price}
+                        ₹{product.price.toLocaleString()}
                       </span>
                       <Badge variant="outline" className="text-xs">
                         {product.category}
