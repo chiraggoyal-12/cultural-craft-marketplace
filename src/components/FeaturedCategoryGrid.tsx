@@ -52,8 +52,8 @@ const FeaturedCategoryGrid = () => {
                     </Badge>
                   </div>
                   
-                  {/* Hover overlay with actions */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  {/* Desktop hover overlay with actions */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
                     <div className="flex gap-3">
                       <Button
                         size="sm"
@@ -77,14 +77,37 @@ const FeaturedCategoryGrid = () => {
                     </div>
                   </div>
                   
-                  {/* Price reveal on hover */}
-                  <div className="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  {/* Mobile/Tablet actions - always visible */}
+                  <div className="absolute top-4 right-4 md:hidden">
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="bg-white/90 text-foreground hover:bg-white w-10 h-10 p-0"
+                        asChild
+                      >
+                        <Link to={`/product/${product.id}`}>
+                          <Eye className="w-4 h-4" />
+                        </Link>
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() => addItem(product)}
+                        className="bg-primary hover:bg-primary/90 w-10 h-10 p-0"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {/* Price info - responsive positioning */}
+                  <div className="absolute bottom-4 left-4 right-4 md:transform md:translate-y-full md:group-hover:translate-y-0 md:transition-transform md:duration-300">
                     <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3">
                       <div className="text-center">
-                        <span className="text-2xl font-bold text-foreground">
+                        <span className="text-xl md:text-2xl font-bold text-foreground">
                           ₹{product.price.toLocaleString()}
                         </span>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-xs md:text-sm text-muted-foreground mt-1 hidden md:block">
                           {category.description}
                         </p>
                       </div>
