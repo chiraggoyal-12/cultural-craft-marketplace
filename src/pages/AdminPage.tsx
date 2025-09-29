@@ -5,10 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, Mail, Clock, CheckCircle2, User, Shield } from 'lucide-react';
+import { AlertCircle, Mail, Clock, CheckCircle2, User, Shield, Image } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { ProductMediaImporter } from '@/components/ProductMediaImporter';
 
 interface ContactMessage {
   id: string;
@@ -197,6 +198,10 @@ export const AdminPage: React.FC = () => {
               <User className="w-4 h-4" />
               User Roles ({userRoles.length})
             </TabsTrigger>
+            <TabsTrigger value="media" className="flex items-center gap-2">
+              <Image className="w-4 h-4" />
+              Product Media
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="messages" className="space-y-4">
@@ -282,6 +287,10 @@ export const AdminPage: React.FC = () => {
                 ))
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="media" className="space-y-4">
+            <ProductMediaImporter />
           </TabsContent>
         </Tabs>
       </div>
