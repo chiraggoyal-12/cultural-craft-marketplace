@@ -4,10 +4,12 @@ import { Search, Heart, User, ShoppingCart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { itemCount } = useCart();
+  const { user, signOut } = useAuth();
 
   const categories = [
     { name: "Culinary Crafts", slug: "culinary-crafts" },
@@ -59,15 +61,15 @@ const Header = () => {
                 </div>
               </div>
             </div>
-            <a href="/about" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               About Us
-            </a>
+            </Link>
             <a href="/blog" className="text-foreground hover:text-primary transition-colors">
               Journal
             </a>
-            <a href="/contact" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Search Bar */}
@@ -89,9 +91,18 @@ const Header = () => {
                 <Heart className="w-5 h-5" />
               </Link>
             </Button>
-            <Button variant="ghost" size="icon">
-              <User className="w-5 h-5" />
-            </Button>
+            {/* User Account */}
+            {user ? (
+              <Button variant="ghost" size="icon" onClick={signOut} title="Sign Out">
+                <User className="w-5 h-5" />
+              </Button>
+            ) : (
+              <Button variant="ghost" size="icon" asChild>
+                <Link to="/auth">
+                  <User className="w-5 h-5" />
+                </Link>
+              </Button>
+            )}
             <Button variant="ghost" size="icon" className="relative" asChild>
               <Link to="/cart">
                 <ShoppingCart className="w-5 h-5" />
@@ -147,15 +158,15 @@ const Header = () => {
                 </Link>
               ))}
             </div>
-            <a href="/about" className="block text-foreground hover:text-primary transition-colors">
+            <Link to="/about" className="block text-foreground hover:text-primary transition-colors">
               About Us
-            </a>
+            </Link>
             <a href="/blog" className="block text-foreground hover:text-primary transition-colors">
               Journal
             </a>
-            <a href="/contact" className="block text-foreground hover:text-primary transition-colors">
+            <Link to="/contact" className="block text-foreground hover:text-primary transition-colors">
               Contact
-            </a>
+            </Link>
           </nav>
         </div>
       )}

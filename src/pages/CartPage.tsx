@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -157,8 +158,10 @@ const CartPage = () => {
                 </div>
                 
                 <div className="space-y-3 pt-4">
-                  <Button className="w-full" size="lg">
-                    Proceed to Checkout
+                  <Button className="w-full" size="lg" asChild>
+                    <Link to="/checkout">
+                      Proceed to Checkout
+                    </Link>
                   </Button>
                   <Button variant="outline" className="w-full">
                     Buy Now
