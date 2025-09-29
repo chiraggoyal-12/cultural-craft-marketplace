@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -56,16 +57,102 @@ const CheckoutPage = () => {
     e.preventDefault();
     setProcessing(true);
 
-    // Simulate payment processing
-    setTimeout(() => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to place an order",
+        variant: "destructive"
+      });
+      setProcessing(false);
+      return;
+    }
+
+    try {
+      // Generate order number
+      const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
+      
+      // Calculate totals
+      const subtotal = total;
+      const shippingAmount = shipping;
+      const taxAmount = tax;
+      const totalAmount = finalTotal;
+
+      // Create order
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user.id,
+          order_number: orderNumber,
+          status: 'pending',
+          subtotal: subtotal,
+          shipping_amount: shippingAmount,
+          tax_amount: taxAmount,
+          total_amount: totalAmount,
+          payment_method: 'pending',
+          shipping_address: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            street_address: formData.street,
+            apartment: '',
+            city: formData.city,
+            state: formData.state,
+            postal_code: formData.zipCode,
+            country: formData.country || 'IN'
+          },
+          billing_address: {
+            name: `${formData.firstName} ${formData.lastName}`,
+            street_address: formData.street,
+            apartment: '',
+            city: formData.city,
+            state: formData.state,
+            postal_code: formData.zipCode,
+            country: formData.country || 'IN'
+          }
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Create order items
+      const orderItems = items.map(item => ({
+        order_id: order.id,
+        product_id: item.id,
+        product_name: item.name,
+        product_image: item.image,
+        unit_price: item.price,
+        quantity: item.quantity,
+        total_price: item.price * item.quantity
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
       toast({
         title: "Order placed successfully!",
-        description: "Thank you for your purchase. You will receive a confirmation email shortly.",
+        description: `Your order ${orderNumber} has been placed. Thank you for your purchase!`,
       });
+      
       clearCart();
-      navigate('/order-confirmation');
+      navigate('/order-confirmation', { 
+        state: { 
+          orderNumber, 
+          totalAmount: finalTotal,
+          orderDate: new Date().toISOString()
+        } 
+      });
+    } catch (error: any) {
+      console.error('Order creation error:', error);
+      toast({
+        title: "Order failed",
+        description: error.message || "Failed to place order. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setProcessing(false);
-    }, 2000);
+    }
   };
 
   const shipping = 0; // Free shipping
