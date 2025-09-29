@@ -27,21 +27,21 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-background">
+    <section className="py-12 sm:py-16 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Left Content */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">
               About Handora
             </h2>
-            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
               We believe that every handcrafted item carries the soul of its maker and the 
               wisdom of cultural traditions. Handora bridges the gap between ancient 
               artistry and modern living, bringing you authentic pieces that transform 
               spaces and connect hearts.
             </p>
-            <p className="text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 leading-relaxed">
               Our mission is to preserve traditional craftsmanship while providing artisans 
               with sustainable livelihoods. Each purchase supports not just a craft, but 
               a community, a tradition, and a way of life that has been passed down through 
@@ -50,14 +50,14 @@ const AboutSection = () => {
             
             <Button 
               size="lg"
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-cultural"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-cultural w-full sm:w-auto"
             >
               Learn Our Story
             </Button>
           </div>
 
-          {/* Right Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Right Features Grid - Hidden on mobile, visible on md+ */}
+          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 gap-6">
             {features.map((feature) => (
               <Card 
                 key={feature.title}

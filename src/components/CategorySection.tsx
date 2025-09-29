@@ -38,19 +38,19 @@ const CategorySection = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-warm">
+    <section className="py-12 sm:py-16 bg-gradient-warm">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
             Shop by Category
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Explore our curated collections of authentic handcrafted items, 
             each telling a unique story of tradition and artistry.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {categories.map((category) => (
             <Card 
               key={category.title}
@@ -60,19 +60,19 @@ const CategorySection = () => {
                 <img 
                   src={category.image}
                   alt={category.title}
-                  className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-warm-brown/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+              <CardContent className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   {category.title}
                 </h3>
-                <p className="text-muted-foreground mb-2 text-sm">
+                <p className="text-muted-foreground mb-2 text-sm leading-relaxed">
                   {category.description}
                 </p>
-                <p className="text-xs text-muted-foreground/70 mb-4">
+                <p className="text-xs text-muted-foreground/70 mb-3 sm:mb-4">
                   {category.items}
                 </p>
                 
