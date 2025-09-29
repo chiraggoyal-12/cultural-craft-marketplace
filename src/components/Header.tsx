@@ -34,9 +34,6 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link to="/" className="text-foreground hover:text-primary transition-colors">
-              Home
-            </Link>
             <div className="relative group">
               <button className="text-foreground hover:text-primary transition-colors flex items-center">
                 Shop
@@ -147,9 +144,6 @@ const Header = () => {
       {isMenuOpen && (
         <div className="lg:hidden border-t border-border bg-card">
           <nav className="container mx-auto px-4 py-4 space-y-4">
-            <Link to="/" className="block text-foreground hover:text-primary transition-colors">
-              Home
-            </Link>
             <div className="space-y-2">
               <span className="block text-sm font-medium text-muted-foreground">Shop Categories</span>
               <Link
