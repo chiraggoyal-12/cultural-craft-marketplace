@@ -46,6 +46,13 @@ const Header = () => {
               </button>
               <div className="absolute top-full left-0 mt-2 w-64 bg-card rounded-lg shadow-elegant border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 <div className="p-4 space-y-2">
+                  <Link
+                    to="/shop"
+                    className="block px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors font-medium"
+                  >
+                    All Products
+                  </Link>
+                  <div className="border-t border-border my-2"></div>
                   {categories.map((category) => (
                     <Link
                       key={category.slug}
@@ -145,6 +152,13 @@ const Header = () => {
             </Link>
             <div className="space-y-2">
               <span className="block text-sm font-medium text-muted-foreground">Shop Categories</span>
+              <Link
+                to="/shop"
+                className="block pl-4 text-foreground hover:text-primary transition-colors font-medium"
+              >
+                All Products
+              </Link>
+              <div className="border-t border-border my-2 ml-4"></div>
               {categories.map((category) => (
                 <Link
                   key={category.slug}
