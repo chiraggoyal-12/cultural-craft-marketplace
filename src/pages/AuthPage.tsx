@@ -7,7 +7,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Check, X } from 'lucide-react';
+import { z } from 'zod';
+
+// Validation schemas
+const emailSchema = z.string().trim().email({ message: "Invalid email address" });
+
+const passwordSchema = z.string()
+  .min(8, { message: "Password must be at least 8 characters" })
+  .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+  .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+  .regex(/[0-9]/, { message: "Password must contain at least one number" })
+  .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" });
 
 const AuthPage = () => {
   const [email, setEmail] = useState('');
@@ -15,6 +26,7 @@ const AuthPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,22 +40,71 @@ const AuthPage = () => {
     checkUser();
   }, [navigate]);
 
+  // Validate password in real-time
+  const validatePassword = (pwd: string) => {
+    const errors: string[] = [];
+    
+    try {
+      passwordSchema.parse(pwd);
+      setPasswordErrors([]);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errorMessages = error.errors.map(err => err.message);
+        setPasswordErrors(errorMessages);
+      }
+    }
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    if (value.length > 0) {
+      validatePassword(value);
+    } else {
+      setPasswordErrors([]);
+    }
+  };
+
+  const getPasswordRequirements = () => [
+    { text: "At least 8 characters", isValid: password.length >= 8 },
+    { text: "One uppercase letter", isValid: /[A-Z]/.test(password) },
+    { text: "One lowercase letter", isValid: /[a-z]/.test(password) },
+    { text: "One number", isValid: /[0-9]/.test(password) },
+    { text: "One special character", isValid: /[^A-Za-z0-9]/.test(password) }
+  ];
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password !== confirmPassword) {
+    // Validate email
+    try {
+      emailSchema.parse(email);
+    } catch (error) {
       toast({
-        title: "Error",
-        description: "Passwords do not match",
+        title: "Invalid Email",
+        description: "Please enter a valid email address",
         variant: "destructive",
       });
       return;
     }
 
-    if (password.length < 6) {
+    // Validate password
+    try {
+      passwordSchema.parse(password);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Password Requirements Not Met",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+    
+    if (password !== confirmPassword) {
       toast({
-        title: "Error",
-        description: "Password must be at least 6 characters long",
+        title: "Password Mismatch",
+        description: "Passwords do not match",
         variant: "destructive",
       });
       return;
@@ -185,7 +246,7 @@ const AuthPage = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => handlePasswordChange(e.target.value)}
                       required
                     />
                     <Button
@@ -202,6 +263,25 @@ const AuthPage = () => {
                       )}
                     </Button>
                   </div>
+                  
+                  {/* Password Requirements */}
+                  {password.length > 0 && (
+                    <div className="mt-3 p-3 bg-muted/50 rounded-md space-y-2">
+                      <p className="text-sm font-medium text-muted-foreground">Password Requirements:</p>
+                      {getPasswordRequirements().map((req, index) => (
+                        <div key={index} className="flex items-center gap-2 text-sm">
+                          {req.isValid ? (
+                            <Check className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <X className="h-4 w-4 text-red-500" />
+                          )}
+                          <span className={req.isValid ? "text-green-600" : "text-muted-foreground"}>
+                            {req.text}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">Confirm Password</Label>
