@@ -132,9 +132,13 @@ const AuthPage = () => {
       });
     } else {
       toast({
-        title: "Check your email",
-        description: "We've sent you a confirmation link",
+        title: "Account created successfully!",
+        description: "You can now sign in with your credentials",
       });
+      // Clear the form
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     }
   };
 
