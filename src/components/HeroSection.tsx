@@ -37,7 +37,7 @@ const HeroSection = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-foreground px-8 py-3 text-lg font-medium transition-all duration-300 hover:scale-105"
+              className="border-2 border-white text-black hover:bg-white hover:text-foreground px-8 py-3 text-lg font-medium transition-all duration-300 hover:scale-105"
             >
               Our Story
             </Button>
