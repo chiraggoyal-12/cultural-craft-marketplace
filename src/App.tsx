@@ -17,6 +17,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import BlogPage from "./pages/BlogPage";
 import UserDashboard from "./pages/UserDashboard";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
@@ -45,6 +46,7 @@ const App = () => (
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/blog" element={<BlogPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
