@@ -5,12 +5,13 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Heart, ShoppingCart, Star, Plus, Minus, Share, Truck, Shield, RotateCcw } from "lucide-react";
 import { getProductById, products, Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import ReviewsSection from "@/components/ReviewsSection";
+import ProductQA from "@/components/ProductQA";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -230,47 +231,26 @@ const ProductPage = () => {
           </div>
         </div>
 
-        {/* Product Details Tabs */}
+        {/* Product Description */}
         <div className="mb-12">
-          <Tabs defaultValue="description" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="description">Description</TabsTrigger>
-              <TabsTrigger value="artisan">Artisan Story</TabsTrigger>
-              <TabsTrigger value="care">Care Instructions</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="description" className="mt-6">
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {product.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="artisan" className="mt-6">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">The Story Behind This Craft</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {product.artisanStory}
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="care" className="mt-6">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">Care Instructions</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {product.careInstructions}
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+          <Card>
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Description</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {product.description}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mb-12">
+          <ReviewsSection productId={product.id} />
+        </div>
+
+        {/* Q&A Section */}
+        <div className="mb-12">
+          <ProductQA productId={product.id} />
         </div>
 
         {/* Related Products */}
