@@ -20,10 +20,16 @@ export const useProductMedia = (productId: string) => {
     const fetchMedia = async () => {
       try {
         setLoading(true);
+        // Convert slug to product name format for database query
+        const productName = productId
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        
         const { data, error: fetchError } = await supabase
           .from('product_media')
           .select('*')
-          .eq('product_id', productId)
+          .ilike('product_id', productName)
           .order('sort_order', { ascending: true });
 
         if (fetchError) throw fetchError;

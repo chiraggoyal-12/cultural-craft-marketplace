@@ -22,8 +22,12 @@ export const useProductsWithMedia = () => {
         if (error) throw error;
 
         // Create a map of product_id to primary image
+        // Convert product names to slugs to match hardcoded product IDs
         const mediaMap = new Map(
-          mediaData?.map(m => [m.product_id, m.media_url]) || []
+          mediaData?.map(m => [
+            m.product_id.toLowerCase().replace(/\s+/g, '-'),
+            m.media_url
+          ]) || []
         );
 
         // Update products with database images
