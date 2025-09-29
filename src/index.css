@@ -2,39 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Handora Design System - Cultural Artisan Marketplace
+All colors MUST be HSL format for proper theming.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand Colors - Warm Earthy Palette */
+    --background: 42 33% 97%; /* Warm off-white */
+    --foreground: 25 20% 15%; /* Deep warm brown */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 42 33% 97%;
+    --card-foreground: 25 20% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 42 33% 97%;
+    --popover-foreground: 25 20% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Terracotta */
+    --primary: 19 69% 52%;
+    --primary-foreground: 42 33% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Forest Green */
+    --secondary: 120 61% 34%;
+    --secondary-foreground: 42 33% 97%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent - Muted Gold */
+    --accent: 43 74% 66%;
+    --accent-foreground: 25 20% 15%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted - Warm Beige */
+    --muted: 60 9% 95%;
+    --muted-foreground: 25 15% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 42 33% 97%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 43 30% 90%;
+    --input: 43 30% 88%;
+    --ring: 19 69% 52%;
+
+    /* Custom Brand Variables */
+    --terracotta: 19 69% 52%;
+    --terracotta-light: 19 69% 70%;
+    --terracotta-dark: 19 69% 40%;
+    
+    --forest: 120 61% 34%;
+    --forest-light: 120 61% 50%;
+    --forest-dark: 120 61% 25%;
+    
+    --gold: 43 74% 66%;
+    --gold-light: 43 74% 80%;
+    --gold-dark: 43 74% 50%;
+    
+    --warm-beige: 60 9% 95%;
+    --warm-brown: 25 20% 15%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--gold)) 100%);
+    --gradient-warm: linear-gradient(180deg, hsl(var(--warm-beige)) 0%, hsl(var(--background)) 100%);
+    --gradient-earth: linear-gradient(45deg, hsl(var(--terracotta-light)) 0%, hsl(var(--forest-light)) 50%, hsl(var(--gold-light)) 100%);
+    
+    /* Shadows */
+    --shadow-warm: 0 4px 20px hsl(var(--terracotta) / 0.15);
+    --shadow-elegant: 0 8px 32px hsl(var(--warm-brown) / 0.1);
+    --shadow-cultural: 0 2px 8px hsl(var(--forest) / 0.2);
+    
+    /* Typography Scale */
+    --font-hero: 3.5rem;
+    --font-heading: 2.5rem;
+    --font-subheading: 1.5rem;
+    --font-body: 1rem;
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 

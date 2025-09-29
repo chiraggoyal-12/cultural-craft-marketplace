@@ -57,6 +57,43 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Handora Brand Colors
+        terracotta: {
+          DEFAULT: "hsl(var(--terracotta))",
+          light: "hsl(var(--terracotta-light))",
+          dark: "hsl(var(--terracotta-dark))",
+        },
+        forest: {
+          DEFAULT: "hsl(var(--forest))",
+          light: "hsl(var(--forest-light))",
+          dark: "hsl(var(--forest-dark))",
+        },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          light: "hsl(var(--gold-light))",
+          dark: "hsl(var(--gold-dark))",
+        },
+        "warm-beige": "hsl(var(--warm-beige))",
+        "warm-brown": "hsl(var(--warm-brown))",
+      },
+      backgroundImage: {
+        'gradient-hero': 'var(--gradient-hero)',
+        'gradient-warm': 'var(--gradient-warm)',
+        'gradient-earth': 'var(--gradient-earth)',
+      },
+      boxShadow: {
+        'warm': 'var(--shadow-warm)',
+        'elegant': 'var(--shadow-elegant)',
+        'cultural': 'var(--shadow-cultural)',
+      },
+      fontSize: {
+        'hero': 'var(--font-hero)',
+        'heading': 'var(--font-heading)',
+        'subheading': 'var(--font-subheading)',
+      },
+      transitionProperty: {
+        'smooth': 'var(--transition-smooth)',
+        'bounce': 'var(--transition-bounce)',
       },
       borderRadius: {
         lg: "var(--radius)",
