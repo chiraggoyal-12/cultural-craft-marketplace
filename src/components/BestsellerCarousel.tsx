@@ -69,7 +69,7 @@ const BestsellerCarousel = () => {
                 <Card className="group overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
                   <div className="relative aspect-square overflow-hidden">
                     <img
-                      src={product.images[0]}
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

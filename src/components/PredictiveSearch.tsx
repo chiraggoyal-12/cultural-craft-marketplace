@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { products, Product } from '@/data/products';
+import { Product } from '@/data/products';
 import { cn } from '@/lib/utils';
+import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 
 interface SearchResult extends Product {
   relevanceScore: number;
@@ -25,6 +26,7 @@ const PredictiveSearch: React.FC<PredictiveSearchProps> = ({
   const [isListening, setIsListening] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [recognition, setRecognition] = useState<any>(null);
+  const { products } = useProductsWithMedia();
 
   // Initialize speech recognition
   useEffect(() => {

@@ -46,7 +46,7 @@ const NewArrivalsSection = () => {
             >
               <div className="relative aspect-square overflow-hidden">
                 <img
-                  src={product.images[0]}
+                  src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
