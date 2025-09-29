@@ -9,14 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Heart, ShoppingCart, Star, Grid, List } from "lucide-react";
-import { categories, getProductsByCategory, products, Product } from "@/data/products";
+import { categories, getProductsByCategory, Product } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const ShopPage = () => {
   const { category } = useParams();
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { products, loading: mediaLoading } = useProductsWithMedia();
   
   const [sortBy, setSortBy] = useState("newest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -24,7 +26,7 @@ const ShopPage = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   
   // Get products for category or all products
-  const categoryProducts = category ? getProductsByCategory(category) : products;
+  const categoryProducts = category ? products.filter(p => p.category === category) : products;
   const categoryInfo = category ? categories[category as keyof typeof categories] : null;
   
   // Get unique materials for filter

@@ -12,6 +12,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import ReviewsSection from "@/components/ReviewsSection";
 import ProductQA from "@/components/ProductQA";
+import { useProductMedia } from "@/hooks/useProductMedia";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -22,6 +23,11 @@ const ProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   
   const product = getProductById(id || "");
+  const { allImages, primaryImage, loading: mediaLoading } = useProductMedia(id || "");
+  
+  // Use database images if available, fallback to hardcoded
+  const productImages = allImages.length > 0 ? allImages : (product?.images || [product?.image].filter(Boolean));
+  const displayImage = productImages[selectedImage] || primaryImage || product?.image;
   
   if (!product) {
     return (
@@ -73,21 +79,27 @@ const ProductPage = () => {
           {/* Product Images */}
           <div>
             <div className="aspect-square mb-4 rounded-lg overflow-hidden bg-muted">
-              <img 
-                src={product.images[selectedImage] || product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+              {mediaLoading ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-muted-foreground">Loading...</p>
+                </div>
+              ) : (
+                <img 
+                  src={displayImage}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
             
             {/* Thumbnail Images */}
-            {product.images.length > 1 && (
-              <div className="flex gap-2">
-                {product.images.map((image, index) => (
+            {productImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto">
+                {productImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                    className={`w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
                       selectedImage === index ? "border-primary" : "border-border"
                     }`}
                   >
