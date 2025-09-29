@@ -281,20 +281,15 @@ const ShopPage = () => {
                       </div>
                     </div>
                     
-                    <div className={`flex gap-2 ${viewMode === "list" ? "mt-4" : ""}`}>
+                    <div className={`${viewMode === "list" ? "mt-4" : ""}`}>
                       <Button 
-                        className="flex-1"
+                        className="w-full"
                         onClick={() => addItem(product)}
                         disabled={!product.inStock}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         {product.inStock ? "Add to Cart" : "Out of Stock"}
                       </Button>
-                      <Link to={`/product/${product.id}`}>
-                        <Button variant="outline" size="icon">
-                          👁️
-                        </Button>
-                      </Link>
                     </div>
                   </CardContent>
                 </Card>
