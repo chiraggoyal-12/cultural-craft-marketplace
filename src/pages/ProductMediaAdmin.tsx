@@ -49,6 +49,7 @@ export default function ProductMediaAdmin() {
   const [showMediaForm, setShowMediaForm] = useState(false);
   
   const [editedProduct, setEditedProduct] = useState<Partial<Product>>({});
+  const [editingMediaId, setEditingMediaId] = useState<string | null>(null);
   const [mediaFormData, setMediaFormData] = useState({
     media_url: '',
     media_type: 'image',
@@ -360,8 +361,61 @@ export default function ProductMediaAdmin() {
     }
   };
 
+  const handleEditMedia = (media: ProductMedia) => {
+    setEditingMediaId(media.id);
+    setMediaFormData({
+      media_url: media.media_url,
+      media_type: media.media_type,
+      alt_text: media.alt_text || '',
+      sort_order: media.sort_order,
+      is_primary: media.is_primary,
+    });
+    setShowMediaForm(true);
+  };
+
+  const handleUpdateMedia = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!editingMediaId || !mediaFormData.media_url) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('product_media')
+        .update({
+          media_url: mediaFormData.media_url,
+          media_type: mediaFormData.media_type,
+          alt_text: mediaFormData.alt_text,
+        })
+        .eq('id', editingMediaId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Media updated successfully",
+      });
+
+      resetMediaForm();
+      fetchProductMedia();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const resetMediaForm = () => {
     setShowMediaForm(false);
+    setEditingMediaId(null);
     setMediaFormData({
       media_url: '',
       media_type: 'image',
@@ -712,7 +766,10 @@ export default function ProductMediaAdmin() {
               </CardHeader>
               <CardContent>
                 {showMediaForm && (
-                  <form onSubmit={handleAddMedia} className="mb-6 p-4 border rounded-lg space-y-4">
+                  <form onSubmit={editingMediaId ? handleUpdateMedia : handleAddMedia} className="mb-6 p-4 border rounded-lg space-y-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold">{editingMediaId ? 'Edit Media' : 'Add New Media'}</h3>
+                    </div>
                     <div>
                       <Label htmlFor="media_url">Drive Link *</Label>
                       <Input
@@ -773,8 +830,17 @@ export default function ProductMediaAdmin() {
 
                     <div className="flex gap-2">
                       <Button type="submit">
-                        <Upload className="mr-2 h-4 w-4" />
-                        Add Media
+                        {editingMediaId ? (
+                          <>
+                            <Save className="mr-2 h-4 w-4" />
+                            Update Media
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="mr-2 h-4 w-4" />
+                            Add Media
+                          </>
+                        )}
                       </Button>
                       <Button type="button" variant="outline" onClick={resetMediaForm}>
                         Cancel
@@ -824,7 +890,7 @@ export default function ProductMediaAdmin() {
                             )}
                           </div>
 
-                          <div className="space-y-2 mt-4">
+                            <div className="space-y-2 mt-4">
                             <div className="flex gap-2">
                               <Button
                                 size="sm"
@@ -846,6 +912,15 @@ export default function ProductMediaAdmin() {
                               </Button>
                             </div>
                             <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleEditMedia(media)}
+                                className="flex-1"
+                              >
+                                <Edit className="h-4 w-4 mr-1" />
+                                Edit
+                              </Button>
                               {!media.is_primary && (
                                 <Button
                                   size="sm"
@@ -856,15 +931,16 @@ export default function ProductMediaAdmin() {
                                   Set Primary
                                 </Button>
                               )}
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => handleDeleteMedia(media.id)}
-                                className={media.is_primary ? 'flex-1' : ''}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
                             </div>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteMedia(media.id)}
+                              className="w-full"
+                            >
+                              <Trash2 className="h-4 w-4 mr-1" />
+                              Delete
+                            </Button>
                           </div>
                         </CardContent>
                       </Card>
