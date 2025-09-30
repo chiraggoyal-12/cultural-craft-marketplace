@@ -49,6 +49,10 @@ const ShopPage = () => {
         return b.reviewCount - a.reviewCount;
       case "rating":
         return b.reviewCount - a.reviewCount;
+      case "name-a-z":
+        return a.name.localeCompare(b.name);
+      case "name-z-a":
+        return b.name.localeCompare(a.name);
       default:
         return b.newArrival ? 1 : -1;
     }
@@ -173,6 +177,8 @@ const ShopPage = () => {
                     <SelectItem value="price-low">Price: Low to High</SelectItem>
                     <SelectItem value="price-high">Price: High to Low</SelectItem>
                     <SelectItem value="rating">Highest Rated</SelectItem>
+                    <SelectItem value="name-a-z">Name: A to Z</SelectItem>
+                    <SelectItem value="name-z-a">Name: Z to A</SelectItem>
                   </SelectContent>
                 </Select>
                 
