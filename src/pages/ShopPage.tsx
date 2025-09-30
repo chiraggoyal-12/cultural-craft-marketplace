@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -20,10 +20,75 @@ const ShopPage = () => {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { products, loading: mediaLoading } = useProductsWithMedia();
   
-  const [sortBy, setSortBy] = useState("newest");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  // Storage key based on category for separate state per category
+  const storageKey = `shop-state-${category || 'all'}`;
+  
+  // Initialize state from localStorage or defaults
+  const getInitialState = () => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (error) {
+      console.error('Error loading saved state:', error);
+    }
+    return {
+      sortBy: "newest",
+      viewMode: "grid",
+      priceRange: [0, 10000],
+      selectedMaterials: [],
+      scrollPosition: 0
+    };
+  };
+
+  const initialState = getInitialState();
+  
+  const [sortBy, setSortBy] = useState(initialState.sortBy);
+  const [viewMode, setViewMode] = useState<"grid" | "list">(initialState.viewMode);
+  const [priceRange, setPriceRange] = useState(initialState.priceRange);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>(initialState.selectedMaterials);
+  
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    const state = {
+      sortBy,
+      viewMode,
+      priceRange,
+      selectedMaterials,
+      scrollPosition: window.scrollY
+    };
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }, [sortBy, viewMode, priceRange, selectedMaterials, storageKey]);
+  
+  // Restore scroll position on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (initialState.scrollPosition) {
+        window.scrollTo(0, initialState.scrollPosition);
+      }
+    }, 100); // Small delay to ensure content is loaded
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Save scroll position before unmount
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const state = JSON.parse(saved);
+        state.scrollPosition = window.scrollY;
+        localStorage.setItem(storageKey, JSON.stringify(state));
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      handleBeforeUnload();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [storageKey]);
   
   // Get products for category or all products
   const categoryProducts = category ? products.filter(p => p.category === category) : products;
