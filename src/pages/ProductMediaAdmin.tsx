@@ -671,14 +671,14 @@ export default function ProductMediaAdmin() {
         </Card>
 
         {/* Product Details & Media */}
-        {selectedProduct && (
+        {selectedProduct ? (
           <>
             <Card className="mb-6">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Product Details</CardTitle>
-                    <CardDescription>Manage all product information</CardDescription>
+                    <CardDescription>Manage all product information for "{selectedProduct.name}"</CardDescription>
                   </div>
                   <div className="flex gap-2">
                     <Button onClick={() => setIsEditing(true)}>
@@ -687,7 +687,7 @@ export default function ProductMediaAdmin() {
                     </Button>
                     <Button variant="destructive" onClick={handleDeleteProduct}>
                       <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
+                      Delete Product
                     </Button>
                   </div>
                 </div>
@@ -751,16 +751,16 @@ export default function ProductMediaAdmin() {
             </Card>
 
             {/* Product Media */}
-            <Card className="mb-6">
+            <Card className="mb-6 border-2 border-primary">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>Product Media ({productMedia.length})</CardTitle>
-                    <CardDescription>Manage photos and videos for this product</CardDescription>
+                    <CardTitle className="text-xl">Product Media ({productMedia.length} images)</CardTitle>
+                    <CardDescription>Click Edit to modify image URLs/details, Delete to remove images, or use arrows to reorder</CardDescription>
                   </div>
-                  <Button onClick={() => setShowMediaForm(!showMediaForm)}>
+                  <Button onClick={() => setShowMediaForm(!showMediaForm)} size="lg">
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Media
+                    Add New Media
                   </Button>
                 </div>
               </CardHeader>
@@ -950,6 +950,12 @@ export default function ProductMediaAdmin() {
               </CardContent>
             </Card>
           </>
+        ) : (
+          <Card className="mb-6">
+            <CardContent className="py-12 text-center">
+              <p className="text-lg text-muted-foreground">Please select a product above to manage its details and media</p>
+            </CardContent>
+          </Card>
         )}
       </main>
       <Footer />
