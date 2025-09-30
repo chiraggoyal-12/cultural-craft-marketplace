@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Trash2, Plus, ArrowLeft, Upload, Edit, Save, X } from 'lucide-react';
+import { Trash2, Plus, ArrowLeft, Upload, Edit, Save, X, ArrowUp, ArrowDown } from 'lucide-react';
 import { Product, useProducts } from '@/hooks/useProducts';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -312,6 +312,43 @@ export default function ProductMediaAdmin() {
       toast({
         title: "Success",
         description: "Primary image updated",
+      });
+      fetchProductMedia();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReorderMedia = async (mediaId: string, direction: 'up' | 'down') => {
+    const currentIndex = productMedia.findIndex(m => m.id === mediaId);
+    if (currentIndex === -1) return;
+    
+    const swapIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    if (swapIndex < 0 || swapIndex >= productMedia.length) return;
+
+    const currentMedia = productMedia[currentIndex];
+    const swapMedia = productMedia[swapIndex];
+
+    try {
+      const { error: error1 } = await supabase
+        .from('product_media')
+        .update({ sort_order: swapMedia.sort_order })
+        .eq('id', currentMedia.id);
+
+      const { error: error2 } = await supabase
+        .from('product_media')
+        .update({ sort_order: currentMedia.sort_order })
+        .eq('id', swapMedia.id);
+
+      if (error1 || error2) throw error1 || error2;
+
+      toast({
+        title: "Success",
+        description: "Media reordered successfully",
       });
       fetchProductMedia();
     } catch (error: any) {
@@ -787,24 +824,47 @@ export default function ProductMediaAdmin() {
                             )}
                           </div>
 
-                          <div className="flex gap-2 mt-4">
-                            {!media.is_primary && (
+                          <div className="space-y-2 mt-4">
+                            <div className="flex gap-2">
                               <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={() => handleSetPrimary(media.id)}
+                                onClick={() => handleReorderMedia(media.id, 'up')}
+                                disabled={productMedia.findIndex(m => m.id === media.id) === 0}
                                 className="flex-1"
                               >
-                                Set Primary
+                                <ArrowUp className="h-4 w-4" />
                               </Button>
-                            )}
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => handleDeleteMedia(media.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleReorderMedia(media.id, 'down')}
+                                disabled={productMedia.findIndex(m => m.id === media.id) === productMedia.length - 1}
+                                className="flex-1"
+                              >
+                                <ArrowDown className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            <div className="flex gap-2">
+                              {!media.is_primary && (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleSetPrimary(media.id)}
+                                  className="flex-1"
+                                >
+                                  Set Primary
+                                </Button>
+                              )}
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleDeleteMedia(media.id)}
+                                className={media.is_primary ? 'flex-1' : ''}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
