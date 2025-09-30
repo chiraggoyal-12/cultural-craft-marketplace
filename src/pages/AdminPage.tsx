@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,6 +31,7 @@ interface UserRole {
 
 export const AdminPage: React.FC = () => {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -290,7 +292,21 @@ export const AdminPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="media" className="space-y-4">
-            <ProductMediaImporter />
+            <Card>
+              <CardHeader>
+                <CardTitle>Product Media Management</CardTitle>
+                <CardDescription>
+                  Upload and manage product images from Google Drive or go to the advanced editor
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={() => navigate('/admin/product-media')} className="mb-4">
+                  <Image className="w-4 h-4 mr-2" />
+                  Advanced Media Editor
+                </Button>
+                <ProductMediaImporter />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

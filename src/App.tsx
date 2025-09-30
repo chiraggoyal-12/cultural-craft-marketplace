@@ -20,6 +20,7 @@ import ContactPage from "./pages/ContactPage";
 import BlogPage from "./pages/BlogPage";
 import UserDashboard from "./pages/UserDashboard";
 import { AdminPage } from "./pages/AdminPage";
+import ProductMediaAdmin from "./pages/ProductMediaAdmin";
 import FAQPage from "./pages/FAQPage";
 import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
@@ -51,6 +52,7 @@ const App = () => (
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/admin/product-media" element={<ProductMediaAdmin />} />
                 <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/blog" element={<BlogPage />} />
