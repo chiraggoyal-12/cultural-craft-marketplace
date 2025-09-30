@@ -20,11 +20,25 @@ export const useProductMedia = (productId: string) => {
     const fetchMedia = async () => {
       try {
         setLoading(true);
+        
         // Convert slug to product name format for database query
-        const productName = productId
+        // Handle special cases like "rose-quartz-tea-light-big" -> "BIG Rose Quartz Tea light Holder"
+        let productName = productId;
+        
+        // Check if ends with -big or -small
+        if (productName.endsWith('-big')) {
+          productName = 'big-' + productName.replace('-big', '') + '-holder';
+        } else if (productName.endsWith('-small')) {
+          productName = 'small-' + productName.replace('-small', '') + '-holder';
+        }
+        
+        // Convert to title case
+        productName = productName
           .split('-')
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
+        
+        console.log(`Product page query: ${productId} -> ${productName}`);
         
         const { data, error: fetchError } = await supabase
           .from('product_media')
