@@ -7,13 +7,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, ArrowLeft } from 'lucide-react';
-import { products } from '@/data/products';
+import { Trash2, Plus, ArrowLeft, Upload } from 'lucide-react';
+import { products, Product } from '@/data/products';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { Badge } from '@/components/ui/badge';
 
 interface ProductMedia {
   id: string;
@@ -31,11 +31,11 @@ export default function ProductMediaAdmin() {
   const { toast } = useToast();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [mediaList, setMediaList] = useState<ProductMedia[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
+  const [showAddForm, setShowAddForm] = useState(false);
   
   const [formData, setFormData] = useState({
-    product_id: '',
     media_url: '',
     media_type: 'image',
     alt_text: '',
@@ -45,8 +45,13 @@ export default function ProductMediaAdmin() {
 
   useEffect(() => {
     checkAdminStatus();
-    fetchMediaList();
   }, [user]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      fetchProductMedia();
+    }
+  }, [selectedProduct]);
 
   const checkAdminStatus = async () => {
     if (!user) {
@@ -75,65 +80,56 @@ export default function ProductMediaAdmin() {
     setLoading(false);
   };
 
-  const fetchMediaList = async () => {
+  const fetchProductMedia = async () => {
+    if (!selectedProduct) return;
+
     const { data, error } = await supabase
       .from('product_media')
       .select('*')
-      .order('product_id', { ascending: true })
+      .eq('product_id', selectedProduct.name)
       .order('sort_order', { ascending: true });
 
     if (error) {
       toast({
         title: "Error",
-        description: "Failed to fetch media list",
+        description: "Failed to fetch media",
         variant: "destructive",
       });
       return;
     }
 
-    setMediaList(data || []);
+    setProductMedia(data || []);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleAddMedia = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.product_id || !formData.media_url) {
+    if (!selectedProduct || !formData.media_url) {
       toast({
         title: "Error",
-        description: "Product and media URL are required",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
     }
 
     try {
-      if (editingId) {
-        const { error } = await supabase
-          .from('product_media')
-          .update(formData)
-          .eq('id', editingId);
+      const { error } = await supabase
+        .from('product_media')
+        .insert([{
+          product_id: selectedProduct.name,
+          ...formData
+        }]);
 
-        if (error) throw error;
+      if (error) throw error;
 
-        toast({
-          title: "Success",
-          description: "Media updated successfully",
-        });
-      } else {
-        const { error } = await supabase
-          .from('product_media')
-          .insert([formData]);
-
-        if (error) throw error;
-
-        toast({
-          title: "Success",
-          description: "Media added successfully",
-        });
-      }
+      toast({
+        title: "Success",
+        description: "Media added successfully",
+      });
 
       resetForm();
-      fetchMediaList();
+      fetchProductMedia();
     } catch (error: any) {
       toast({
         title: "Error",
@@ -143,20 +139,7 @@ export default function ProductMediaAdmin() {
     }
   };
 
-  const handleEdit = (media: ProductMedia) => {
-    setEditingId(media.id);
-    setFormData({
-      product_id: media.product_id,
-      media_url: media.media_url,
-      media_type: media.media_type,
-      alt_text: media.alt_text || '',
-      sort_order: media.sort_order,
-      is_primary: media.is_primary,
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleDelete = async (id: string) => {
+  const handleDeleteMedia = async (id: string) => {
     if (!confirm('Are you sure you want to delete this media?')) return;
 
     const { error } = await supabase
@@ -177,19 +160,60 @@ export default function ProductMediaAdmin() {
       title: "Success",
       description: "Media deleted successfully",
     });
-    fetchMediaList();
+    fetchProductMedia();
+  };
+
+  const handleSetPrimary = async (id: string) => {
+    if (!selectedProduct) return;
+
+    try {
+      // First, unset all primary flags for this product
+      await supabase
+        .from('product_media')
+        .update({ is_primary: false })
+        .eq('product_id', selectedProduct.name);
+
+      // Then set the selected one as primary
+      const { error } = await supabase
+        .from('product_media')
+        .update({ is_primary: true })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Primary image updated",
+      });
+      fetchProductMedia();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   const resetForm = () => {
-    setEditingId(null);
+    setShowAddForm(false);
     setFormData({
-      product_id: '',
       media_url: '',
       media_type: 'image',
       alt_text: '',
-      sort_order: 0,
+      sort_order: productMedia.length,
       is_primary: false,
     });
+  };
+
+  const convertGoogleDriveUrl = (url: string) => {
+    if (url.includes('drive.google.com')) {
+      const match = url.match(/[?&]id=([^&]+)/);
+      if (match) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w400`;
+      }
+    }
+    return url;
   };
 
   if (loading) {
@@ -213,160 +237,237 @@ export default function ProductMediaAdmin() {
           Back to Admin
         </Button>
 
-        <Card className="mb-8">
+        <h1 className="text-3xl font-bold mb-6">Product Media Manager</h1>
+
+        {/* Product Selector */}
+        <Card className="mb-6">
           <CardHeader>
-            <CardTitle>{editingId ? 'Edit' : 'Add'} Product Media</CardTitle>
+            <CardTitle>Select Product</CardTitle>
+            <CardDescription>Choose a product to view and manage its media</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="product_id">Product</Label>
-                <Select
-                  value={formData.product_id}
-                  onValueChange={(value) => setFormData({ ...formData, product_id: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {products.map((product) => (
-                      <SelectItem key={product.id} value={product.name}>
-                        {product.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <Select
+              value={selectedProduct?.id}
+              onValueChange={(value) => {
+                const product = products.find(p => p.id === value);
+                setSelectedProduct(product || null);
+                setShowAddForm(false);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a product" />
+              </SelectTrigger>
+              <SelectContent>
+                {products.map((product) => (
+                  <SelectItem key={product.id} value={product.id}>
+                    {product.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
 
-              <div>
-                <Label htmlFor="media_url">Drive Link</Label>
-                <Input
-                  id="media_url"
-                  value={formData.media_url}
-                  onChange={(e) => setFormData({ ...formData, media_url: e.target.value })}
-                  placeholder="https://drive.google.com/..."
-                  required
-                />
-              </div>
+        {/* Product Details */}
+        {selectedProduct && (
+          <>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Product Details</CardTitle>
+                <CardDescription>Current product information (edit in src/data/products.ts)</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-muted-foreground">Product Name</Label>
+                    <p className="font-medium">{selectedProduct.name}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Price</Label>
+                    <p className="font-medium">₹{selectedProduct.price.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Category</Label>
+                    <p className="font-medium">{selectedProduct.category}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">Material</Label>
+                    <p className="font-medium">{selectedProduct.material}</p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <Label className="text-muted-foreground">Description</Label>
+                    <p className="text-sm">{selectedProduct.description}</p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <Label className="text-muted-foreground">Status</Label>
+                    <div className="flex gap-2 mt-1">
+                      {selectedProduct.inStock && <Badge>In Stock</Badge>}
+                      {selectedProduct.featured && <Badge variant="secondary">Featured</Badge>}
+                      {selectedProduct.bestseller && <Badge variant="secondary">Bestseller</Badge>}
+                      {selectedProduct.newArrival && <Badge variant="secondary">New</Badge>}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-              <div>
-                <Label htmlFor="media_type">Media Type</Label>
-                <Select
-                  value={formData.media_type}
-                  onValueChange={(value) => setFormData({ ...formData, media_type: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="image">Image</SelectItem>
-                    <SelectItem value="video">Video</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="alt_text">Alt Text (Optional)</Label>
-                <Input
-                  id="alt_text"
-                  value={formData.alt_text}
-                  onChange={(e) => setFormData({ ...formData, alt_text: e.target.value })}
-                  placeholder="Description of the image"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="sort_order">Sort Order</Label>
-                <Input
-                  id="sort_order"
-                  type="number"
-                  value={formData.sort_order}
-                  onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
-                />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="is_primary"
-                  checked={formData.is_primary}
-                  onCheckedChange={(checked) => setFormData({ ...formData, is_primary: checked as boolean })}
-                />
-                <Label htmlFor="is_primary">Primary Image</Label>
-              </div>
-
-              <div className="flex gap-2">
-                <Button type="submit">
-                  {editingId ? 'Update' : 'Add'} Media
-                </Button>
-                {editingId && (
-                  <Button type="button" variant="outline" onClick={resetForm}>
-                    Cancel
+            {/* Product Media */}
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Product Media ({productMedia.length})</CardTitle>
+                    <CardDescription>Manage photos and videos for this product</CardDescription>
+                  </div>
+                  <Button onClick={() => setShowAddForm(!showAddForm)}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Media
                   </Button>
-                )}
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Add Media Form */}
+                {showAddForm && (
+                  <form onSubmit={handleAddMedia} className="mb-6 p-4 border rounded-lg space-y-4">
+                    <div>
+                      <Label htmlFor="media_url">Drive Link *</Label>
+                      <Input
+                        id="media_url"
+                        value={formData.media_url}
+                        onChange={(e) => setFormData({ ...formData, media_url: e.target.value })}
+                        placeholder="https://drive.google.com/..."
+                        required
+                      />
+                    </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Existing Media</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Product</TableHead>
-                    <TableHead>Preview</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Order</TableHead>
-                    <TableHead>Primary</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {mediaList.map((media) => (
-                    <TableRow key={media.id}>
-                      <TableCell className="font-medium">{media.product_id}</TableCell>
-                      <TableCell>
-                        <img 
-                          src={media.media_url.includes('drive.google.com') 
-                            ? `https://drive.google.com/thumbnail?id=${media.media_url.match(/[?&]id=([^&]+)/)?.[1]}&sz=w100`
-                            : media.media_url
-                          } 
-                          alt={media.alt_text || 'Product media'}
-                          className="w-16 h-16 object-cover rounded"
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="media_type">Media Type</Label>
+                        <Select
+                          value={formData.media_type}
+                          onValueChange={(value) => setFormData({ ...formData, media_type: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="image">Image</SelectItem>
+                            <SelectItem value="video">Video</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="sort_order">Sort Order</Label>
+                        <Input
+                          id="sort_order"
+                          type="number"
+                          value={formData.sort_order}
+                          onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
                         />
-                      </TableCell>
-                      <TableCell>{media.media_type}</TableCell>
-                      <TableCell>{media.sort_order}</TableCell>
-                      <TableCell>{media.is_primary ? 'Yes' : 'No'}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleEdit(media)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => handleDelete(media.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="alt_text">Alt Text (Optional)</Label>
+                      <Input
+                        id="alt_text"
+                        value={formData.alt_text}
+                        onChange={(e) => setFormData({ ...formData, alt_text: e.target.value })}
+                        placeholder="Description for accessibility"
+                      />
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="is_primary"
+                        checked={formData.is_primary}
+                        onCheckedChange={(checked) => setFormData({ ...formData, is_primary: checked as boolean })}
+                      />
+                      <Label htmlFor="is_primary">Set as primary image</Label>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button type="submit">
+                        <Upload className="mr-2 h-4 w-4" />
+                        Add Media
+                      </Button>
+                      <Button type="button" variant="outline" onClick={resetForm}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Media Grid */}
+                {productMedia.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    No media found for this product. Click "Add Media" to get started.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {productMedia.map((media) => (
+                      <Card key={media.id} className={media.is_primary ? 'ring-2 ring-primary' : ''}>
+                        <CardContent className="p-4">
+                          <div className="relative aspect-square mb-3 bg-muted rounded-lg overflow-hidden">
+                            {media.media_type === 'image' ? (
+                              <img 
+                                src={convertGoogleDriveUrl(media.media_url)}
+                                alt={media.alt_text || 'Product media'}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <p className="text-sm text-muted-foreground">Video</p>
+                              </div>
+                            )}
+                            {media.is_primary && (
+                              <Badge className="absolute top-2 right-2">Primary</Badge>
+                            )}
+                          </div>
+                          
+                          <div className="space-y-2 text-sm">
+                            <div>
+                              <span className="text-muted-foreground">Type:</span> {media.media_type}
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Order:</span> {media.sort_order}
+                            </div>
+                            {media.alt_text && (
+                              <div>
+                                <span className="text-muted-foreground">Alt:</span> {media.alt_text}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex gap-2 mt-4">
+                            {!media.is_primary && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleSetPrimary(media.id)}
+                                className="flex-1"
+                              >
+                                Set Primary
+                              </Button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteMedia(media.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </>
+        )}
       </main>
       <Footer />
     </div>
