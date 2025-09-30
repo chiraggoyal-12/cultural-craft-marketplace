@@ -656,15 +656,21 @@ export default function ProductMediaAdmin() {
                 setShowMediaForm(false);
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a product" />
               </SelectTrigger>
-              <SelectContent>
-                {products.map((product) => (
-                  <SelectItem key={product.id} value={product.id}>
-                    {product.name} {!product.published && '(Unpublished)'}
-                  </SelectItem>
-                ))}
+              <SelectContent className="max-h-[400px] bg-background z-50">
+                {products.length === 0 ? (
+                  <div className="p-4 text-center text-muted-foreground">
+                    No products found. Create a new product to get started.
+                  </div>
+                ) : (
+                  products.map((product) => (
+                    <SelectItem key={product.id} value={product.id}>
+                      {product.name} {!product.published && '(Unpublished)'}
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
           </CardContent>
