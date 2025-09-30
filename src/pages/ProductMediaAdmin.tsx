@@ -5,15 +5,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Trash2, Plus, ArrowLeft, Upload } from 'lucide-react';
-import { products, Product } from '@/data/products';
+import { Trash2, Plus, ArrowLeft, Upload, Edit, Save, X } from 'lucide-react';
+import { Product, useProducts } from '@/hooks/useProducts';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 interface ProductMedia {
   id: string;
@@ -25,17 +28,28 @@ interface ProductMedia {
   is_primary: boolean;
 }
 
+const categories = [
+  { id: 'culinary', name: 'Culinary Delights' },
+  { id: 'divine', name: 'Divine Creations' },
+  { id: 'home', name: 'Home Elegance' },
+  { id: 'sip-smoke', name: 'Sip & Smoke' },
+];
+
 export default function ProductMediaAdmin() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { products, loading: productsLoading, refetch: refetchProducts } = useProducts();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [showMediaForm, setShowMediaForm] = useState(false);
   
-  const [formData, setFormData] = useState({
+  const [editedProduct, setEditedProduct] = useState<Partial<Product>>({});
+  const [mediaFormData, setMediaFormData] = useState({
     media_url: '',
     media_type: 'image',
     alt_text: '',
@@ -50,6 +64,7 @@ export default function ProductMediaAdmin() {
   useEffect(() => {
     if (selectedProduct) {
       fetchProductMedia();
+      setEditedProduct(selectedProduct);
     }
   }, [selectedProduct]);
 
@@ -86,7 +101,7 @@ export default function ProductMediaAdmin() {
     const { data, error } = await supabase
       .from('product_media')
       .select('*')
-      .eq('product_id', selectedProduct.name)
+      .eq('product_id', selectedProduct.id)
       .order('sort_order', { ascending: true });
 
     if (error) {
@@ -101,10 +116,125 @@ export default function ProductMediaAdmin() {
     setProductMedia(data || []);
   };
 
+  const handleCreateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!editedProduct.name || !editedProduct.price || !editedProduct.description || 
+        !editedProduct.category || !editedProduct.material) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const productId = editedProduct.name!.toLowerCase().replace(/\s+/g, '-');
+      
+      const { error } = await supabase
+        .from('products')
+        .insert([{
+          id: productId,
+          name: editedProduct.name!,
+          price: editedProduct.price!,
+          description: editedProduct.description!,
+          category: editedProduct.category!,
+          material: editedProduct.material!,
+          dimensions: editedProduct.dimensions,
+          weight: editedProduct.weight,
+          care_instructions: editedProduct.care_instructions,
+          in_stock: editedProduct.in_stock ?? true,
+          featured: editedProduct.featured ?? false,
+          bestseller: editedProduct.bestseller ?? false,
+          new_arrival: editedProduct.new_arrival ?? false,
+          published: editedProduct.published ?? true,
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Product created successfully",
+      });
+
+      setIsCreating(false);
+      setEditedProduct({});
+      refetchProducts();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedProduct) return;
+
+    try {
+      const { error } = await supabase
+        .from('products')
+        .update(editedProduct)
+        .eq('id', selectedProduct.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Product updated successfully",
+      });
+
+      setIsEditing(false);
+      setSelectedProduct({ ...selectedProduct, ...editedProduct } as Product);
+      refetchProducts();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    if (!selectedProduct) return;
+    
+    if (!confirm(`Are you sure you want to delete "${selectedProduct.name}"? This will also delete all associated media.`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', selectedProduct.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Product deleted successfully",
+      });
+
+      setSelectedProduct(null);
+      refetchProducts();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleAddMedia = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!selectedProduct || !formData.media_url) {
+    if (!selectedProduct || !mediaFormData.media_url) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
@@ -117,8 +247,8 @@ export default function ProductMediaAdmin() {
       const { error } = await supabase
         .from('product_media')
         .insert([{
-          product_id: selectedProduct.name,
-          ...formData
+          product_id: selectedProduct.id,
+          ...mediaFormData
         }]);
 
       if (error) throw error;
@@ -128,7 +258,7 @@ export default function ProductMediaAdmin() {
         description: "Media added successfully",
       });
 
-      resetForm();
+      resetMediaForm();
       fetchProductMedia();
     } catch (error: any) {
       toast({
@@ -167,13 +297,11 @@ export default function ProductMediaAdmin() {
     if (!selectedProduct) return;
 
     try {
-      // First, unset all primary flags for this product
       await supabase
         .from('product_media')
         .update({ is_primary: false })
-        .eq('product_id', selectedProduct.name);
+        .eq('product_id', selectedProduct.id);
 
-      // Then set the selected one as primary
       const { error } = await supabase
         .from('product_media')
         .update({ is_primary: true })
@@ -195,9 +323,9 @@ export default function ProductMediaAdmin() {
     }
   };
 
-  const resetForm = () => {
-    setShowAddForm(false);
-    setFormData({
+  const resetMediaForm = () => {
+    setShowMediaForm(false);
+    setMediaFormData({
       media_url: '',
       media_type: 'image',
       alt_text: '',
@@ -216,7 +344,7 @@ export default function ProductMediaAdmin() {
     return url;
   };
 
-  if (loading) {
+  if (loading || productsLoading) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
@@ -237,13 +365,196 @@ export default function ProductMediaAdmin() {
           Back to Admin
         </Button>
 
-        <h1 className="text-3xl font-bold mb-6">Product Media Manager</h1>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold">Product Management Console</h1>
+            <p className="text-muted-foreground">Create, edit, and manage all product details</p>
+          </div>
+          <Button onClick={() => {
+            setIsCreating(true);
+            setEditedProduct({
+              in_stock: true,
+              featured: false,
+              bestseller: false,
+              new_arrival: false,
+              published: true,
+            });
+          }}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create New Product
+          </Button>
+        </div>
+
+        {/* Create/Edit Product Dialog */}
+        <Dialog open={isCreating || isEditing} onOpenChange={(open) => {
+          if (!open) {
+            setIsCreating(false);
+            setIsEditing(false);
+            setEditedProduct({});
+          }
+        }}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{isCreating ? 'Create New Product' : 'Edit Product'}</DialogTitle>
+              <DialogDescription>
+                {isCreating ? 'Add a new product to your catalog' : 'Update product information'}
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={isCreating ? handleCreateProduct : handleUpdateProduct} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="name">Product Name *</Label>
+                  <Input
+                    id="name"
+                    value={editedProduct.name || ''}
+                    onChange={(e) => setEditedProduct({ ...editedProduct, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="price">Price (₹) *</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    value={editedProduct.price || ''}
+                    onChange={(e) => setEditedProduct({ ...editedProduct, price: parseFloat(e.target.value) })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="category">Category *</Label>
+                  <Select
+                    value={editedProduct.category}
+                    onValueChange={(value) => setEditedProduct({ ...editedProduct, category: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="material">Material *</Label>
+                  <Input
+                    id="material"
+                    value={editedProduct.material || ''}
+                    onChange={(e) => setEditedProduct({ ...editedProduct, material: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="dimensions">Dimensions</Label>
+                  <Input
+                    id="dimensions"
+                    value={editedProduct.dimensions || ''}
+                    onChange={(e) => setEditedProduct({ ...editedProduct, dimensions: e.target.value })}
+                    placeholder="e.g., 10 x 5 x 3 inches"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="weight">Weight</Label>
+                  <Input
+                    id="weight"
+                    value={editedProduct.weight || ''}
+                    onChange={(e) => setEditedProduct({ ...editedProduct, weight: e.target.value })}
+                    placeholder="e.g., 500g"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="description">Description *</Label>
+                <Textarea
+                  id="description"
+                  value={editedProduct.description || ''}
+                  onChange={(e) => setEditedProduct({ ...editedProduct, description: e.target.value })}
+                  rows={4}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="care_instructions">Care Instructions</Label>
+                <Textarea
+                  id="care_instructions"
+                  value={editedProduct.care_instructions || ''}
+                  onChange={(e) => setEditedProduct({ ...editedProduct, care_instructions: e.target.value })}
+                  rows={3}
+                />
+              </div>
+
+              <Separator />
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="in_stock"
+                    checked={editedProduct.in_stock}
+                    onCheckedChange={(checked) => setEditedProduct({ ...editedProduct, in_stock: checked as boolean })}
+                  />
+                  <Label htmlFor="in_stock">In Stock</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="published"
+                    checked={editedProduct.published}
+                    onCheckedChange={(checked) => setEditedProduct({ ...editedProduct, published: checked as boolean })}
+                  />
+                  <Label htmlFor="published">Published</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="featured"
+                    checked={editedProduct.featured}
+                    onCheckedChange={(checked) => setEditedProduct({ ...editedProduct, featured: checked as boolean })}
+                  />
+                  <Label htmlFor="featured">Featured</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="bestseller"
+                    checked={editedProduct.bestseller}
+                    onCheckedChange={(checked) => setEditedProduct({ ...editedProduct, bestseller: checked as boolean })}
+                  />
+                  <Label htmlFor="bestseller">Bestseller</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="new_arrival"
+                    checked={editedProduct.new_arrival}
+                    onCheckedChange={(checked) => setEditedProduct({ ...editedProduct, new_arrival: checked as boolean })}
+                  />
+                  <Label htmlFor="new_arrival">New Arrival</Label>
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => {
+                  setIsCreating(false);
+                  setIsEditing(false);
+                  setEditedProduct({});
+                }}>
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  <Save className="mr-2 h-4 w-4" />
+                  {isCreating ? 'Create Product' : 'Save Changes'}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
 
         {/* Product Selector */}
         <Card className="mb-6">
           <CardHeader>
             <CardTitle>Select Product</CardTitle>
-            <CardDescription>Choose a product to view and manage its media</CardDescription>
+            <CardDescription>Choose a product to view and manage its details and media</CardDescription>
           </CardHeader>
           <CardContent>
             <Select
@@ -251,7 +562,7 @@ export default function ProductMediaAdmin() {
               onValueChange={(value) => {
                 const product = products.find(p => p.id === value);
                 setSelectedProduct(product || null);
-                setShowAddForm(false);
+                setShowMediaForm(false);
               }}
             >
               <SelectTrigger>
@@ -260,7 +571,7 @@ export default function ProductMediaAdmin() {
               <SelectContent>
                 {products.map((product) => (
                   <SelectItem key={product.id} value={product.id}>
-                    {product.name}
+                    {product.name} {!product.published && '(Unpublished)'}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -268,13 +579,27 @@ export default function ProductMediaAdmin() {
           </CardContent>
         </Card>
 
-        {/* Product Details */}
+        {/* Product Details & Media */}
         {selectedProduct && (
           <>
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>Product Details</CardTitle>
-                <CardDescription>Current product information (edit in src/data/products.ts)</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Product Details</CardTitle>
+                    <CardDescription>Manage all product information</CardDescription>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => setIsEditing(true)}>
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit Product
+                    </Button>
+                    <Button variant="destructive" onClick={handleDeleteProduct}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
+                    </Button>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -294,17 +619,40 @@ export default function ProductMediaAdmin() {
                     <Label className="text-muted-foreground">Material</Label>
                     <p className="font-medium">{selectedProduct.material}</p>
                   </div>
+                  {selectedProduct.dimensions && (
+                    <div>
+                      <Label className="text-muted-foreground">Dimensions</Label>
+                      <p className="font-medium">{selectedProduct.dimensions}</p>
+                    </div>
+                  )}
+                  {selectedProduct.weight && (
+                    <div>
+                      <Label className="text-muted-foreground">Weight</Label>
+                      <p className="font-medium">{selectedProduct.weight}</p>
+                    </div>
+                  )}
                   <div className="md:col-span-2">
                     <Label className="text-muted-foreground">Description</Label>
                     <p className="text-sm">{selectedProduct.description}</p>
                   </div>
+                  {selectedProduct.care_instructions && (
+                    <div className="md:col-span-2">
+                      <Label className="text-muted-foreground">Care Instructions</Label>
+                      <p className="text-sm">{selectedProduct.care_instructions}</p>
+                    </div>
+                  )}
                   <div className="md:col-span-2">
                     <Label className="text-muted-foreground">Status</Label>
-                    <div className="flex gap-2 mt-1">
-                      {selectedProduct.inStock && <Badge>In Stock</Badge>}
+                    <div className="flex gap-2 mt-1 flex-wrap">
+                      <Badge variant={selectedProduct.in_stock ? "default" : "destructive"}>
+                        {selectedProduct.in_stock ? 'In Stock' : 'Out of Stock'}
+                      </Badge>
+                      <Badge variant={selectedProduct.published ? "default" : "secondary"}>
+                        {selectedProduct.published ? 'Published' : 'Unpublished'}
+                      </Badge>
                       {selectedProduct.featured && <Badge variant="secondary">Featured</Badge>}
                       {selectedProduct.bestseller && <Badge variant="secondary">Bestseller</Badge>}
-                      {selectedProduct.newArrival && <Badge variant="secondary">New</Badge>}
+                      {selectedProduct.new_arrival && <Badge variant="secondary">New Arrival</Badge>}
                     </div>
                   </div>
                 </div>
@@ -319,22 +667,21 @@ export default function ProductMediaAdmin() {
                     <CardTitle>Product Media ({productMedia.length})</CardTitle>
                     <CardDescription>Manage photos and videos for this product</CardDescription>
                   </div>
-                  <Button onClick={() => setShowAddForm(!showAddForm)}>
+                  <Button onClick={() => setShowMediaForm(!showMediaForm)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add Media
                   </Button>
                 </div>
               </CardHeader>
               <CardContent>
-                {/* Add Media Form */}
-                {showAddForm && (
+                {showMediaForm && (
                   <form onSubmit={handleAddMedia} className="mb-6 p-4 border rounded-lg space-y-4">
                     <div>
                       <Label htmlFor="media_url">Drive Link *</Label>
                       <Input
                         id="media_url"
-                        value={formData.media_url}
-                        onChange={(e) => setFormData({ ...formData, media_url: e.target.value })}
+                        value={mediaFormData.media_url}
+                        onChange={(e) => setMediaFormData({ ...mediaFormData, media_url: e.target.value })}
                         placeholder="https://drive.google.com/..."
                         required
                       />
@@ -344,8 +691,8 @@ export default function ProductMediaAdmin() {
                       <div>
                         <Label htmlFor="media_type">Media Type</Label>
                         <Select
-                          value={formData.media_type}
-                          onValueChange={(value) => setFormData({ ...formData, media_type: value })}
+                          value={mediaFormData.media_type}
+                          onValueChange={(value) => setMediaFormData({ ...mediaFormData, media_type: value })}
                         >
                           <SelectTrigger>
                             <SelectValue />
@@ -362,8 +709,8 @@ export default function ProductMediaAdmin() {
                         <Input
                           id="sort_order"
                           type="number"
-                          value={formData.sort_order}
-                          onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
+                          value={mediaFormData.sort_order}
+                          onChange={(e) => setMediaFormData({ ...mediaFormData, sort_order: parseInt(e.target.value) })}
                         />
                       </div>
                     </div>
@@ -372,8 +719,8 @@ export default function ProductMediaAdmin() {
                       <Label htmlFor="alt_text">Alt Text (Optional)</Label>
                       <Input
                         id="alt_text"
-                        value={formData.alt_text}
-                        onChange={(e) => setFormData({ ...formData, alt_text: e.target.value })}
+                        value={mediaFormData.alt_text}
+                        onChange={(e) => setMediaFormData({ ...mediaFormData, alt_text: e.target.value })}
                         placeholder="Description for accessibility"
                       />
                     </div>
@@ -381,8 +728,8 @@ export default function ProductMediaAdmin() {
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="is_primary"
-                        checked={formData.is_primary}
-                        onCheckedChange={(checked) => setFormData({ ...formData, is_primary: checked as boolean })}
+                        checked={mediaFormData.is_primary}
+                        onCheckedChange={(checked) => setMediaFormData({ ...mediaFormData, is_primary: checked as boolean })}
                       />
                       <Label htmlFor="is_primary">Set as primary image</Label>
                     </div>
@@ -392,7 +739,7 @@ export default function ProductMediaAdmin() {
                         <Upload className="mr-2 h-4 w-4" />
                         Add Media
                       </Button>
-                      <Button type="button" variant="outline" onClick={resetForm}>
+                      <Button type="button" variant="outline" onClick={resetMediaForm}>
                         Cancel
                       </Button>
                     </div>

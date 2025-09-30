@@ -324,6 +324,63 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          bestseller: boolean | null
+          care_instructions: string | null
+          category: string
+          created_at: string
+          description: string
+          dimensions: string | null
+          featured: boolean | null
+          id: string
+          in_stock: boolean | null
+          material: string
+          name: string
+          new_arrival: boolean | null
+          price: number
+          published: boolean | null
+          updated_at: string
+          weight: string | null
+        }
+        Insert: {
+          bestseller?: boolean | null
+          care_instructions?: string | null
+          category: string
+          created_at?: string
+          description: string
+          dimensions?: string | null
+          featured?: boolean | null
+          id: string
+          in_stock?: boolean | null
+          material: string
+          name: string
+          new_arrival?: boolean | null
+          price: number
+          published?: boolean | null
+          updated_at?: string
+          weight?: string | null
+        }
+        Update: {
+          bestseller?: boolean | null
+          care_instructions?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          dimensions?: string | null
+          featured?: boolean | null
+          id?: string
+          in_stock?: boolean | null
+          material?: string
+          name?: string
+          new_arrival?: boolean | null
+          price?: number
+          published?: boolean | null
+          updated_at?: string
+          weight?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
