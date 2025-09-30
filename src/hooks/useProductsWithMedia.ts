@@ -36,9 +36,20 @@ export const useProductsWithMedia = () => {
 
         // Create a map of product_id to primary image
         // Convert product names to slugs to match hardcoded product IDs
+        // Handle special cases like "BIG/SMALL" at start vs end of name
         const mediaMap = new Map(
           mediaData?.map(m => {
-            const slug = m.product_id.toLowerCase().replace(/\s+/g, '-');
+            let slug = m.product_id.toLowerCase().replace(/\s+/g, '-');
+            
+            // Special handling for BIG/SMALL prefix variations
+            // "BIG Rose Quartz Tea light Holder" -> "rose-quartz-tea-light-big"
+            // "SMALL Rose Quartz Tea Light holder" -> "rose-quartz-tea-light-small"
+            if (slug.startsWith('big-')) {
+              slug = slug.replace('big-', '') + '-big';
+            } else if (slug.startsWith('small-')) {
+              slug = slug.replace('small-', '') + '-small';
+            }
+            
             const imageUrl = convertGoogleDriveUrl(m.media_url);
             console.log(`Mapping ${m.product_id} -> ${slug} -> ${imageUrl}`);
             return [slug, imageUrl];
