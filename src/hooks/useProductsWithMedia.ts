@@ -34,23 +34,42 @@ export const useProductsWithMedia = () => {
           return url;
         };
 
-        // Create a map of product_id to primary image
-        // Handle special naming patterns in the database
+        // Create a comprehensive map to fix circular image assignments
+        // Database product_id -> Actual product slug mapping
+        const correctMappings: Record<string, string> = {
+          'Krishna': 'krishna-sculpture',
+          'Onyx Flower Vase Big': 'onyx-flower-big',
+          'Rose Quartz Tree': 'rose-quartz-tree',
+          'BIG Rose Quartz Tea light Holder': 'rose-quartz-tea-light-big',
+          'SMALL Rose Quartz Tea Light holder': 'rose-quartz-tea-light-small',
+          'Soapstone Ash Tray Round': 'soapstone-ash-tray-round',
+          'Travertine Cake Stand': 'travertine-cake-stand',
+          'Tree of Life 7 Chakra': 'tree-of-life-7-chakra',
+          'Wine Chiller Banswara': 'wine-chiller-banswara',
+          'Wine Chiller Black': 'wine-chiller-black',
+          'Banswara Cake Stand': 'banswara-cake-stand',
+          'Boat Ganesh': 'boat-ganesh',
+          'Ganesh Ji 260': 'ganesh-ji-260',
+          'Banswara Oval Soap dish': 'banswara-oval-soap-dish',
+          'Banswara Round Soap Dish Polished': 'banswara-round-soap-dish-polished',
+          'Banswara Trinket Box': 'banswara-trinket-box',
+          'Bottle shape Oil Diffuser': 'bottle-shape-oil-diffuser',
+          'Candle Stand Big Banswara': 'candle-stand-big-banswara',
+          'Candle Stand Cone Small': 'candle-stand-cone-small',
+          'Candle Stand Travertine': 'candle-stand-travertine',
+          'Desk Clock Marble Stand': 'desk-clock-marble-stand',
+          'Elephant Oil Diffuser': 'elephant-oil-diffuser',
+          'Finger Urli': 'finger-urli',
+          'Fluted Urli': 'fluted-urli',
+          'Jali Soap Dish': 'jali-soap-dish',
+          'Laltain': 'laltain',
+          'Lotus Urli': 'lotus-urli',
+          'Rose Quartz Coasters': 'rose-quartz-coasters',
+        };
+
         const mediaMap = new Map(
           mediaData?.map(m => {
-            let slug = m.product_id.toLowerCase();
-            
-            // Special handling for BIG/SMALL prefix variations
-            // "BIG Rose Quartz Tea light Holder" -> "rose-quartz-tea-light-big"
-            if (slug.startsWith('big ')) {
-              slug = slug.replace('big ', '').replace(' holder', '').replace(/\s+/g, '-') + '-big';
-            } else if (slug.startsWith('small ')) {
-              slug = slug.replace('small ', '').replace(' holder', '').replace(/\s+/g, '-') + '-small';
-            } else {
-              // Standard slugification
-              slug = slug.replace(/\s+/g, '-');
-            }
-            
+            const slug = correctMappings[m.product_id] || m.product_id.toLowerCase().replace(/\s+/g, '-');
             const imageUrl = convertGoogleDriveUrl(m.media_url);
             console.log(`Mapping ${m.product_id} -> ${slug} -> ${imageUrl}`);
             return [slug, imageUrl];
