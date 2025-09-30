@@ -7,12 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Heart, ShoppingCart, Star, Plus, Minus, Share, Truck, Shield, RotateCcw } from "lucide-react";
-import { getProductById, products, Product } from "@/data/products";
+import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import ReviewsSection from "@/components/ReviewsSection";
 import ProductQA from "@/components/ProductQA";
 import { useProductMedia } from "@/hooks/useProductMedia";
+import { useProduct } from "@/hooks/useProducts";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -22,13 +23,23 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   
-  const product = getProductById(id || "");
+  const { product, loading: productLoading } = useProduct(id || null);
   const { allImages, primaryImage, loading: mediaLoading } = useProductMedia(id || "");
   
-  // Use database images if available, fallback to hardcoded
-  const productImages = allImages.length > 0 ? allImages : (product?.images || [product?.image].filter(Boolean));
-  const displayImage = productImages[selectedImage] || primaryImage || product?.image;
+  // Use database images
+  const productImages = allImages.length > 0 ? allImages : (primaryImage ? [primaryImage] : []);
+  const displayImage = productImages[selectedImage] || primaryImage;
   
+  if (productLoading || mediaLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -46,16 +57,67 @@ const ProductPage = () => {
     .slice(0, 4);
 
   const handleAddToCart = () => {
+    if (!product) return;
+    
+    // Convert database product to cart format
+    const cartProduct = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      material: product.material,
+      image: displayImage || '',
+      images: productImages,
+      shortDescription: product.description.substring(0, 100) + '...',
+      inStock: product.in_stock,
+      region: 'India',
+      artisan: 'Handora Crafts',
+      reviewCount: 0,
+      rating: 5,
+      newArrival: product.new_arrival,
+      bestseller: product.bestseller,
+      featured: product.featured,
+      subcategory: '',
+      artisanStory: 'Handcrafted with traditional techniques passed down through generations.',
+      careInstructions: product.care_instructions || 'Handle with care. Clean gently with a soft cloth.',
+    };
+    
     for (let i = 0; i < quantity; i++) {
-      addItem(product);
+      addItem(cartProduct);
     }
   };
 
   const handleWishlistToggle = () => {
+    if (!product) return;
+    
+    const wishlistProduct = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      material: product.material,
+      image: displayImage || '',
+      images: productImages,
+      shortDescription: product.description.substring(0, 100) + '...',
+      inStock: product.in_stock,
+      region: 'India',
+      artisan: 'Handora Crafts',
+      reviewCount: 0,
+      rating: 5,
+      newArrival: product.new_arrival,
+      bestseller: product.bestseller,
+      featured: product.featured,
+      subcategory: '',
+      artisanStory: 'Handcrafted with traditional techniques passed down through generations.',
+      careInstructions: product.care_instructions || 'Handle with care. Clean gently with a soft cloth.',
+    };
+    
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
     } else {
-      addToWishlist(product);
+      addToWishlist(wishlistProduct);
     }
   };
 
@@ -119,7 +181,7 @@ const ProductPage = () => {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-3xl font-bold text-foreground mb-2">{product.name}</h1>
-                <p className="text-muted-foreground">{product.shortDescription}</p>
+                <p className="text-muted-foreground">{product.description}</p>
               </div>
               <Button variant="ghost" size="icon" onClick={handleWishlistToggle}>
                 <Heart 
@@ -132,7 +194,7 @@ const ProductPage = () => {
 
             {/* Badges */}
             <div className="flex gap-2 mb-4">
-              {product.newArrival && <Badge className="bg-secondary">New Arrival</Badge>}
+              {product.new_arrival && <Badge className="bg-secondary">New Arrival</Badge>}
               {product.bestseller && <Badge className="bg-primary">Bestseller</Badge>}
               {product.featured && <Badge className="bg-accent text-accent-foreground">Featured</Badge>}
             </div>
@@ -140,7 +202,7 @@ const ProductPage = () => {
             {/* Review Count */}
             <div className="flex items-center gap-2 mb-4">
               <span className="text-sm text-muted-foreground">
-                {product.reviewCount} reviews
+                Reviews
               </span>
             </div>
 
@@ -149,23 +211,20 @@ const ProductPage = () => {
               <span className="text-3xl font-bold text-foreground">
                 ₹{product.price.toLocaleString()}
               </span>
-              {product.originalPrice && (
-                <span className="text-xl text-muted-foreground line-through">
-                  ₹{product.originalPrice.toLocaleString()}
-                </span>
-              )}
             </div>
 
-            {/* Material & Region */}
+            {/* Material & Dimensions */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <span className="text-sm text-muted-foreground">Material:</span>
                 <p className="font-medium">{product.material}</p>
               </div>
-              <div>
-                <span className="text-sm text-muted-foreground">Origin:</span>
-                <p className="font-medium">{product.region}</p>
-              </div>
+              {product.dimensions && (
+                <div>
+                  <span className="text-sm text-muted-foreground">Dimensions:</span>
+                  <p className="font-medium">{product.dimensions}</p>
+                </div>
+              )}
             </div>
 
             {/* Quantity & Add to Cart */}
@@ -195,11 +254,11 @@ const ProductPage = () => {
               <Button 
                 size="lg"
                 onClick={handleAddToCart}
-                disabled={!product.inStock}
+                disabled={!product.in_stock}
                 className="flex-1"
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                {product.inStock ? "Add to Cart" : "Out of Stock"}
+                {product.in_stock ? "Add to Cart" : "Out of Stock"}
               </Button>
             </div>
 
