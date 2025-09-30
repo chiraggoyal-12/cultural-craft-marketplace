@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, Heart, User, ShoppingCart, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Heart, User, ShoppingCart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
+import PredictiveSearch from "@/components/PredictiveSearch";
+import { Product } from "@/data/products";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { itemCount } = useCart();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleProductSelect = (product: Product) => {
+    navigate(`/product/${product.id}`);
+  };
 
   const categories = [
     { name: "Culinary Crafts", slug: "culinary-crafts" },
@@ -75,14 +81,10 @@ const Header = () => {
 
           {/* Search Bar */}
           <div className="hidden md:flex items-center flex-1 max-w-sm mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                type="search"
-                placeholder="Search for crafts..."
-                className="pl-10 bg-muted/50 border-border focus:bg-background transition-colors"
-              />
-            </div>
+            <PredictiveSearch 
+              onProductSelect={handleProductSelect}
+              className="w-full"
+            />
           </div>
 
           {/* Right Icons */}
@@ -129,14 +131,10 @@ const Header = () => {
 
         {/* Mobile Search */}
         <div className="md:hidden mt-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              type="search"
-              placeholder="Search for crafts..."
-              className="pl-10 bg-muted/50 border-border"
-            />
-          </div>
+          <PredictiveSearch 
+            onProductSelect={handleProductSelect}
+            className="w-full"
+          />
         </div>
       </div>
 
