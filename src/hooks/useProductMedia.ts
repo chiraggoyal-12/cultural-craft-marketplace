@@ -33,7 +33,24 @@ export const useProductMedia = (productId: string) => {
           .order('sort_order', { ascending: true });
 
         if (fetchError) throw fetchError;
-        setMedia(data || []);
+        
+        // Convert Google Drive URLs to direct image URLs
+        const convertGoogleDriveUrl = (url: string) => {
+          if (url.includes('drive.google.com')) {
+            const match = url.match(/[?&]id=([^&]+)/);
+            if (match) {
+              return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+            }
+          }
+          return url;
+        };
+        
+        const convertedData = data?.map(item => ({
+          ...item,
+          media_url: convertGoogleDriveUrl(item.media_url)
+        })) || [];
+        
+        setMedia(convertedData);
       } catch (err) {
         setError(err as Error);
       } finally {
