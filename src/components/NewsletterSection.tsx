@@ -1,8 +1,21 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 import { Card, CardContent } from "@/components/ui/card";
 
 const NewsletterSection = () => {
+  const [email, setEmail] = useState("");
+  const { subscribe, isLoading } = useNewsletterSubscription();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await subscribe(email, 'home');
+    if (result.success) {
+      setEmail("");
+    }
+  };
+
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
@@ -17,19 +30,25 @@ const NewsletterSection = () => {
                 to know about new collections and exclusive offers.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <Input
                   type="email"
                   placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
                   className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 backdrop-blur-sm"
                 />
                 <Button 
+                  type="submit"
                   size="lg"
+                  disabled={isLoading}
                   className="bg-white text-foreground hover:bg-white/90 font-medium shadow-lg"
                 >
-                  Subscribe
+                  {isLoading ? "Subscribing..." : "Subscribe"}
                 </Button>
-              </div>
+              </form>
               
               <p className="text-white/70 text-sm mt-4">
                 Join 5,000+ craft lovers. Unsubscribe anytime.

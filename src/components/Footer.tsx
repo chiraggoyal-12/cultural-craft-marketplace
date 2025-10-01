@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { Heart, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const { subscribe, isLoading } = useNewsletterSubscription();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await subscribe(email, 'footer');
+    if (result.success) {
+      setEmail("");
+    }
+  };
 
   return (
     <footer className="bg-gradient-warm border-t border-border">
@@ -110,16 +122,25 @@ const Footer = () => {
               <p className="text-sm text-muted-foreground">
                 Stay connected with Handora. Discover stories, culture, and exclusive offers.
               </p>
-              <div className="flex space-x-2">
+              <form onSubmit={handleSubmit} className="flex space-x-2">
                 <Input
                   type="email"
                   placeholder="Your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
                   className="bg-background/50 border-border text-sm"
                 />
-                <Button size="sm" className="bg-primary hover:bg-primary/90">
-                  Join
+                <Button 
+                  type="submit" 
+                  size="sm" 
+                  disabled={isLoading}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  {isLoading ? "..." : "Join"}
                 </Button>
-              </div>
+              </form>
             </div>
           </div>
         </div>

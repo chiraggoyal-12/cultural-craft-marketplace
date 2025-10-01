@@ -5,11 +5,23 @@ import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { stories } from '@/data/stories';
+import { useNewsletterSubscription } from '@/hooks/useNewsletterSubscription';
 
 const BlogPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
+  const [email, setEmail] = useState("");
+  const { subscribe, isLoading } = useNewsletterSubscription();
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await subscribe(email, 'blog');
+    if (result.success) {
+      setEmail("");
+    }
+  };
 
   const categories = ['all', ...Array.from(new Set(stories.map(s => s.category)))];
   const regions = ['all', ...Array.from(new Set(stories.map(s => s.region.split(',')[1]?.trim() || s.region)))];
@@ -229,14 +241,25 @@ const BlogPage = () => {
                 Subscribe to receive the latest artisan stories, craft insights, and behind-the-scenes glimpses into 
                 the world of traditional Indian craftsmanship.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-                <input 
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                <Input
                   type="email" 
                   placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
                   className="flex-1 px-5 py-4 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-base"
                 />
-                <Button size="lg" className="px-8">Subscribe</Button>
-              </div>
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  disabled={isLoading}
+                  className="px-8"
+                >
+                  {isLoading ? "Subscribing..." : "Subscribe"}
+                </Button>
+              </form>
               <p className="text-sm text-muted-foreground mt-6">
                 We respect your privacy. Unsubscribe at any time.
               </p>
