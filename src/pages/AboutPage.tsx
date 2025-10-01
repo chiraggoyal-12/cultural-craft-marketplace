@@ -25,10 +25,10 @@ const AboutPage = () => {
               backgroundPosition: 'center',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/20" />
           
           <div className="container mx-auto px-4 text-center relative z-10">
-            <h1 className="font-playfair text-5xl md:text-7xl font-bold text-foreground">
+            <h1 className="font-playfair text-5xl md:text-7xl font-bold text-white drop-shadow-lg">
               About Handora
             </h1>
           </div>
@@ -222,13 +222,13 @@ const AboutPage = () => {
               backgroundPosition: 'center',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-secondary/90" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/50 via-primary/40 to-secondary/50" />
           
           <div className="container mx-auto px-4 text-center relative z-10">
-            <h2 className="font-playfair text-3xl md:text-5xl font-bold mb-6 text-white">
+            <h2 className="font-playfair text-3xl md:text-5xl font-bold mb-6 text-white drop-shadow-lg">
               Bring Rajasthan's Aura Into Your Home
             </h2>
-            <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-white drop-shadow-md mb-8 max-w-2xl mx-auto">
               Explore our collections today and discover handcrafted pieces that tell a story.
             </p>
             <Button asChild size="lg" variant="secondary" className="text-base font-semibold">
