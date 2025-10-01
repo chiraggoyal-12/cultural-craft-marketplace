@@ -37,9 +37,7 @@ const BlogPage = () => {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-background/20 to-background/30" />
-          </div>
+          />
           
           <div className="container mx-auto px-4 text-center relative z-10">
             <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-6 text-foreground leading-tight">
