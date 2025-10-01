@@ -106,28 +106,18 @@ const AboutPage = () => {
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-12">
               <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-6">Our Mission</h2>
-              <p className="text-lg text-foreground/80 max-w-3xl mx-auto">
-                Our mission is simple yet powerful:
+              <p className="text-lg text-foreground/80 max-w-3xl mx-auto leading-relaxed">
+                Our mission is to deliver timeless handcrafted marble and stone products that bring the aura of Rajasthan into homes across the world. We are dedicated to:
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card className="border-none shadow-md">
                 <CardContent className="p-8 text-center">
-                  <Users className="h-16 w-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-xl font-bold mb-4">Empower Artisans</h3>
-                  <p className="text-muted-foreground">
-                    Sustain local artisan livelihoods by creating opportunities and fair partnerships.
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card className="border-none shadow-md">
-                <CardContent className="p-8 text-center">
                   <Award className="h-16 w-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-xl font-bold mb-4">Preserve Tradition</h3>
+                  <h3 className="text-xl font-bold mb-4">Quality & Authenticity</h3>
                   <p className="text-muted-foreground">
-                    Give traditional skills global recognition and ensure they thrive for generations.
+                    Maintaining the highest standards of quality and authenticity in every product.
                   </p>
                 </CardContent>
               </Card>
@@ -135,9 +125,19 @@ const AboutPage = () => {
               <Card className="border-none shadow-md">
                 <CardContent className="p-8 text-center">
                   <Sparkles className="h-16 w-16 text-primary mx-auto mb-6" />
-                  <h3 className="text-xl font-bold mb-4">Deliver Timeless Goods</h3>
+                  <h3 className="text-xl font-bold mb-4">Curated Collection</h3>
                   <p className="text-muted-foreground">
-                    Bring the aura of Rajasthan into homes worldwide through handcrafted excellence.
+                    Offering a curated collection that blends traditional artistry with modern design.
+                  </p>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-none shadow-md">
+                <CardContent className="p-8 text-center">
+                  <Globe className="h-16 w-16 text-primary mx-auto mb-6" />
+                  <h3 className="text-xl font-bold mb-4">Seamless Experience</h3>
+                  <p className="text-muted-foreground">
+                    Providing a reliable and seamless shopping experience for customers worldwide.
                   </p>
                 </CardContent>
               </Card>
@@ -145,7 +145,7 @@ const AboutPage = () => {
 
             <div className="mt-12 text-center">
               <p className="text-lg text-foreground/80 italic">
-                By choosing Handora, you're not just buying a product—you're supporting a legacy of artistry and uplifting the communities that keep it alive.
+                By choosing Handora, you're not just purchasing a product—you're investing in a piece of Rajasthan's heritage, crafted to last for generations.
               </p>
             </div>
           </div>
