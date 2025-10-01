@@ -14,6 +14,9 @@ export const useProductsWithMedia = () => {
 
   useEffect(() => {
     const fetchAllMedia = async () => {
+      // Wait for review counts to be loaded
+      if (reviewsLoading) return;
+      
       try {
         setLoading(true);
         const { data: mediaData, error } = await supabase
@@ -24,6 +27,7 @@ export const useProductsWithMedia = () => {
         if (error) throw error;
 
         console.log('Fetched media data:', mediaData);
+        console.log('Review counts:', reviewCounts);
 
         // Convert Google Drive URLs to direct image URLs
         const convertGoogleDriveUrl = (url: string) => {
@@ -121,7 +125,7 @@ export const useProductsWithMedia = () => {
     };
 
     fetchAllMedia();
-  }, [reviewCounts]);
+  }, [reviewCounts, reviewsLoading]);
 
   return { products: productsWithMedia, loading: loading || reviewsLoading };
 };
