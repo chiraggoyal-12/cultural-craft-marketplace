@@ -97,21 +97,22 @@ const NewArrivalsSection = () => {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      variant="secondary"
-                      className="flex-1 bg-white/90 hover:bg-white text-xs"
+                      variant="default"
+                      className="flex-1 shadow-lg text-sm font-medium"
                       onClick={() => addItem(product)}
                     >
-                      <ShoppingCart className="w-3 h-3 mr-1" />
-                      Add
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      Add to Cart
                     </Button>
                     <Button
                       size="sm"
-                      variant="outline"
-                      className="bg-white/90 hover:bg-white text-xs"
+                      variant="secondary"
+                      className="shadow-lg px-4 text-sm font-medium"
                       asChild
                     >
                       <Link to={`/product/${product.id}`}>
-                        <Eye className="w-3 h-3" />
+                        <Eye className="w-4 h-4 mr-2" />
+                        View
                       </Link>
                     </Button>
                   </div>

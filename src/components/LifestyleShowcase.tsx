@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, Home, Utensils } from 'lucide-react';
+import lifestyleLiving from '@/assets/lifestyle-living.jpg';
+import lifestyleDining from '@/assets/lifestyle-dining.jpg';
+import lifestyleSpiritual from '@/assets/lifestyle-spiritual.jpg';
 
 const LifestyleShowcase = () => {
   const lifestyleScenes = [
@@ -11,7 +14,7 @@ const LifestyleShowcase = () => {
       title: 'Serene Living Spaces',
       subtitle: 'Tea lights & Urlis for peaceful moments',
       description: 'Transform your home into a sanctuary with our handcrafted candle holders and decorative pieces',
-      image: '/src/assets/hero-banner.jpg', // Using existing image as placeholder
+      image: lifestyleLiving,
       products: ['Rose Quartz Tea Light', 'Lotus Urli'],
       link: '/shop/artisan-home-serenity',
       icon: Home,
@@ -22,7 +25,7 @@ const LifestyleShowcase = () => {
       title: 'Elegant Dining',
       subtitle: 'Cake stands & Wine chillers for memorable meals',
       description: 'Elevate your dining experience with sophisticated serving pieces and wine accessories',
-      image: '/src/assets/hero-banner.jpg', // Using existing image as placeholder
+      image: lifestyleDining,
       products: ['Banswara Cake Stand', 'Wine Chiller'],
       link: '/shop/culinary-crafts',
       icon: Utensils,
@@ -33,7 +36,7 @@ const LifestyleShowcase = () => {
       title: 'Sacred Spaces',
       subtitle: 'Divine art for your spiritual practice',
       description: 'Create meaningful spiritual corners with our collection of divine sculptures and artifacts',
-      image: '/src/assets/hero-banner.jpg', // Using existing image as placeholder
+      image: lifestyleSpiritual,
       products: ['Boat Ganesh', 'Krishna Sculpture'],
       link: '/shop/divine-artistry',
       icon: Sparkles,

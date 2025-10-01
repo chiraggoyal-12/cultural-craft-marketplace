@@ -41,20 +41,22 @@ const BestsellerCarousel = () => {
           
           <div className="flex gap-2">
             <Button
-              variant="outline"
-              size="icon"
+              variant="default"
+              size="lg"
               onClick={prevSlide}
-              className="hover-scale"
+              className="hover-scale shadow-lg"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5 mr-2" />
+              Previous
             </Button>
             <Button
-              variant="outline"
-              size="icon"
+              variant="default"
+              size="lg"
               onClick={nextSlide}
-              className="hover-scale"
+              className="hover-scale shadow-lg"
             >
-              <ChevronRight className="w-4 h-4" />
+              Next
+              <ChevronRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
         </div>
