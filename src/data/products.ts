@@ -450,7 +450,7 @@ export const products: Product[] = [
     reviewCount: 35
   },
   {
-    id: "onyx-flower-big",
+    id: "onyx-flower-vase-big",
     name: "Onyx Flower Vase Big",
     price: 3500,
     category: "artisan-home-serenity",

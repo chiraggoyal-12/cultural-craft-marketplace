@@ -38,7 +38,7 @@ export const useProductsWithMedia = () => {
         // Database product_id -> Actual product slug mapping
         const correctMappings: Record<string, string> = {
           'Krishna': 'krishna-sculpture',
-          'Onyx Flower Vase Big': 'onyx-flower-big',
+          'Onyx Flower Vase Big': 'onyx-flower-vase-big',
           'Rose Quartz Tree': 'rose-quartz-tree',
           'BIG Rose Quartz Tea light Holder': 'rose-quartz-tea-light-big',
           'SMALL Rose Quartz Tea Light holder': 'rose-quartz-tea-light-small',
