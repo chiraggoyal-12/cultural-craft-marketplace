@@ -7,7 +7,7 @@ interface ProductWithMedia extends Product {
 }
 
 export const useProductsWithMedia = () => {
-  const [productsWithMedia, setProductsWithMedia] = useState<ProductWithMedia[]>(hardcodedProducts);
+  const [productsWithMedia, setProductsWithMedia] = useState<ProductWithMedia[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
