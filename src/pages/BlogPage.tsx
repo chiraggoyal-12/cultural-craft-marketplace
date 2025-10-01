@@ -38,7 +38,7 @@ const BlogPage = () => {
               backgroundPosition: 'center',
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/95" />
+            <div className="absolute inset-0 bg-gradient-to-br from-background/30 via-background/20 to-background/30" />
           </div>
           
           <div className="container mx-auto px-4 text-center relative z-10">
@@ -221,33 +221,6 @@ const BlogPage = () => {
           </div>
         </section>
 
-        {/* Impact Statement */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-primary/5">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto text-center">
-              <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-8">Your Choice Makes a Difference</h2>
-              <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
-                When you choose handcrafted products, you're not just buying an object—you're preserving centuries-old traditions, 
-                supporting artisan families, and keeping cultural heritage alive for future generations. Every purchase is a vote 
-                for sustainability, authenticity, and human connection over mass production.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-3">500+</div>
-                  <div className="text-base text-muted-foreground">Artisans Supported</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-3">15+</div>
-                  <div className="text-base text-muted-foreground">Traditional Crafts Preserved</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-primary mb-3">100%</div>
-                  <div className="text-base text-muted-foreground">Fair Trade Commitment</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Newsletter */}
         <section className="py-20">
