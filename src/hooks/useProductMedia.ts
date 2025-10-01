@@ -33,9 +33,23 @@ export const useProductMedia = (productId: string) => {
         // Convert Google Drive URLs to direct image URLs
         const convertGoogleDriveUrl = (url: string) => {
           if (url.includes('drive.google.com')) {
-            const match = url.match(/[?&]id=([^&]+)/);
-            if (match) {
-              return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+            // Handle both URL formats:
+            // 1. ?id=FILE_ID
+            // 2. /d/FILE_ID/view
+            let fileId = null;
+            
+            const idMatch = url.match(/[?&]id=([^&]+)/);
+            if (idMatch) {
+              fileId = idMatch[1];
+            } else {
+              const dMatch = url.match(/\/d\/([^\/]+)\//);
+              if (dMatch) {
+                fileId = dMatch[1];
+              }
+            }
+            
+            if (fileId) {
+              return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
             }
           }
           return url;
