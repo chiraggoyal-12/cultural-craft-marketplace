@@ -18,6 +18,7 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import BlogPage from "./pages/BlogPage";
+import StoryDetailPage from "./pages/StoryDetailPage";
 import UserDashboard from "./pages/UserDashboard";
 import { AdminPage } from "./pages/AdminPage";
 import ProductMediaAdmin from "./pages/ProductMediaAdmin";
@@ -56,6 +57,7 @@ const App = () => (
                 <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:storyId" element={<StoryDetailPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/shipping" element={<ShippingPage />} />
