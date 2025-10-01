@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { products as hardcodedProducts, Product } from '@/data/products';
+import { useReviewCounts } from './useReviewCounts';
 
 interface ProductWithMedia extends Product {
   primaryImage?: string;
@@ -9,6 +10,7 @@ interface ProductWithMedia extends Product {
 export const useProductsWithMedia = () => {
   const [productsWithMedia, setProductsWithMedia] = useState<ProductWithMedia[]>([]);
   const [loading, setLoading] = useState(true);
+  const { reviewCounts, loading: reviewsLoading } = useReviewCounts();
 
   useEffect(() => {
     const fetchAllMedia = async () => {
@@ -92,29 +94,34 @@ export const useProductsWithMedia = () => {
 
         console.log('Media map:', Array.from(mediaMap.entries()));
 
-        // Update products with database images
+        // Update products with database images and review counts
         const updated = hardcodedProducts.map(product => {
           const dbImage = mediaMap.get(product.id);
           console.log(`Product ${product.id}: ${dbImage ? 'FOUND' : 'NOT FOUND'} in database`);
           return {
             ...product,
             primaryImage: dbImage,
-            image: dbImage || product.image
+            image: dbImage || product.image,
+            reviewCount: reviewCounts[product.id] || 0
           };
         });
 
         setProductsWithMedia(updated);
       } catch (err) {
         console.error('Error fetching product media:', err);
-        // Fall back to hardcoded products
-        setProductsWithMedia(hardcodedProducts);
+        // Fall back to hardcoded products with review counts
+        const fallback = hardcodedProducts.map(product => ({
+          ...product,
+          reviewCount: reviewCounts[product.id] || 0
+        }));
+        setProductsWithMedia(fallback);
       } finally {
         setLoading(false);
       }
     };
 
     fetchAllMedia();
-  }, []);
+  }, [reviewCounts]);
 
-  return { products: productsWithMedia, loading };
+  return { products: productsWithMedia, loading: loading || reviewsLoading };
 };

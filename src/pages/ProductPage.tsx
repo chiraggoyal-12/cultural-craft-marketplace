@@ -14,11 +14,13 @@ import ReviewsSection from "@/components/ReviewsSection";
 import ProductQA from "@/components/ProductQA";
 import { useProductMedia } from "@/hooks/useProductMedia";
 import { useProduct } from "@/hooks/useProducts";
+import { useProductReviewCount } from "@/hooks/useReviewCounts";
 
 const ProductPage = () => {
   const { id } = useParams();
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { count: reviewCount } = useProductReviewCount(id || '');
   
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -201,8 +203,10 @@ const ProductPage = () => {
 
             {/* Review Count */}
             <div className="flex items-center gap-2 mb-4">
+              <Star className="w-4 h-4 fill-primary text-primary" />
+              <span className="font-medium">{reviewCount}</span>
               <span className="text-sm text-muted-foreground">
-                Reviews
+                {reviewCount === 1 ? 'Review' : 'Reviews'}
               </span>
             </div>
 
