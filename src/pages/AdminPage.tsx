@@ -46,19 +46,28 @@ export const AdminPage: React.FC = () => {
 
   const checkAdminStatus = async () => {
     try {
+      console.log('Checking admin status for user:', user?.id);
+      
       const { data: roles, error: rolesError } = await supabase
         .from('user_roles')
         .select('*')
         .eq('user_id', user?.id)
         .eq('role', 'admin');
 
-      if (rolesError) throw rolesError;
+      if (rolesError) {
+        console.error('Error fetching roles:', rolesError);
+        throw rolesError;
+      }
 
+      console.log('User roles found:', roles);
       const hasAdminRole = roles && roles.length > 0;
       setIsAdmin(hasAdminRole);
 
       if (hasAdminRole) {
+        console.log('User is admin, fetching admin data');
         await fetchAdminData();
+      } else {
+        console.log('User is not admin. User ID:', user?.id);
       }
     } catch (err) {
       console.error('Error checking admin status:', err);
@@ -166,6 +175,10 @@ export const AdminPage: React.FC = () => {
             <Shield className="h-4 w-4" />
             <AlertDescription>
               Access denied. You do not have administrator privileges.
+              <br />
+              <span className="text-xs text-muted-foreground mt-2 block">
+                Your user ID: {user?.id}
+              </span>
             </AlertDescription>
           </Alert>
         </div>
