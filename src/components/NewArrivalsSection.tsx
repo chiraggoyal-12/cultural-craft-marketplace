@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Heart, Eye, Play } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
-import { useWishlist } from '@/contexts/WishlistContext';
-import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ShoppingCart, Heart, Eye, Play } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const NewArrivalsSection = () => {
   const { addItem } = useCart();
@@ -14,91 +14,70 @@ const NewArrivalsSection = () => {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const { products } = useProductsWithMedia();
 
-  // Get new arrivals and mix with some featured if we need more products
+  // Get new arrivals and mix with some featured if we need more products (8 total for 4x2 grid)
   const newProducts = [
-    ...products.filter(p => p.newArrival),
-    ...products.filter(p => p.featured && !p.newArrival).slice(0, 3)
-  ].slice(0, 6);
+    ...products.filter((p) => p.newArrival),
+    ...products.filter((p) => p.featured && !p.newArrival).slice(0, 5),
+  ].slice(0, 8);
 
   return (
-    <section className="py-16 bg-muted/20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-            Just Added
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            New Arrivals & Curated Picks
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Fresh additions to our collection and handpicked favorites from our artisans
-          </p>
-        </div>
+    <section className="py-20 md:py-32 px-4 md:px-20 text-center relative">
+      {/* Header */}
+      <h2 className="font-serif text-2xl md:text-3xl font-semibold mb-8 md:mb-16 text-gray-900">
+        New Arrivals & Curated Picks
+      </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-          {newProducts.map((product) => (
-            <Card 
-              key={product.id} 
-              className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+      {/* Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto">
+        {newProducts.map((product, index) => {
+          // Apply curved corners to specific positions
+          const isTopLeft = index === 0;
+          const isBottomRight = index === 7;
+
+          const cornerClass = isTopLeft
+            ? "rounded-tl-3xl"
+            : isBottomRight
+            ? "rounded-br-3xl"
+            : "rounded-xl";
+
+          return (
+            <div
+              key={product.id}
+              className="flex flex-col items-center group cursor-pointer"
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
-              <div className="relative aspect-square overflow-hidden">
+              {/* Image */}
+              <div
+                className={`relative overflow-hidden ${cornerClass} w-full aspect-square`}
+              >
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
                 />
-                
-                {/* Badges */}
-                <div className="absolute top-3 left-3 flex flex-col gap-1">
-                  {product.newArrival && (
-                    <Badge className="bg-green-500 text-white text-xs">
-                      New
-                    </Badge>
-                  )}
-                  {product.featured && !product.newArrival && (
-                    <Badge className="bg-primary text-primary-foreground text-xs">
-                      Pick
-                    </Badge>
-                  )}
-                </div>
 
-                {/* Action buttons on hover */}
-                <div className={`absolute top-3 right-3 flex flex-col gap-2 transition-all duration-300 ${
-                  hoveredProduct === product.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
-                }`}>
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="h-8 w-8 bg-white/90 hover:bg-white"
-                    onClick={() => addToWishlist(product)}
-                  >
-                    <Heart 
-                      className={`h-3 w-3 ${isInWishlist(product.id) ? 'fill-primary text-primary' : ''}`} 
-                    />
-                  </Button>
-                  
-                  {/* Video play button - for future use */}
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="h-8 w-8 bg-white/90 hover:bg-white opacity-50"
-                  >
-                    <Play className="h-3 w-3" />
-                  </Button>
-                </div>
+                {/* NEW Badge */}
+                {product.newArrival && (
+                  <div className="absolute top-2 left-2 md:top-3 md:left-3">
+                    <span className="bg-black text-white text-xs font-medium px-2 py-1 tracking-wide">
+                      NEW
+                    </span>
+                  </div>
+                )}
 
-                {/* Quick actions on hover */}
-                <div className={`absolute bottom-3 left-3 right-3 transition-all duration-300 ${
-                  hoveredProduct === product.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}>
-                  <div className="flex gap-2">
+                {/* Hover Overlay with Actions - Hidden on mobile, shown on desktop */}
+                <div
+                  className={`absolute inset-0 bg-black/40 transition-all duration-300 hidden md:flex items-center justify-center ${
+                    hoveredProduct === product.id ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <div className="flex gap-3">
                     <Button
                       size="sm"
-                      variant="default"
-                      className="flex-1 shadow-lg text-sm font-medium"
+                      variant="secondary"
+                      className="bg-white text-black hover:bg-white/90 font-medium px-4 py-2 text-sm"
                       onClick={() => addItem(product)}
                     >
                       <ShoppingCart className="w-4 h-4 mr-2" />
@@ -106,8 +85,8 @@ const NewArrivalsSection = () => {
                     </Button>
                     <Button
                       size="sm"
-                      variant="secondary"
-                      className="shadow-lg px-4 text-sm font-medium"
+                      variant="outline"
+                      className="border-black text-black hover:bg-black hover:text-white font-medium px-4 py-2 text-sm"
                       asChild
                     >
                       <Link to={`/product/${product.id}`}>
@@ -119,41 +98,13 @@ const NewArrivalsSection = () => {
                 </div>
               </div>
 
-              <CardContent className="p-4">
-                <Link to={`/product/${product.id}`}>
-                  <h3 className="font-medium text-foreground mb-2 line-clamp-2 text-sm hover:text-primary transition-colors">
-                    {product.name}
-                  </h3>
-                </Link>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    {product.originalPrice && (
-                      <span className="text-xs text-muted-foreground line-through">
-                        ₹{product.originalPrice.toLocaleString()}
-                      </span>
-                    )}
-                    <span className="font-bold text-primary text-sm">
-                      ₹{product.price.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-                
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
-                  {product.material}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Button asChild size="lg" className="hover-scale">
-            <Link to="/shop">
-              View All Products
-            </Link>
-          </Button>
-        </div>
+              {/* Product Name */}
+              <h3 className="mt-2 md:mt-3 font-sans text-sm md:text-base text-black font-semibold tracking-wide uppercase text-center">
+                {product.name}
+              </h3>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

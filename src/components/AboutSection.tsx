@@ -26,7 +26,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-stone-50">
+    <section className="py-16 sm:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Content */}
@@ -55,8 +55,8 @@ const AboutSection = () => {
                 className="group hover:shadow-lg transition-all duration-300 border-border/30 bg-card"
               >
                 <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 bg-amber-100">
-                    <feature.icon className="w-7 h-7 text-amber-700" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 bg-muted">
+                    <feature.icon className="w-7 h-7 text-foreground" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-semibold text-foreground mb-3 text-lg">
                     {feature.title}

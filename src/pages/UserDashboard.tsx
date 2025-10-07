@@ -1,20 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { User, MapPin, Package, Heart, Plus, Edit, Trash2, Star, Calendar } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
-import { Link } from 'react-router-dom';
-import { Product, getProductById } from '@/data/products';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  User,
+  MapPin,
+  Package,
+  Heart,
+  Plus,
+  Edit,
+  Trash2,
+  Star,
+  Calendar,
+} from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
+import { Product, getProductById } from "@/data/products";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 interface Address {
   id: string;
@@ -62,21 +78,22 @@ const UserDashboard: React.FC = () => {
   const [showAddressDialog, setShowAddressDialog] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
   const [addressForm, setAddressForm] = useState({
-    title: '',
-    street_address: '',
-    apartment: '',
-    city: '',
-    state: '',
-    postal_code: '',
-    country: 'US',
-    is_default: false
+    title: "",
+    street_address: "",
+    apartment: "",
+    city: "",
+    state: "",
+    postal_code: "",
+    country: "US",
+    is_default: false,
   });
 
   const [profileForm, setProfileForm] = useState({
-    display_name: '',
-    phone: ''
+    display_name: "",
+    phone: "",
   });
 
   useEffect(() => {
@@ -85,75 +102,143 @@ const UserDashboard: React.FC = () => {
     }
   }, [user]);
 
+  // Refresh data when component becomes visible (e.g., when navigating back from admin)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && user) {
+        console.log("Page became visible, refreshing data");
+        fetchUserData();
+      }
+    };
+
+    const handleFocus = () => {
+      if (user) {
+        console.log("Window focused, refreshing data");
+        fetchUserData();
+      }
+    };
+
+    // Also refresh when the component mounts or when user changes
+    if (user) {
+      console.log("User changed or component mounted, refreshing data");
+      fetchUserData();
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [user]);
+
+  // Add real-time subscription to orders table
+  useEffect(() => {
+    if (!user) return;
+
+    console.log("Setting up real-time subscription for orders");
+    
+    const channel = supabase
+      .channel('orders_changes')
+      .on('postgres_changes', 
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'orders',
+          filter: `user_id=eq.${user.id}`
+        }, 
+        (payload) => {
+          console.log('Order change detected:', payload);
+          fetchUserData(); // Refresh data when any order changes
+        }
+      )
+      .subscribe();
+
+    return () => {
+      console.log("Cleaning up real-time subscription");
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
   const fetchUserData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch profile
       const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user!.id)
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user!.id)
         .single();
-      
+
       setProfile(profileData);
       setProfileForm({
-        display_name: profileData?.display_name || '',
-        phone: profileData?.phone || ''
+        display_name: profileData?.display_name || "",
+        phone: profileData?.phone || "",
       });
 
       // Fetch addresses
       const { data: addressData } = await supabase
-        .from('addresses')
-        .select('*')
-        .eq('user_id', user!.id)
-        .order('is_default', { ascending: false });
-      
+        .from("addresses")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("is_default", { ascending: false });
+
       setAddresses(addressData || []);
 
       // Fetch orders
-      const { data: orderData } = await supabase
-        .from('orders')
-        .select(`
-          *,
-          order_items(*)
-        `)
-        .eq('user_id', user!.id)
-        .order('created_at', { ascending: false });
-      
+      console.log("Fetching orders for user:", user!.id);
+      const { data: orderData, error: orderError } = await supabase
+        .from("orders")
+        .select(
+          `
+            *,
+            order_items(*)
+          `
+        )
+        .eq("user_id", user!.id)
+        .order("created_at", { ascending: false });
+
+      if (orderError) {
+        console.error("Error fetching orders:", orderError);
+      } else {
+        console.log("Orders fetched:", orderData);
+      }
+
       setOrders(orderData || []);
 
       // Fetch wishlist
       const { data: wishlistData } = await supabase
-        .from('wishlist_items')
-        .select('*')
-        .eq('user_id', user!.id)
-        .order('added_at', { ascending: false });
-      
-      setWishlist(wishlistData || []);
+        .from("wishlist_items")
+        .select("*")
+        .eq("user_id", user!.id)
+        .order("added_at", { ascending: false });
 
+      setWishlist(wishlistData || []);
     } catch (error) {
-      console.error('Error fetching user data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+        setLastRefresh(new Date());
+      }
+    };
 
   const updateProfile = async () => {
     try {
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
           display_name: profileForm.display_name,
-          phone: profileForm.phone
+          phone: profileForm.phone,
         })
-        .eq('user_id', user!.id);
+        .eq("user_id", user!.id);
 
       if (error) throw error;
 
       toast({
         title: "Profile updated",
-        description: "Your profile has been updated successfully."
+        description: "Your profile has been updated successfully.",
       });
 
       fetchUserData();
@@ -161,7 +246,7 @@ const UserDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -171,46 +256,46 @@ const UserDashboard: React.FC = () => {
       if (editingAddress) {
         // Update existing address
         const { error } = await supabase
-          .from('addresses')
+          .from("addresses")
           .update(addressForm)
-          .eq('id', editingAddress.id);
-        
+          .eq("id", editingAddress.id);
+
         if (error) throw error;
       } else {
         // Create new address
-        const { error } = await supabase
-          .from('addresses')
-          .insert({
-            ...addressForm,
-            user_id: user!.id
-          });
-        
+        const { error } = await supabase.from("addresses").insert({
+          ...addressForm,
+          user_id: user!.id,
+        });
+
         if (error) throw error;
       }
 
       toast({
         title: editingAddress ? "Address updated" : "Address added",
-        description: `Address has been ${editingAddress ? 'updated' : 'added'} successfully.`
+        description: `Address has been ${
+          editingAddress ? "updated" : "added"
+        } successfully.`,
       });
 
       setShowAddressDialog(false);
       setEditingAddress(null);
       setAddressForm({
-        title: '',
-        street_address: '',
-        apartment: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: 'US',
-        is_default: false
+        title: "",
+        street_address: "",
+        apartment: "",
+        city: "",
+        state: "",
+        postal_code: "",
+        country: "US",
+        is_default: false,
       });
       fetchUserData();
     } catch (error: any) {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -218,15 +303,15 @@ const UserDashboard: React.FC = () => {
   const deleteAddress = async (addressId: string) => {
     try {
       const { error } = await supabase
-        .from('addresses')
+        .from("addresses")
         .delete()
-        .eq('id', addressId);
+        .eq("id", addressId);
 
       if (error) throw error;
 
       toast({
         title: "Address deleted",
-        description: "Address has been deleted successfully."
+        description: "Address has been deleted successfully.",
       });
 
       fetchUserData();
@@ -234,7 +319,7 @@ const UserDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -242,15 +327,15 @@ const UserDashboard: React.FC = () => {
   const removeFromWishlist = async (itemId: string) => {
     try {
       const { error } = await supabase
-        .from('wishlist_items')
+        .from("wishlist_items")
         .delete()
-        .eq('id', itemId);
+        .eq("id", itemId);
 
       if (error) throw error;
 
       toast({
         title: "Removed from wishlist",
-        description: "Item has been removed from your wishlist."
+        description: "Item has been removed from your wishlist.",
       });
 
       fetchUserData();
@@ -258,20 +343,27 @@ const UserDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'confirmed': return 'bg-blue-100 text-blue-800';
-      case 'processing': return 'bg-purple-100 text-purple-800';
-      case 'shipped': return 'bg-indigo-100 text-indigo-800';
-      case 'delivered': return 'bg-green-100 text-green-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "confirmed":
+        return "bg-blue-100 text-blue-800";
+      case "processing":
+        return "bg-purple-100 text-purple-800";
+      case "shipped":
+        return "bg-indigo-100 text-indigo-800";
+      case "delivered":
+        return "bg-green-100 text-green-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -284,7 +376,9 @@ const UserDashboard: React.FC = () => {
             <CardContent className="text-center p-8">
               <User className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <h2 className="text-xl font-semibold mb-2">Sign in required</h2>
-              <p className="text-muted-foreground mb-4">Please sign in to access your dashboard.</p>
+              <p className="text-muted-foreground mb-4">
+                Please sign in to access your dashboard.
+              </p>
               <Button asChild>
                 <Link to="/auth">Sign In</Link>
               </Button>
@@ -318,11 +412,13 @@ const UserDashboard: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      
+
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">My Account</h1>
-          <p className="text-muted-foreground">Manage your profile, orders, and preferences</p>
+          <p className="text-muted-foreground">
+            Manage your profile, orders, and preferences
+          </p>
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
@@ -349,7 +445,12 @@ const UserDashboard: React.FC = () => {
                     <Input
                       id="display_name"
                       value={profileForm.display_name}
-                      onChange={(e) => setProfileForm(prev => ({ ...prev, display_name: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileForm((prev) => ({
+                          ...prev,
+                          display_name: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div>
@@ -361,7 +462,12 @@ const UserDashboard: React.FC = () => {
                     <Input
                       id="phone"
                       value={profileForm.phone}
-                      onChange={(e) => setProfileForm(prev => ({ ...prev, phone: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileForm((prev) => ({
+                          ...prev,
+                          phone: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -374,10 +480,27 @@ const UserDashboard: React.FC = () => {
           <TabsContent value="orders">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Package className="h-5 w-5" />
-                  Order History
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <Package className="h-5 w-5" />
+                    Order History
+                  </CardTitle>
+                   <div className="flex flex-col items-end gap-1">
+                     <Button
+                       variant="outline"
+                       size="sm"
+                       onClick={fetchUserData}
+                       disabled={loading}
+                     >
+                       {loading ? "Refreshing..." : "Refresh"}
+                     </Button>
+                     {lastRefresh && (
+                       <p className="text-xs text-muted-foreground">
+                         Last updated: {lastRefresh.toLocaleTimeString()}
+                       </p>
+                     )}
+                   </div>
+                </div>
               </CardHeader>
               <CardContent>
                 {orders.length === 0 ? (
@@ -395,33 +518,44 @@ const UserDashboard: React.FC = () => {
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-4">
                             <div>
-                              <h4 className="font-semibold">Order #{order.order_number}</h4>
+                              <h4 className="font-semibold">
+                                Order #{order.order_number}
+                              </h4>
                               <p className="text-sm text-muted-foreground">
-                                {new Date(order.created_at).toLocaleDateString()}
+                                {new Date(
+                                  order.created_at
+                                ).toLocaleDateString()}
                               </p>
                             </div>
                             <div className="text-right">
                               <Badge className={getStatusColor(order.status)}>
-                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                {order.status.charAt(0).toUpperCase() +
+                                  order.status.slice(1)}
                               </Badge>
                               <p className="text-lg font-semibold mt-1">
                                 ${order.total_amount.toFixed(2)}
                               </p>
                             </div>
                           </div>
-                          
+
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {order.order_items.slice(0, 3).map((item) => (
-                              <div key={item.product_id} className="flex items-center gap-3">
+                              <div
+                                key={item.product_id}
+                                className="flex items-center gap-3"
+                              >
                                 <img
-                                  src={item.product_image || '/placeholder.jpg'}
+                                  src={item.product_image || "/placeholder.jpg"}
                                   alt={item.product_name}
                                   className="w-12 h-12 object-cover rounded border"
                                 />
                                 <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-sm truncate">{item.product_name}</p>
+                                  <p className="font-medium text-sm truncate">
+                                    {item.product_name}
+                                  </p>
                                   <p className="text-xs text-muted-foreground">
-                                    Qty: {item.quantity} × ₹{item.unit_price.toLocaleString()}
+                                    Qty: {item.quantity} × ₹
+                                    {item.unit_price.toLocaleString()}
                                   </p>
                                 </div>
                               </div>
@@ -432,10 +566,14 @@ const UserDashboard: React.FC = () => {
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="flex gap-2 mt-4">
-                            <Button variant="outline" size="sm">View Details</Button>
-                            <Button variant="outline" size="sm">Reorder</Button>
+                            <Button variant="outline" size="sm">
+                              View Details
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              Reorder
+                            </Button>
                           </div>
                         </CardContent>
                       </Card>
@@ -455,7 +593,10 @@ const UserDashboard: React.FC = () => {
                     <MapPin className="h-5 w-5" />
                     Saved Addresses
                   </CardTitle>
-                  <Dialog open={showAddressDialog} onOpenChange={setShowAddressDialog}>
+                  <Dialog
+                    open={showAddressDialog}
+                    onOpenChange={setShowAddressDialog}
+                  >
                     <DialogTrigger asChild>
                       <Button>
                         <Plus className="h-4 w-4 mr-2" />
@@ -465,7 +606,7 @@ const UserDashboard: React.FC = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle>
-                          {editingAddress ? 'Edit Address' : 'Add New Address'}
+                          {editingAddress ? "Edit Address" : "Add New Address"}
                         </DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
@@ -475,7 +616,12 @@ const UserDashboard: React.FC = () => {
                             id="title"
                             placeholder="Home, Work, etc."
                             value={addressForm.title}
-                            onChange={(e) => setAddressForm(prev => ({ ...prev, title: e.target.value }))}
+                            onChange={(e) =>
+                              setAddressForm((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                              }))
+                            }
                           />
                         </div>
                         <div>
@@ -483,15 +629,27 @@ const UserDashboard: React.FC = () => {
                           <Input
                             id="street"
                             value={addressForm.street_address}
-                            onChange={(e) => setAddressForm(prev => ({ ...prev, street_address: e.target.value }))}
+                            onChange={(e) =>
+                              setAddressForm((prev) => ({
+                                ...prev,
+                                street_address: e.target.value,
+                              }))
+                            }
                           />
                         </div>
                         <div>
-                          <Label htmlFor="apartment">Apartment/Suite (Optional)</Label>
+                          <Label htmlFor="apartment">
+                            Apartment/Suite (Optional)
+                          </Label>
                           <Input
                             id="apartment"
                             value={addressForm.apartment}
-                            onChange={(e) => setAddressForm(prev => ({ ...prev, apartment: e.target.value }))}
+                            onChange={(e) =>
+                              setAddressForm((prev) => ({
+                                ...prev,
+                                apartment: e.target.value,
+                              }))
+                            }
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -500,7 +658,12 @@ const UserDashboard: React.FC = () => {
                             <Input
                               id="city"
                               value={addressForm.city}
-                              onChange={(e) => setAddressForm(prev => ({ ...prev, city: e.target.value }))}
+                              onChange={(e) =>
+                                setAddressForm((prev) => ({
+                                  ...prev,
+                                  city: e.target.value,
+                                }))
+                              }
                             />
                           </div>
                           <div>
@@ -508,7 +671,12 @@ const UserDashboard: React.FC = () => {
                             <Input
                               id="state"
                               value={addressForm.state}
-                              onChange={(e) => setAddressForm(prev => ({ ...prev, state: e.target.value }))}
+                              onChange={(e) =>
+                                setAddressForm((prev) => ({
+                                  ...prev,
+                                  state: e.target.value,
+                                }))
+                              }
                             />
                           </div>
                         </div>
@@ -518,7 +686,12 @@ const UserDashboard: React.FC = () => {
                             <Input
                               id="postal_code"
                               value={addressForm.postal_code}
-                              onChange={(e) => setAddressForm(prev => ({ ...prev, postal_code: e.target.value }))}
+                              onChange={(e) =>
+                                setAddressForm((prev) => ({
+                                  ...prev,
+                                  postal_code: e.target.value,
+                                }))
+                              }
                             />
                           </div>
                           <div>
@@ -526,12 +699,17 @@ const UserDashboard: React.FC = () => {
                             <Input
                               id="country"
                               value={addressForm.country}
-                              onChange={(e) => setAddressForm(prev => ({ ...prev, country: e.target.value }))}
+                              onChange={(e) =>
+                                setAddressForm((prev) => ({
+                                  ...prev,
+                                  country: e.target.value,
+                                }))
+                              }
                             />
                           </div>
                         </div>
                         <Button onClick={saveAddress} className="w-full">
-                          {editingAddress ? 'Update' : 'Save'} Address
+                          {editingAddress ? "Update" : "Save"} Address
                         </Button>
                       </div>
                     </DialogContent>
@@ -559,7 +737,7 @@ const UserDashboard: React.FC = () => {
                                   setEditingAddress(address);
                                   setAddressForm({
                                     ...address,
-                                    apartment: address.apartment || ''
+                                    apartment: address.apartment || "",
                                   });
                                   setShowAddressDialog(true);
                                 }}
@@ -578,11 +756,16 @@ const UserDashboard: React.FC = () => {
                           <div className="text-sm text-muted-foreground space-y-1">
                             <p>{address.street_address}</p>
                             {address.apartment && <p>{address.apartment}</p>}
-                            <p>{address.city}, {address.state} {address.postal_code}</p>
+                            <p>
+                              {address.city}, {address.state}{" "}
+                              {address.postal_code}
+                            </p>
                             <p>{address.country}</p>
                           </div>
                           {address.is_default && (
-                            <Badge variant="secondary" className="mt-2">Default</Badge>
+                            <Badge variant="secondary" className="mt-2">
+                              Default
+                            </Badge>
                           )}
                         </CardContent>
                       </Card>
@@ -616,7 +799,7 @@ const UserDashboard: React.FC = () => {
                     {wishlist.map((item) => {
                       const product = getProductById(item.product_id);
                       if (!product) return null;
-                      
+
                       return (
                         <Card key={item.id}>
                           <CardContent className="p-4">
@@ -635,23 +818,34 @@ const UserDashboard: React.FC = () => {
                                 <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
-                            <h4 className="font-semibold truncate">{product.name}</h4>
+                            <h4 className="font-semibold truncate">
+                              {product.name}
+                            </h4>
                             <div className="flex items-center gap-2 mt-1">
                               <span className="text-lg font-bold text-primary">
                                 ₹{product.price.toLocaleString()}
                               </span>
-                              {item.price_when_added && item.price_when_added !== product.price && (
-                                <Badge variant="destructive" className="text-xs">
-                                  {product.price < item.price_when_added ? 'Price Drop!' : 'Price Up'}
-                                </Badge>
-                              )}
+                              {item.price_when_added &&
+                                item.price_when_added !== product.price && (
+                                  <Badge
+                                    variant="destructive"
+                                    className="text-xs"
+                                  >
+                                    {product.price < item.price_when_added
+                                      ? "Price Drop!"
+                                      : "Price Up"}
+                                  </Badge>
+                                )}
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">
-                              Added {new Date(item.added_at).toLocaleDateString()}
+                              Added{" "}
+                              {new Date(item.added_at).toLocaleDateString()}
                             </p>
                             <div className="flex gap-2 mt-3">
                               <Button size="sm" className="flex-1" asChild>
-                                <Link to={`/product/${product.id}`}>View Product</Link>
+                                <Link to={`/product/${product.id}`}>
+                                  View Product
+                                </Link>
                               </Button>
                             </div>
                           </CardContent>
@@ -665,7 +859,7 @@ const UserDashboard: React.FC = () => {
           </TabsContent>
         </Tabs>
       </main>
-      
+
       <Footer />
     </div>
   );

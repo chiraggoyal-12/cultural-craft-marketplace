@@ -10,27 +10,38 @@ const NewsletterSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await subscribe(email, 'home');
+    const result = await subscribe(email, "home");
     if (result.success) {
       setEmail("");
     }
   };
 
   return (
-    <section className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <Card className="bg-gradient-hero border-0 shadow-elegant overflow-hidden">
-          <CardContent className="p-8 md:p-12 text-center text-white">
+    <section
+      className="bg-background"
+      style={{
+        backgroundImage: 'url(/src/assets/new-collection-bg1.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="container mx-auto px-4 py-32 md:py-48 lg:py-64">
+        <Card className="bg-transparent border-transparent shadow-none overflow-hidden">
+          <CardContent className="p-10 md:p-16 text-center text-foreground">
             <div className="max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Stay Connected with Handora
               </h2>
-              <p className="text-white/90 mb-8 text-lg leading-relaxed">
-                Discover stories behind our crafts, meet the artisans, and be the first 
-                to know about new collections and exclusive offers.
+              <p className="text-muted-foreground mb-8 text-lg leading-relaxed">
+                Discover stories behind our crafts, meet the artisans, and be
+                the first to know about new collections and exclusive offers.
               </p>
-              
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+              >
                 <Input
                   type="email"
                   placeholder="Enter your email address"
@@ -38,19 +49,19 @@ const NewsletterSection = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="flex-1 bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 backdrop-blur-sm"
+                  className="flex-1 bg-background border-border text-foreground placeholder:text-muted-foreground"
                 />
-                <Button 
+                <Button
                   type="submit"
                   size="lg"
                   disabled={isLoading}
-                  className="bg-white text-foreground hover:bg-white/90 font-medium shadow-lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
                 >
                   {isLoading ? "Subscribing..." : "Subscribe"}
                 </Button>
               </form>
-              
-              <p className="text-white/70 text-sm mt-4">
+
+              <p className="text-muted-foreground text-sm mt-4">
                 Join 5,000+ craft lovers. Unsubscribe anytime.
               </p>
             </div>

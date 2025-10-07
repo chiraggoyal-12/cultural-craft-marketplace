@@ -8,71 +8,84 @@ All colors MUST be HSL format for proper theming.
 
 @layer base {
   :root {
-    /* Brand Colors - Warm Earthy Palette */
-    --background: 42 33% 97%; /* Warm off-white */
-    --foreground: 25 20% 15%; /* Deep warm brown */
+    /* Gaatha-inspired Color Palette - Clean & Earthy */
+    --background: 45 85% 95%; /* #fdf4d6 - Pale yellowish-white */
+    --foreground: 0 0% 0%; /* Pure black for primary text */
 
-    --card: 42 33% 97%;
-    --card-foreground: 25 20% 15%;
+    --card: 45 85% 95%;
+    --card-foreground: 0 0% 0%;
 
-    --popover: 42 33% 97%;
-    --popover-foreground: 25 20% 15%;
+    --popover: 45 85% 95%;
+    --popover-foreground: 0 0% 0%;
 
-    /* Primary - Terracotta */
-    --primary: 19 69% 52%;
-    --primary-foreground: 42 33% 97%;
+    /* Primary - Dark Gray/Black for buttons and accents */
+    --primary: 0 0% 20%;
+    --primary-foreground: 45 85% 95%;
 
-    /* Secondary - Forest Green */
-    --secondary: 120 61% 34%;
-    --secondary-foreground: 42 33% 97%;
+    /* Secondary - Dark Gray for secondary elements */
+    --secondary: 0 0% 40%;
+    --secondary-foreground: 45 85% 95%;
 
-    /* Accent - Muted Gold */
-    --accent: 43 74% 66%;
-    --accent-foreground: 25 20% 15%;
+    /* Accent - Dark reddish-brown for important elements */
+    --accent: 15 30% 25%;
+    --accent-foreground: 45 85% 95%;
 
-    /* Muted - Warm Beige */
-    --muted: 60 9% 95%;
-    --muted-foreground: 25 15% 45%;
+    /* Muted - Light warm beige with yellowish tint */
+    --muted: 45 50% 92%;
+    --muted-foreground: 0 0% 40%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 42 33% 97%;
+    --destructive-foreground: 45 85% 95%;
 
-    --border: 43 30% 90%;
-    --input: 43 30% 88%;
-    --ring: 19 69% 52%;
+    --border: 45 30% 88%;
+    --input: 45 30% 92%;
+    --ring: 0 0% 20%;
 
-    /* Custom Brand Variables */
-    --terracotta: 19 69% 52%;
-    --terracotta-light: 19 69% 70%;
-    --terracotta-dark: 19 69% 40%;
-    
-    --forest: 120 61% 34%;
-    --forest-light: 120 61% 50%;
-    --forest-dark: 120 61% 25%;
-    
-    --gold: 43 74% 66%;
-    --gold-light: 43 74% 80%;
-    --gold-dark: 43 74% 50%;
-    
-    --warm-beige: 60 9% 95%;
-    --warm-brown: 25 20% 15%;
-    
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--terracotta)) 0%, hsl(var(--gold)) 100%);
-    --gradient-warm: linear-gradient(180deg, hsl(var(--warm-beige)) 0%, hsl(var(--background)) 100%);
-    --gradient-earth: linear-gradient(45deg, hsl(var(--terracotta-light)) 0%, hsl(var(--forest-light)) 50%, hsl(var(--gold-light)) 100%);
-    
-    /* Shadows */
-    --shadow-warm: 0 4px 20px hsl(var(--terracotta) / 0.15);
-    --shadow-elegant: 0 8px 32px hsl(var(--warm-brown) / 0.1);
-    --shadow-cultural: 0 2px 8px hsl(var(--forest) / 0.2);
-    
+    /* Custom Brand Variables - Gaatha inspired */
+    --terracotta: 15 30% 25%; /* Dark reddish-brown */
+    --terracotta-light: 15 30% 35%;
+    --terracotta-dark: 15 30% 15%;
+
+    --forest: 0 0% 20%; /* Dark gray/black */
+    --forest-light: 0 0% 30%;
+    --forest-dark: 0 0% 10%;
+
+    --gold: 0 0% 40%; /* Dark gray */
+    --gold-light: 0 0% 50%;
+    --gold-dark: 0 0% 30%;
+
+    --warm-beige: 45 50% 92%;
+    --warm-brown: 0 0% 0%;
+
+    /* Gradients - Gaatha inspired subtle gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(var(--terracotta)) 0%,
+      hsl(var(--forest)) 100%
+    );
+    --gradient-warm: linear-gradient(
+      180deg,
+      hsl(var(--warm-beige)) 0%,
+      hsl(var(--background)) 100%
+    );
+    --gradient-earth: linear-gradient(
+      45deg,
+      hsl(var(--terracotta)) 0%,
+      hsl(var(--forest)) 50%,
+      hsl(var(--gold)) 100%
+    );
+
+    /* Shadows - Subtle and clean like Gaatha */
+    --shadow-warm: 0 2px 8px hsl(var(--terracotta) / 0.1);
+    --shadow-elegant: 0 4px 16px hsl(var(--warm-brown) / 0.08);
+    --shadow-cultural: 0 1px 4px hsl(var(--forest) / 0.15);
+
     /* Typography Scale */
     --font-hero: 3.5rem;
     --font-heading: 2.5rem;
     --font-subheading: 1.5rem;
     --font-body: 1rem;
-    
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -97,41 +110,41 @@ All colors MUST be HSL format for proper theming.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 5%;
+    --foreground: 45 85% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 45 85% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 45 85% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 45 85% 95%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 45 85% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 45 85% 95%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 45 85% 95%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 45 85% 95%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 45 85% 95%;
+    --sidebar-primary: 15 30% 25%;
+    --sidebar-primary-foreground: 45 85% 95%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 45 85% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 45 85% 95%;
   }
 }
 
@@ -139,8 +152,78 @@ All colors MUST be HSL format for proper theming.
   * {
     @apply border-border;
   }
-
+  
+  html {
+    scroll-padding-top: 2rem;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  
+  /* Custom Scrollbar - Apple-like */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+  
+  
+  /* Enhanced transitions for Apple-like feel */
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .smooth-transform {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  
+  
+  /* Parallax container */
+  .parallax-container {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    .scroll-snap-container {
+      scroll-snap-type: none;
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    .parallax-container {
+      transform: none !important;
+    }
   }
 }

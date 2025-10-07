@@ -6,6 +6,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import PredictiveSearch from "@/components/PredictiveSearch";
 import { Product } from "@/data/products";
+import handoraLogo from "@/assets/handora-logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,32 +20,46 @@ const Header = () => {
 
   const categories = [
     { name: "Culinary Crafts", slug: "culinary-crafts" },
-    { name: "Divine Artistry", slug: "divine-artistry" }, 
+    { name: "Divine Artistry", slug: "divine-artistry" },
     { name: "Artisan Home & Serenity", slug: "artisan-home-serenity" },
-    { name: "Crafted Sip & Smoke", slug: "crafted-sip-smoke" }
+    { name: "Crafted Sip & Smoke", slug: "crafted-sip-smoke" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      {/* Top Header */}
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border smooth-transition">
+      {/* Logo Section - Centered */}
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-2">
-              <h1 className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-                Handora
-              </h1>
-            </Link>
-          </div>
+        <div className="flex justify-center">
+          <Link to="/">
+            <img
+              src={handoraLogo}
+              alt="Handora"
+              className="h-16 w-auto smooth-transition hover:scale-105"
+            />
+          </Link>
+        </div>
+      </div>
 
+      {/* Main Navigation */}
+      <div className="container mx-auto px-4 pb-4">
+        <div className="flex items-center justify-between">
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <div className="relative group">
-              <button className="text-foreground hover:text-primary transition-colors flex items-center">
+              <button className="text-foreground hover:text-primary smooth-transition flex items-center">
                 Shop
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
               <div className="absolute top-full left-0 mt-2 w-64 bg-card rounded-lg shadow-elegant border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -68,36 +83,51 @@ const Header = () => {
                 </div>
               </div>
             </div>
-            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/about"
+              className="text-foreground hover:text-primary smooth-transition"
+            >
               About Us
             </Link>
-            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/blog"
+              className="text-foreground hover:text-primary smooth-transition"
+            >
               Journal
             </Link>
-            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/contact"
+              className="text-foreground hover:text-primary smooth-transition"
+            >
               Contact
             </Link>
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden md:flex items-center flex-1 max-w-sm mx-8">
-            <PredictiveSearch 
-              onProductSelect={handleProductSelect}
-              className="w-full"
-            />
-          </div>
-
-          {/* Right Icons */}
+          {/* Right Section - Search Bar + Icons */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="hidden sm:flex" asChild>
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center max-w-sm">
+              <PredictiveSearch
+                onProductSelect={handleProductSelect}
+                className="w-full"
+              />
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden sm:flex"
+              asChild
+            >
               <Link to="/wishlist">
                 <Heart className="w-5 h-5" />
               </Link>
             </Button>
             {/* User Account */}
             {user ? (
-              <Button variant="ghost" size="icon" onClick={signOut} title="Sign Out">
-                <User className="w-5 h-5" />
+              <Button variant="ghost" size="icon" asChild title="My Account">
+                <Link to="/dashboard">
+                  <User className="w-5 h-5" />
+                </Link>
               </Button>
             ) : (
               <Button variant="ghost" size="icon" asChild>
@@ -116,7 +146,7 @@ const Header = () => {
                 )}
               </Link>
             </Button>
-            
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -124,14 +154,18 @@ const Header = () => {
               className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </Button>
           </div>
         </div>
 
         {/* Mobile Search */}
         <div className="md:hidden mt-4">
-          <PredictiveSearch 
+          <PredictiveSearch
             onProductSelect={handleProductSelect}
             className="w-full"
           />
@@ -143,7 +177,9 @@ const Header = () => {
         <div className="lg:hidden border-t border-border bg-card">
           <nav className="container mx-auto px-4 py-4 space-y-4">
             <div className="space-y-2">
-              <span className="block text-sm font-medium text-muted-foreground">Shop Categories</span>
+              <span className="block text-sm font-medium text-muted-foreground">
+                Shop Categories
+              </span>
               <Link
                 to="/shop"
                 className="block pl-4 text-foreground hover:text-primary transition-colors font-medium"
@@ -161,13 +197,22 @@ const Header = () => {
                 </Link>
               ))}
             </div>
-            <Link to="/about" className="block text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/about"
+              className="block text-foreground hover:text-primary transition-colors"
+            >
               About Us
             </Link>
-            <Link to="/blog" className="block text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/blog"
+              className="block text-foreground hover:text-primary transition-colors"
+            >
               Journal
             </Link>
-            <Link to="/contact" className="block text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/contact"
+              className="block text-foreground hover:text-primary transition-colors"
+            >
               Contact
             </Link>
           </nav>

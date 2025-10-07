@@ -3,6 +3,7 @@ import { Heart, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
+import handoraLogo from "@/assets/handora-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,7 @@ const Footer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await subscribe(email, 'footer');
+    const result = await subscribe(email, "footer");
     if (result.success) {
       setEmail("");
     }
@@ -27,22 +28,34 @@ const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">Explore</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/shop/culinary-crafts" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/shop/culinary-crafts"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Culinary Crafts
                 </a>
               </li>
               <li>
-                <a href="/shop/divine-artistry" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/shop/divine-artistry"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Divine Artistry
                 </a>
               </li>
               <li>
-                <a href="/shop/artisan-home-serenity" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/shop/artisan-home-serenity"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Artisan Home & Serenity
                 </a>
               </li>
               <li>
-                <a href="/shop/crafted-sip-smoke" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/shop/crafted-sip-smoke"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Crafted Sip & Smoke
                 </a>
               </li>
@@ -54,22 +67,34 @@ const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">About</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/about"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Our Story
                 </a>
               </li>
               <li>
-                <a href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/blog"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Journal
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/contact"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Contact
                 </a>
               </li>
               <li>
-                <a href="/artisans" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/artisans"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Meet Our Artisans
                 </a>
               </li>
@@ -81,27 +106,42 @@ const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">Help</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/faq"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   FAQs
                 </a>
               </li>
               <li>
-                <a href="/shipping" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/shipping"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Shipping & Returns
                 </a>
               </li>
               <li>
-                <a href="/payment" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/payment"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Payment Methods
                 </a>
               </li>
               <li>
-                <a href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+                <a
+                  href="/terms"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Terms & Conditions
                 </a>
               </li>
@@ -112,15 +152,20 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Connect</h3>
             <div className="flex space-x-3 mb-4">
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-primary/10"
+              >
                 <Instagram className="w-5 h-5" />
               </Button>
             </div>
-            
+
             {/* Newsletter Signup */}
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                Stay connected with Handora. Discover stories, culture, and exclusive offers.
+                Stay connected with Handora. Discover stories, culture, and
+                exclusive offers.
               </p>
               <form onSubmit={handleSubmit} className="flex space-x-2">
                 <Input
@@ -132,9 +177,9 @@ const Footer = () => {
                   disabled={isLoading}
                   className="bg-background/50 border-border text-sm"
                 />
-                <Button 
-                  type="submit" 
-                  size="sm" 
+                <Button
+                  type="submit"
+                  size="sm"
                   disabled={isLoading}
                   className="bg-primary hover:bg-primary/90"
                 >
@@ -148,18 +193,17 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <h2 className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-                Handora
-              </h2>
+            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+              <img src={handoraLogo} alt="Handora" className="h-8 w-auto" />
               <span className="text-sm text-muted-foreground">
                 Connecting Cultures, One Craft at a Time
               </span>
             </div>
-            
+
             <p className="text-sm text-muted-foreground flex items-center">
               © Handora {currentYear}. All Rights Reserved. Crafted with{" "}
-              <Heart className="w-4 h-4 mx-1 text-primary fill-current" /> by Handora.
+              <Heart className="w-4 h-4 mx-1 text-primary fill-current" /> by
+              Handora.
             </p>
           </div>
         </div>
