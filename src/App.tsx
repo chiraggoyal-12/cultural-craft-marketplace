@@ -29,6 +29,7 @@ import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import WelcomePopup from "./components/WelcomePopup";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
+              <WelcomePopup />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/shop" element={<ShopPage />} />
@@ -53,8 +55,14 @@ const App = () => (
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/admin" element={<AdminPage />} />
-                <Route path="/admin/product-media" element={<ProductMediaAdmin />} />
-                <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+                <Route
+                  path="/admin/product-media"
+                  element={<ProductMediaAdmin />}
+                />
+                <Route
+                  path="/order-confirmation"
+                  element={<OrderConfirmationPage />}
+                />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:storyId" element={<StoryDetailPage />} />

@@ -24,23 +24,23 @@ export const categories = {
   "culinary-crafts": {
     name: "Culinary Crafts",
     description: "Elevate your dining with handmade elegance",
-    subcategories: ["Cake Stands", "Serving Bowls", "Pottery"]
+    subcategories: ["Cake Stands", "Serving Bowls", "Pottery"],
   },
   "divine-artistry": {
-    name: "Divine Artistry", 
+    name: "Divine Artistry",
     description: "Spiritual art pieces that inspire",
-    subcategories: ["Ganesh Sculptures", "Krishna Art", "Spiritual Figurines"]
+    subcategories: ["Ganesh Sculptures", "Krishna Art", "Spiritual Figurines"],
   },
   "artisan-home-serenity": {
     name: "Artisan Home & Serenity",
-    description: "Transform your space with cultural beauty", 
-    subcategories: ["Candle Holders", "Soap Dishes", "Urlis", "Oil Diffusers"]
+    description: "Transform your space with cultural beauty",
+    subcategories: ["Candle Holders", "Soap Dishes", "Urlis", "Oil Diffusers"],
   },
   "crafted-sip-smoke": {
     name: "Crafted Sip & Smoke",
     description: "Artisanal pieces for refined moments",
-    subcategories: ["Wine Chillers", "Coasters", "Ashtrays"]
-  }
+    subcategories: ["Wine Chillers", "Coasters", "Ashtrays"],
+  },
 };
 
 export const products: Product[] = [
@@ -53,37 +53,43 @@ export const products: Product[] = [
     subcategory: "Cake Stands",
     image: "/src/assets/products/banswara-cake-stand.jpg",
     images: ["/src/assets/products/banswara-cake-stand.jpg"],
-    description: "Handcrafted from premium Banswara stone, this elegant cake stand brings natural beauty to your dining experience. Each piece showcases unique veining and texture.",
+    description:
+      "Handcrafted from premium Banswara stone, this elegant cake stand brings natural beauty to your dining experience. Each piece showcases unique veining and texture.",
     shortDescription: "Premium Banswara stone cake stand with natural texture",
-    artisanStory: "Crafted by skilled artisans in Rajasthan using traditional stone carving techniques passed down through generations.",
-    careInstructions: "Clean with mild soap and water. Avoid harsh chemicals. Dry thoroughly after washing.",
+    artisanStory:
+      "Crafted by skilled artisans in Rajasthan using traditional stone carving techniques passed down through generations.",
+    careInstructions:
+      "Clean with mild soap and water. Avoid harsh chemicals. Dry thoroughly after washing.",
     material: "Banswara Stone",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: true,
     newArrival: false,
-    reviewCount: 24
+    reviewCount: 24,
   },
   {
-    id: "travertine-cake-stand", 
+    id: "travertine-cake-stand",
     name: "Travertine Cake Stand",
     price: 3800,
     category: "culinary-crafts",
     subcategory: "Cake Stands",
     image: "/src/assets/products/banswara-cake-stand.jpg",
     images: ["/src/assets/products/banswara-cake-stand.jpg"],
-    description: "Elegant travertine cake stand with naturally porous texture that adds rustic charm to any table setting.",
+    description:
+      "Elegant travertine cake stand with naturally porous texture that adds rustic charm to any table setting.",
     shortDescription: "Natural travertine stone cake stand",
-    artisanStory: "Each stand is carefully carved from Italian travertine by master craftsmen who specialize in natural stone work.",
-    careInstructions: "Wipe clean with damp cloth. Seal annually with stone sealer for best results.",
+    artisanStory:
+      "Each stand is carefully carved from Italian travertine by master craftsmen who specialize in natural stone work.",
+    careInstructions:
+      "Wipe clean with damp cloth. Seal annually with stone sealer for best results.",
     material: "Travertine Stone",
-    region: "Karnataka, India", 
+    region: "Karnataka, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 12
+    reviewCount: 12,
   },
 
   // Divine Artistry
@@ -91,41 +97,48 @@ export const products: Product[] = [
     id: "boat-ganesh",
     name: "Boat Ganesh",
     price: 2800,
-    category: "divine-artistry", 
+    category: "divine-artistry",
     subcategory: "Ganesh Sculptures",
     image: "/src/assets/products/boat-ganesh.jpg",
     images: ["/src/assets/products/boat-ganesh.jpg"],
-    description: "Beautiful handcrafted Ganesh sculpture depicting the beloved deity in a boat, symbolizing life's journey and divine guidance.",
+    description:
+      "Beautiful handcrafted Ganesh sculpture depicting the beloved deity in a boat, symbolizing life's journey and divine guidance.",
     shortDescription: "Handcrafted brass Ganesh sculpture in boat design",
-    artisanStory: "Created by traditional brass artisans from Moradabad, known for their intricate metalwork and spiritual sculptures.",
-    careInstructions: "Clean with soft cloth and brass cleaner. Avoid water contact to prevent tarnishing.",
+    artisanStory:
+      "Created by traditional brass artisans from Moradabad, known for their intricate metalwork and spiritual sculptures.",
+    careInstructions:
+      "Clean with soft cloth and brass cleaner. Avoid water contact to prevent tarnishing.",
     material: "Brass",
     region: "Moradabad, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: false,
-    reviewCount: 38
+    reviewCount: 38,
   },
   {
     id: "ganesh-ji-260",
     name: "Ganesh Ji 260",
     price: 5200,
     category: "divine-artistry",
-    subcategory: "Ganesh Sculptures", 
+    subcategory: "Ganesh Sculptures",
     image: "/src/assets/products/boat-ganesh.jpg",
     images: ["/src/assets/products/boat-ganesh.jpg"],
-    description: "Exquisite large Ganesh sculpture with intricate detailing, perfect for home temples and meditation spaces.",
-    shortDescription: "Large brass Ganesh sculpture with detailed craftsmanship",
-    artisanStory: "Handcrafted by master artisans specializing in religious sculptures, using techniques perfected over centuries.",
-    careInstructions: "Dust regularly with soft brush. Use brass polish monthly to maintain shine.",
+    description:
+      "Exquisite large Ganesh sculpture with intricate detailing, perfect for home temples and meditation spaces.",
+    shortDescription:
+      "Large brass Ganesh sculpture with detailed craftsmanship",
+    artisanStory:
+      "Handcrafted by master artisans specializing in religious sculptures, using techniques perfected over centuries.",
+    careInstructions:
+      "Dust regularly with soft brush. Use brass polish monthly to maintain shine.",
     material: "Brass",
     region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 19
+    reviewCount: 19,
   },
   {
     id: "krishna-sculpture",
@@ -133,11 +146,13 @@ export const products: Product[] = [
     price: 3600,
     category: "divine-artistry",
     subcategory: "Krishna Art",
-    image: "/src/assets/products/boat-ganesh.jpg", 
+    image: "/src/assets/products/boat-ganesh.jpg",
     images: ["/src/assets/products/boat-ganesh.jpg"],
-    description: "Graceful Krishna sculpture capturing the divine essence of the beloved deity, perfect for spiritual spaces.",
+    description:
+      "Graceful Krishna sculpture capturing the divine essence of the beloved deity, perfect for spiritual spaces.",
     shortDescription: "Handcrafted Krishna sculpture in traditional style",
-    artisanStory: "Sculpted by artisans from Mathura, the birthplace of Krishna, who specialize in devotional art.",
+    artisanStory:
+      "Sculpted by artisans from Mathura, the birthplace of Krishna, who specialize in devotional art.",
     careInstructions: "Handle with care. Clean with dry soft cloth only.",
     material: "Bronze",
     region: "Mathura, India",
@@ -145,29 +160,32 @@ export const products: Product[] = [
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 15
+    reviewCount: 15,
   },
 
   // Artisan Home & Serenity
   {
     id: "banswara-oval-soap-dish",
-    name: "Banswara Oval Soap Dish",
-    price: 1200,
+    name: "Fluted Urli",
+    price: 1800,
     category: "artisan-home-serenity",
-    subcategory: "Soap Dishes",
-    image: "/src/assets/products/banswara-oval-soap-dish.jpg",
-    images: ["/src/assets/products/banswara-oval-soap-dish.jpg"],
-    description: "Elegant oval-shaped soap dish crafted from premium Banswara stone with natural texture and durability.",
-    shortDescription: "Oval Banswara stone soap dish",
-    artisanStory: "Handcrafted by skilled stone artisans in Rajasthan using traditional carving techniques.",
-    careInstructions: "Rinse with clean water after use. Dry thoroughly to prevent water stains.",
-    material: "Banswara Stone",
-    region: "Rajasthan, India",
+    subcategory: "Urlis",
+    image: "/src/assets/products/fluted-urli.jpg",
+    images: ["/src/assets/products/fluted-urli.jpg"],
+    description:
+      "Decorative fluted urli with elegant ridged design for sophisticated home decor.",
+    shortDescription: "Elegant fluted urli bowl",
+    artisanStory:
+      "Crafted by skilled metalworkers who specialize in decorative fluting techniques.",
+    careInstructions:
+      "Polish regularly with brass cleaner. Handle with care to maintain fluting.",
+    material: "Brass",
+    region: "Tamil Nadu, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 8
+    reviewCount: 13,
   },
   {
     id: "banswara-round-soap-dish-polished",
@@ -177,17 +195,20 @@ export const products: Product[] = [
     subcategory: "Soap Dishes",
     image: "/src/assets/products/banswara-round-soap-dish.jpg",
     images: ["/src/assets/products/banswara-round-soap-dish.jpg"],
-    description: "Polished round soap dish from Banswara stone with smooth finish and elegant design.",
+    description:
+      "Polished round soap dish from Banswara stone with smooth finish and elegant design.",
     shortDescription: "Polished round Banswara soap dish",
-    artisanStory: "Carefully polished by experienced craftsmen to achieve a smooth, lustrous surface.",
-    careInstructions: "Clean with mild soap and water. Polish occasionally with stone polish.",
+    artisanStory:
+      "Carefully polished by experienced craftsmen to achieve a smooth, lustrous surface.",
+    careInstructions:
+      "Clean with mild soap and water. Polish occasionally with stone polish.",
     material: "Banswara Stone",
     region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 15
+    reviewCount: 15,
   },
   {
     id: "banswara-trinket-box",
@@ -197,17 +218,20 @@ export const products: Product[] = [
     subcategory: "Storage",
     image: "/src/assets/products/banswara-trinket-box.jpg",
     images: ["/src/assets/products/banswara-trinket-box.jpg"],
-    description: "Beautiful trinket box carved from Banswara stone, perfect for storing jewelry and small treasures.",
+    description:
+      "Beautiful trinket box carved from Banswara stone, perfect for storing jewelry and small treasures.",
     shortDescription: "Banswara stone trinket storage box",
-    artisanStory: "Intricately carved by master artisans with attention to detail and functionality.",
-    careInstructions: "Dust regularly with soft cloth. Avoid excessive moisture.",
+    artisanStory:
+      "Intricately carved by master artisans with attention to detail and functionality.",
+    careInstructions:
+      "Dust regularly with soft cloth. Avoid excessive moisture.",
     material: "Banswara Stone",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: false,
-    reviewCount: 12
+    reviewCount: 12,
   },
   {
     id: "rose-quartz-tea-light-big",
@@ -217,17 +241,20 @@ export const products: Product[] = [
     subcategory: "Candle Holders",
     image: "/src/assets/products/rose-quartz-tea-light.jpg",
     images: ["/src/assets/products/rose-quartz-tea-light.jpg"],
-    description: "Large rose quartz tea light holder that emanates loving energy and creates a serene ambiance with soft pink hues.",
+    description:
+      "Large rose quartz tea light holder that emanates loving energy and creates a serene ambiance with soft pink hues.",
     shortDescription: "Large rose quartz crystal tea light holder",
-    artisanStory: "Carefully carved from Brazilian rose quartz by crystal artisans who understand the healing properties of gemstones.",
-    careInstructions: "Clean with warm water and mild soap. Charge in moonlight monthly to maintain crystal energy.",
+    artisanStory:
+      "Carefully carved from Brazilian rose quartz by crystal artisans who understand the healing properties of gemstones.",
+    careInstructions:
+      "Clean with warm water and mild soap. Charge in moonlight monthly to maintain crystal energy.",
     material: "Rose Quartz Crystal",
     region: "Jaipur, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: false,
-    reviewCount: 42
+    reviewCount: 42,
   },
   {
     id: "bottle-shape-oil-diffuser",
@@ -237,9 +264,11 @@ export const products: Product[] = [
     subcategory: "Oil Diffusers",
     image: "/src/assets/products/bottle-oil-diffuser.jpg",
     images: ["/src/assets/products/bottle-oil-diffuser.jpg"],
-    description: "Unique bottle-shaped oil diffuser that combines functionality with artistic design for aromatherapy.",
+    description:
+      "Unique bottle-shaped oil diffuser that combines functionality with artistic design for aromatherapy.",
     shortDescription: "Artistic bottle-shaped oil diffuser",
-    artisanStory: "Designed by contemporary artisans who blend traditional craftsmanship with modern aesthetics.",
+    artisanStory:
+      "Designed by contemporary artisans who blend traditional craftsmanship with modern aesthetics.",
     careInstructions: "Clean with warm soapy water. Dry thoroughly before use.",
     material: "Ceramic",
     region: "Gujarat, India",
@@ -247,7 +276,7 @@ export const products: Product[] = [
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 6
+    reviewCount: 6,
   },
   {
     id: "candle-stand-big-banswara",
@@ -257,17 +286,20 @@ export const products: Product[] = [
     subcategory: "Candle Holders",
     image: "/src/assets/products/candle-stand-big-banswara.jpg",
     images: ["/src/assets/products/candle-stand-big-banswara.jpg"],
-    description: "Large Banswara stone candle stand with impressive presence for statement lighting.",
+    description:
+      "Large Banswara stone candle stand with impressive presence for statement lighting.",
     shortDescription: "Large Banswara stone candle stand",
-    artisanStory: "Carved from a single block of Banswara stone by master craftsmen specializing in decorative pieces.",
-    careInstructions: "Wipe clean with damp cloth. Remove wax drippings while warm.",
+    artisanStory:
+      "Carved from a single block of Banswara stone by master craftsmen specializing in decorative pieces.",
+    careInstructions:
+      "Wipe clean with damp cloth. Remove wax drippings while warm.",
     material: "Banswara Stone",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: false,
-    reviewCount: 18
+    reviewCount: 18,
   },
   {
     id: "candle-stand-cone-small",
@@ -277,17 +309,20 @@ export const products: Product[] = [
     subcategory: "Candle Holders",
     image: "/src/assets/products/candle-stand-cone-small.jpg",
     images: ["/src/assets/products/candle-stand-cone-small.jpg"],
-    description: "Small cone-shaped candle stand with minimalist design perfect for intimate lighting.",
+    description:
+      "Small cone-shaped candle stand with minimalist design perfect for intimate lighting.",
     shortDescription: "Small cone-shaped candle holder",
-    artisanStory: "Crafted with precision by artisans who specialize in geometric forms and clean lines.",
-    careInstructions: "Clean regularly to prevent wax buildup. Handle with care.",
+    artisanStory:
+      "Crafted with precision by artisans who specialize in geometric forms and clean lines.",
+    careInstructions:
+      "Clean regularly to prevent wax buildup. Handle with care.",
     material: "Stone",
     region: "Karnataka, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 22
+    reviewCount: 22,
   },
   {
     id: "candle-stand-travertine",
@@ -297,17 +332,20 @@ export const products: Product[] = [
     subcategory: "Candle Holders",
     image: "/src/assets/products/candle-stand-travertine.jpg",
     images: ["/src/assets/products/candle-stand-travertine.jpg"],
-    description: "Elegant travertine candle stand with natural porous texture and sophisticated appeal.",
+    description:
+      "Elegant travertine candle stand with natural porous texture and sophisticated appeal.",
     shortDescription: "Natural travertine candle stand",
-    artisanStory: "Handcrafted from Italian travertine by artisans skilled in working with natural stone.",
-    careInstructions: "Clean with mild detergent. Seal annually to maintain appearance.",
+    artisanStory:
+      "Handcrafted from Italian travertine by artisans skilled in working with natural stone.",
+    careInstructions:
+      "Clean with mild detergent. Seal annually to maintain appearance.",
     material: "Travertine Stone",
     region: "Karnataka, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 9
+    reviewCount: 9,
   },
   {
     id: "desk-clock-marble-stand",
@@ -317,17 +355,20 @@ export const products: Product[] = [
     subcategory: "Desk Accessories",
     image: "/src/assets/products/desk-clock-marble.jpg",
     images: ["/src/assets/products/desk-clock-marble.jpg"],
-    description: "Elegant marble desk clock stand combining functionality with luxurious aesthetics for your workspace.",
+    description:
+      "Elegant marble desk clock stand combining functionality with luxurious aesthetics for your workspace.",
     shortDescription: "Marble desk clock with stand",
-    artisanStory: "Crafted by skilled marble artisans who combine traditional stonework with modern timepiece design.",
-    careInstructions: "Dust regularly. Clean marble with appropriate stone cleaner.",
+    artisanStory:
+      "Crafted by skilled marble artisans who combine traditional stonework with modern timepiece design.",
+    careInstructions:
+      "Dust regularly. Clean marble with appropriate stone cleaner.",
     material: "Marble",
     region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: false,
-    reviewCount: 14
+    reviewCount: 14,
   },
   {
     id: "elephant-oil-diffuser",
@@ -337,17 +378,20 @@ export const products: Product[] = [
     subcategory: "Oil Diffusers",
     image: "/src/assets/products/elephant-oil-diffuser.jpg",
     images: ["/src/assets/products/elephant-oil-diffuser.jpg"],
-    description: "Charming elephant-shaped oil diffuser that brings good luck and aromatic bliss to your space.",
+    description:
+      "Charming elephant-shaped oil diffuser that brings good luck and aromatic bliss to your space.",
     shortDescription: "Elephant-shaped aromatherapy diffuser",
-    artisanStory: "Handcrafted by artisans who specialize in animal-inspired decorative pieces with cultural significance.",
-    careInstructions: "Clean with soft cloth and mild soap. Ensure proper ventilation during use.",
+    artisanStory:
+      "Handcrafted by artisans who specialize in animal-inspired decorative pieces with cultural significance.",
+    careInstructions:
+      "Clean with soft cloth and mild soap. Ensure proper ventilation during use.",
     material: "Ceramic",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: true,
-    reviewCount: 11
+    reviewCount: 11,
   },
   {
     id: "finger-urli",
@@ -357,37 +401,43 @@ export const products: Product[] = [
     subcategory: "Urlis",
     image: "/src/assets/products/finger-urli.jpg",
     images: ["/src/assets/products/finger-urli.jpg"],
-    description: "Traditional finger urli bowl perfect for floating flowers and creating peaceful water displays.",
+    description:
+      "Traditional finger urli bowl perfect for floating flowers and creating peaceful water displays.",
     shortDescription: "Traditional finger urli bowl",
-    artisanStory: "Made by traditional metalworkers who preserve ancient urli-making techniques.",
-    careInstructions: "Clean with soft cloth. Dry thoroughly to prevent water marks.",
+    artisanStory:
+      "Made by traditional metalworkers who preserve ancient urli-making techniques.",
+    careInstructions:
+      "Clean with soft cloth. Dry thoroughly to prevent water marks.",
     material: "Brass",
     region: "Kerala, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 26
+    reviewCount: 26,
   },
   {
     id: "fluted-urli",
-    name: "Fluted Urli",
-    price: 1800,
+    name: "Banswara Oval Soap Dish",
+    price: 1200,
     category: "artisan-home-serenity",
-    subcategory: "Urlis",
-    image: "/src/assets/products/fluted-urli.jpg",
-    images: ["/src/assets/products/fluted-urli.jpg"],
-    description: "Decorative fluted urli with elegant ridged design for sophisticated home decor.",
-    shortDescription: "Elegant fluted urli bowl",
-    artisanStory: "Crafted by skilled metalworkers who specialize in decorative fluting techniques.",
-    careInstructions: "Polish regularly with brass cleaner. Handle with care to maintain fluting.",
-    material: "Brass",
-    region: "Tamil Nadu, India",
+    subcategory: "Soap Dishes",
+    image: "/src/assets/products/banswara-oval-soap-dish.jpg",
+    images: ["/src/assets/products/banswara-oval-soap-dish.jpg"],
+    description:
+      "Elegant oval-shaped soap dish crafted from premium Banswara stone with natural texture and durability.",
+    shortDescription: "Oval Banswara stone soap dish",
+    artisanStory:
+      "Handcrafted by skilled stone artisans in Rajasthan using traditional carving techniques.",
+    careInstructions:
+      "Rinse with clean water after use. Dry thoroughly to prevent water stains.",
+    material: "Banswara Stone",
+    region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: false,
-    newArrival: true,
-    reviewCount: 13
+    newArrival: false,
+    reviewCount: 8,
   },
   {
     id: "jali-soap-dish",
@@ -397,17 +447,20 @@ export const products: Product[] = [
     subcategory: "Soap Dishes",
     image: "/src/assets/products/jali-soap-dish.jpg",
     images: ["/src/assets/products/jali-soap-dish.jpg"],
-    description: "Intricate jali work soap dish with traditional lattice patterns for excellent drainage.",
+    description:
+      "Intricate jali work soap dish with traditional lattice patterns for excellent drainage.",
     shortDescription: "Traditional jali pattern soap dish",
-    artisanStory: "Created by master craftsmen skilled in the ancient art of jali stone carving.",
-    careInstructions: "Rinse thoroughly after use. Clean intricate patterns with soft brush.",
+    artisanStory:
+      "Created by master craftsmen skilled in the ancient art of jali stone carving.",
+    careInstructions:
+      "Rinse thoroughly after use. Clean intricate patterns with soft brush.",
     material: "Sandstone",
     region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: false,
-    reviewCount: 17
+    reviewCount: 17,
   },
   {
     id: "laltain",
@@ -417,17 +470,20 @@ export const products: Product[] = [
     subcategory: "Lanterns",
     image: "/src/assets/products/laltain.jpg",
     images: ["/src/assets/products/laltain.jpg"],
-    description: "Traditional laltain lantern that creates beautiful light patterns and ambiance.",
+    description:
+      "Traditional laltain lantern that creates beautiful light patterns and ambiance.",
     shortDescription: "Traditional decorative lantern",
-    artisanStory: "Handcrafted by traditional metalworkers who preserve the art of lantern making.",
-    careInstructions: "Clean with dry cloth. Use appropriate candles for safe operation.",
+    artisanStory:
+      "Handcrafted by traditional metalworkers who preserve the art of lantern making.",
+    careInstructions:
+      "Clean with dry cloth. Use appropriate candles for safe operation.",
     material: "Metal",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: false,
-    reviewCount: 20
+    reviewCount: 20,
   },
   {
     id: "lotus-urli",
@@ -437,17 +493,20 @@ export const products: Product[] = [
     subcategory: "Urlis",
     image: "/src/assets/products/lotus-urli.jpg",
     images: ["/src/assets/products/lotus-urli.jpg"],
-    description: "Beautiful lotus-shaped urli symbolizing purity and spiritual awakening in your space.",
+    description:
+      "Beautiful lotus-shaped urli symbolizing purity and spiritual awakening in your space.",
     shortDescription: "Lotus-shaped decorative urli",
-    artisanStory: "Inspired by sacred lotus symbolism, crafted by artisans who understand its spiritual significance.",
-    careInstructions: "Clean gently to preserve lotus detailing. Dry completely after use.",
+    artisanStory:
+      "Inspired by sacred lotus symbolism, crafted by artisans who understand its spiritual significance.",
+    careInstructions:
+      "Clean gently to preserve lotus detailing. Dry completely after use.",
     material: "Brass",
     region: "Kerala, India",
     inStock: true,
     featured: true,
     bestseller: true,
     newArrival: false,
-    reviewCount: 35
+    reviewCount: 35,
   },
   {
     id: "onyx-flower-vase-big",
@@ -457,17 +516,20 @@ export const products: Product[] = [
     subcategory: "Decorative Pieces",
     image: "/src/assets/products/onyx-flower-big.jpg",
     images: ["/src/assets/products/onyx-flower-big.jpg"],
-    description: "Large onyx flower vase with translucent beauty and natural stone patterns.",
+    description:
+      "Large onyx flower vase with translucent beauty and natural stone patterns.",
     shortDescription: "Large onyx flower vase",
-    artisanStory: "Carved from premium onyx by master stone sculptors who understand the stone's natural beauty.",
-    careInstructions: "Handle with extreme care. Clean with soft, dry cloth only.",
+    artisanStory:
+      "Carved from premium onyx by master stone sculptors who understand the stone's natural beauty.",
+    careInstructions:
+      "Handle with extreme care. Clean with soft, dry cloth only.",
     material: "Onyx",
     region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: true,
-    reviewCount: 7
+    reviewCount: 7,
   },
   {
     id: "rose-quartz-tree",
@@ -477,37 +539,43 @@ export const products: Product[] = [
     subcategory: "Crystal Decor",
     image: "/src/assets/products/rose-quartz-tree.jpg",
     images: ["/src/assets/products/rose-quartz-tree.jpg"],
-    description: "Stunning rose quartz tree sculpture that brings love energy and natural beauty to any space.",
+    description:
+      "Stunning rose quartz tree sculpture that brings love energy and natural beauty to any space.",
     shortDescription: "Rose quartz crystal tree sculpture",
-    artisanStory: "Assembled by crystal artisans who carefully select each rose quartz piece for optimal energy flow.",
-    careInstructions: "Handle delicate branches carefully. Cleanse in moonlight monthly.",
+    artisanStory:
+      "Assembled by crystal artisans who carefully select each rose quartz piece for optimal energy flow.",
+    careInstructions:
+      "Handle delicate branches carefully. Cleanse in moonlight monthly.",
     material: "Rose Quartz Crystal",
     region: "Jaipur, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: true,
-    reviewCount: 9
+    reviewCount: 9,
   },
   {
-    id: "rose-quartz-tea-light-small", 
+    id: "rose-quartz-tea-light-small",
     name: "SMALL Rose Quartz Tea Light Holder",
     price: 1200,
     category: "artisan-home-serenity",
     subcategory: "Candle Holders",
     image: "/src/assets/products/rose-quartz-tea-light.jpg",
     images: ["/src/assets/products/rose-quartz-tea-light.jpg"],
-    description: "Compact rose quartz tea light holder perfect for intimate settings and meditation corners.",
-    shortDescription: "Small rose quartz crystal tea light holder", 
-    artisanStory: "Hand-selected rose quartz pieces carved into perfect holders by skilled gem cutters in Rajasthan.",
-    careInstructions: "Gentle cleaning with soft cloth. Avoid harsh chemicals that may damage crystal surface.",
+    description:
+      "Compact rose quartz tea light holder perfect for intimate settings and meditation corners.",
+    shortDescription: "Small rose quartz crystal tea light holder",
+    artisanStory:
+      "Hand-selected rose quartz pieces carved into perfect holders by skilled gem cutters in Rajasthan.",
+    careInstructions:
+      "Gentle cleaning with soft cloth. Avoid harsh chemicals that may damage crystal surface.",
     material: "Rose Quartz Crystal",
     region: "Jaipur, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 28
+    reviewCount: 28,
   },
   {
     id: "tree-of-life-7-chakra",
@@ -517,17 +585,20 @@ export const products: Product[] = [
     subcategory: "Crystal Decor",
     image: "/src/assets/products/tree-of-life-chakra.jpg",
     images: ["/src/assets/products/tree-of-life-chakra.jpg"],
-    description: "Sacred Tree of Life sculpture featuring all seven chakra stones for spiritual balance and harmony.",
+    description:
+      "Sacred Tree of Life sculpture featuring all seven chakra stones for spiritual balance and harmony.",
     shortDescription: "7-chakra Tree of Life crystal sculpture",
-    artisanStory: "Meticulously crafted by spiritual artisans who understand chakra energies and sacred geometry.",
-    careInstructions: "Handle with reverence. Cleanse all stones regularly in natural light.",
+    artisanStory:
+      "Meticulously crafted by spiritual artisans who understand chakra energies and sacred geometry.",
+    careInstructions:
+      "Handle with reverence. Cleanse all stones regularly in natural light.",
     material: "Mixed Chakra Crystals",
     region: "Rishikesh, India",
     inStock: true,
     featured: true,
     bestseller: true,
     newArrival: false,
-    reviewCount: 31
+    reviewCount: 31,
   },
 
   // Crafted Sip & Smoke
@@ -536,20 +607,23 @@ export const products: Product[] = [
     name: "Rose Quartz Coasters",
     price: 2400,
     category: "crafted-sip-smoke",
-    subcategory: "Coasters", 
+    subcategory: "Coasters",
     image: "/src/assets/products/rose-quartz-tea-light.jpg",
     images: ["/src/assets/products/rose-quartz-tea-light.jpg"],
-    description: "Set of four rose quartz coasters that protect surfaces while adding crystal energy to your beverage experience.",
+    description:
+      "Set of four rose quartz coasters that protect surfaces while adding crystal energy to your beverage experience.",
     shortDescription: "Set of 4 rose quartz crystal coasters",
-    artisanStory: "Each coaster is cut from natural rose quartz and polished by skilled gem artisans to showcase the stone's beauty.",
-    careInstructions: "Hand wash with warm water. Dry with soft cloth to prevent water marks on crystal surface.",
+    artisanStory:
+      "Each coaster is cut from natural rose quartz and polished by skilled gem artisans to showcase the stone's beauty.",
+    careInstructions:
+      "Hand wash with warm water. Dry with soft cloth to prevent water marks on crystal surface.",
     material: "Rose Quartz Crystal",
     region: "Jaipur, India",
     inStock: true,
     featured: false,
     bestseller: true,
     newArrival: false,
-    reviewCount: 22
+    reviewCount: 22,
   },
   {
     id: "soapstone-ash-tray-round",
@@ -559,77 +633,86 @@ export const products: Product[] = [
     subcategory: "Ashtrays",
     image: "/src/assets/products/soapstone-ashtray.jpg",
     images: ["/src/assets/products/soapstone-ashtray.jpg"],
-    description: "Elegant round soapstone ashtray with natural heat resistance and smooth finish.",
+    description:
+      "Elegant round soapstone ashtray with natural heat resistance and smooth finish.",
     shortDescription: "Round soapstone ashtray",
-    artisanStory: "Carved from high-quality soapstone by artisans who understand the material's heat-resistant properties.",
-    careInstructions: "Clean with warm soapy water. Soapstone naturally resists heat and stains.",
+    artisanStory:
+      "Carved from high-quality soapstone by artisans who understand the material's heat-resistant properties.",
+    careInstructions:
+      "Clean with warm soapy water. Soapstone naturally resists heat and stains.",
     material: "Soapstone",
     region: "Rajasthan, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: true,
-    reviewCount: 11
+    reviewCount: 11,
   },
   {
     id: "wine-chiller-banswara",
-    name: "Wine Chiller Banswara", 
+    name: "Wine Chiller Banswara",
     price: 6500,
     category: "crafted-sip-smoke",
     subcategory: "Wine Chillers",
     image: "/src/assets/products/wine-chiller-banswara.jpg",
     images: ["/src/assets/products/wine-chiller-banswara.jpg"],
-    description: "Elegant Banswara stone wine chiller that maintains perfect temperature while adding sophisticated style to your table.",
+    description:
+      "Elegant Banswara stone wine chiller that maintains perfect temperature while adding sophisticated style to your table.",
     shortDescription: "Premium Banswara stone wine chiller",
-    artisanStory: "Handcrafted by stone artisans who specialize in functional art pieces, combining utility with aesthetic appeal.",
-    careInstructions: "Rinse with clean water after use. Store in dry place. Season with mineral oil occasionally.",
+    artisanStory:
+      "Handcrafted by stone artisans who specialize in functional art pieces, combining utility with aesthetic appeal.",
+    careInstructions:
+      "Rinse with clean water after use. Store in dry place. Season with mineral oil occasionally.",
     material: "Banswara Stone",
-    region: "Rajasthan, India", 
+    region: "Rajasthan, India",
     inStock: true,
     featured: true,
     bestseller: false,
     newArrival: true,
-    reviewCount: 8
+    reviewCount: 8,
   },
   {
     id: "wine-chiller-black",
     name: "Wine Chiller Black",
     price: 5800,
-    category: "crafted-sip-smoke", 
+    category: "crafted-sip-smoke",
     subcategory: "Wine Chillers",
     image: "/src/assets/products/wine-chiller-banswara.jpg",
     images: ["/src/assets/products/wine-chiller-banswara.jpg"],
-    description: "Sleek black stone wine chiller that adds modern elegance to wine service and entertaining.",
+    description:
+      "Sleek black stone wine chiller that adds modern elegance to wine service and entertaining.",
     shortDescription: "Modern black stone wine chiller",
-    artisanStory: "Created by contemporary stone artists who blend traditional techniques with modern aesthetics.",
-    careInstructions: "Clean with damp cloth and mild detergent. Dry thoroughly to prevent water spots.",
+    artisanStory:
+      "Created by contemporary stone artists who blend traditional techniques with modern aesthetics.",
+    careInstructions:
+      "Clean with damp cloth and mild detergent. Dry thoroughly to prevent water spots.",
     material: "Black Stone",
     region: "Gujarat, India",
     inStock: true,
     featured: false,
     bestseller: false,
     newArrival: false,
-    reviewCount: 11
-  }
+    reviewCount: 11,
+  },
 ];
 
 // Helper functions
 export const getProductsByCategory = (categoryId: string) => {
-  return products.filter(product => product.category === categoryId);
+  return products.filter((product) => product.category === categoryId);
 };
 
 export const getFeaturedProducts = () => {
-  return products.filter(product => product.featured);
+  return products.filter((product) => product.featured);
 };
 
 export const getBestsellerProducts = () => {
-  return products.filter(product => product.bestseller);
+  return products.filter((product) => product.bestseller);
 };
 
 export const getNewArrivals = () => {
-  return products.filter(product => product.newArrival);
+  return products.filter((product) => product.newArrival);
 };
 
 export const getProductById = (id: string) => {
-  return products.find(product => product.id === id);
+  return products.find((product) => product.id === id);
 };
