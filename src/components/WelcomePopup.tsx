@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import handoraLogo from "@/assets/handora-logo.png";
+import popupImage from "@/assets/popup-image.jpeg";
 
 const WelcomePopup: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,7 +36,7 @@ const WelcomePopup: React.FC = () => {
         {/* Left Section - Image with Overlay */}
         <div className="relative w-full sm:w-1/2 h-48 sm:h-auto sm:min-h-[400px]">
           <img
-            src="/src/assets/popup-image.jpeg"
+            src={popupImage}
             alt="HANDORA Collection"
             className="w-full h-full object-cover"
           />

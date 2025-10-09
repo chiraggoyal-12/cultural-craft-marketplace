@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
+import newsletterBg from "@/assets/new-collection-bg1.png";
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const NewsletterSection = () => {
     <section
       className="bg-background"
       style={{
-        backgroundImage: 'url(/src/assets/new-collection-bg1.png)',
+        backgroundImage: `url(${newsletterBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
