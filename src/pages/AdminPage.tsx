@@ -186,7 +186,11 @@ export const AdminPage: React.FC = () => {
         .order("created_at", { ascending: false });
 
       if (ordersError) throw ordersError;
-      setOrders(ordersData || []);
+      setOrders((ordersData || []).map((order: any) => ({
+        ...order,
+        payment_status: order.payment_status || 'pending',
+        payment_id: order.payment_id || undefined
+      })));
     } catch (err) {
       console.error("Error fetching admin data:", err);
       setError("Failed to load admin data");

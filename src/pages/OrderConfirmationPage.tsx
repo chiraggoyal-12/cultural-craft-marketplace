@@ -79,21 +79,26 @@ const OrderConfirmationPage = () => {
       }
 
       if (order) {
+        const orderData: any = order;
+        const shippingAddr = typeof orderData.shipping_address === 'string' 
+          ? JSON.parse(orderData.shipping_address)
+          : orderData.shipping_address;
+
         setOrderDetails({
-          orderNumber: order.order_number,
-          totalAmount: order.total_amount,
-          orderDate: order.created_at,
-          paymentMethod: order.payment_method,
-          paymentId: order.payment_id,
-          status: order.status,
-          items: order.order_items?.map((item: any) => ({
+          orderNumber: orderData.order_number,
+          totalAmount: orderData.total_amount,
+          orderDate: orderData.created_at,
+          paymentMethod: orderData.payment_method,
+          paymentId: orderData.payment_id || undefined,
+          status: orderData.status,
+          items: orderData.order_items?.map((item: any) => ({
             id: item.product_id,
             name: item.product_name,
             image: item.product_image,
             quantity: item.quantity,
             price: item.unit_price
           })),
-          shippingAddress: order.shipping_address
+          shippingAddress: shippingAddr
         });
       }
     } catch (error) {
