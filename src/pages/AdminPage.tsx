@@ -123,13 +123,8 @@ export const AdminPage: React.FC = () => {
 
       console.log("User roles found:", roles);
 
-      // Temporary admin bypass for specific user
-      const isTemporaryAdmin =
-        user?.id === "7311af33-c4f5-4fc4-96ed-1e80eac54868";
       const hasAdminRole = roles && roles.length > 0;
-      const isAdmin = hasAdminRole || isTemporaryAdmin;
-
-      setIsAdmin(isAdmin);
+      setIsAdmin(hasAdminRole);
 
       if (isAdmin) {
         console.log("User is admin, fetching admin data");
