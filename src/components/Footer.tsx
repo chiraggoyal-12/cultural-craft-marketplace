@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 import handoraLogo from "@/assets/handora-logo.png";
+import footerBg from "@/assets/footer-bg.jpg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,8 +20,12 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-warm border-t border-border">
-      <div className="container mx-auto px-4 py-12">
+    <footer 
+      className="relative border-t border-border/20 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${footerBg})` }}
+    >
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
+      <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Explore Section */}
