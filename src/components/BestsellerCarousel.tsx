@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Eye, ShoppingCart } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
+import { Eye } from 'lucide-react';
 import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 import {
   Carousel,
@@ -15,7 +14,6 @@ import {
 } from '@/components/ui/carousel';
 
 const BestsellerCarousel = () => {
-  const { addItem } = useCart();
   const { products } = useProductsWithMedia();
 
   // Get bestsellers and featured products
@@ -76,26 +74,17 @@ const BestsellerCarousel = () => {
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-4 left-4 right-4">
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="secondary"
-                            className="flex-1 bg-white/90 text-foreground hover:bg-white"
-                            asChild
-                          >
-                            <Link to={`/product/${product.id}`}>
-                              <Eye className="w-4 h-4 mr-2" />
-                              Quick View
-                            </Link>
-                          </Button>
-                          <Button
-                            size="sm"
-                            onClick={() => addItem(product)}
-                            className="bg-primary hover:bg-primary/90"
-                          >
-                            <ShoppingCart className="w-4 h-4" />
-                          </Button>
-                        </div>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="w-full bg-white/90 text-foreground hover:bg-white"
+                          asChild
+                        >
+                          <Link to={`/product/${product.id}`}>
+                            <Eye className="w-4 h-4 mr-2" />
+                            View & Request Quote
+                          </Link>
+                        </Button>
                       </div>
                     </div>
                   </div>

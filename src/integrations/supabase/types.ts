@@ -438,6 +438,48 @@ export type Database = {
         }
         Relationships: []
       }
+      quotation_requests: {
+        Row: {
+          created_at: string
+          customer_company: string | null
+          customer_email: string | null
+          customer_mobile: string
+          customer_name: string
+          customization_notes: string | null
+          id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          customer_company?: string | null
+          customer_email?: string | null
+          customer_mobile: string
+          customer_name: string
+          customization_notes?: string | null
+          id?: string
+          product_id: string
+          product_name: string
+          quantity: number
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          customer_company?: string | null
+          customer_email?: string | null
+          customer_mobile?: string
+          customer_name?: string
+          customization_notes?: string | null
+          id?: string
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          status?: string
+        }
+        Relationships: []
+      }
       recently_viewed: {
         Row: {
           id: string

@@ -1,16 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Product } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
-import { useWishlist } from "@/contexts/WishlistContext";
 import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const ProductShowcase = () => {
-  const { addItem } = useCart();
-  const { addToWishlist, isInWishlist } = useWishlist();
   const { products } = useProductsWithMedia();
 
   const getProductBadge = (product: Product) => {
@@ -45,18 +41,6 @@ const ProductShowcase = () => {
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute top-3 right-3 flex gap-2">
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="h-8 w-8 bg-background/80 backdrop-blur-sm hover:bg-background"
-                    onClick={() => addToWishlist(product)}
-                  >
-                    <Heart 
-                      className={`h-4 w-4 ${isInWishlist(product.id) ? 'fill-primary text-primary' : ''}`} 
-                    />
-                  </Button>
-                </div>
                 {getProductBadge(product) && (
                   <div className="absolute top-3 left-3">
                     <Badge variant="secondary" className="bg-primary/90 text-primary-foreground">
@@ -67,7 +51,6 @@ const ProductShowcase = () => {
               </div>
               
               <CardContent className="p-4">
-                
                 <Link to={`/product/${product.id}`}>
                   <h3 className="font-semibold text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
                     {product.name}
@@ -92,11 +75,13 @@ const ProductShowcase = () => {
                   
                   <Button
                     size="sm"
-                    onClick={() => addItem(product)}
+                    asChild
                     className="gap-1"
                   >
-                    <ShoppingCart className="h-3 w-3" />
-                    Add
+                    <Link to={`/product/${product.id}`}>
+                      <Eye className="h-3 w-3" />
+                      View
+                    </Link>
                   </Button>
                 </div>
               </CardContent>

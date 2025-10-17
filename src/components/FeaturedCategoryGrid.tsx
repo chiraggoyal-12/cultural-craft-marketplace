@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Eye, ShoppingCart } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { categories } from '@/data/products';
-import { useCart } from '@/contexts/CartContext';
 import { useProductsWithMedia } from '@/hooks/useProductsWithMedia';
 
 const FeaturedCategoryGrid = () => {
-  const { addItem } = useCart();
   const { products } = useProductsWithMedia();
 
   // Select featured products per category
@@ -56,50 +54,31 @@ const FeaturedCategoryGrid = () => {
                   
                   {/* Desktop hover overlay with actions */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center">
-                    <div className="flex gap-3">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        className="bg-white/90 text-foreground hover:bg-white"
-                        asChild
-                      >
-                        <Link to={`/product/${product.id}`}>
-                          <Eye className="w-4 h-4 mr-2" />
-                          Quick View
-                        </Link>
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => addItem(product)}
-                        className="bg-primary hover:bg-primary/90"
-                      >
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        Add to Cart
-                      </Button>
-                    </div>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-white/90 text-foreground hover:bg-white"
+                      asChild
+                    >
+                      <Link to={`/product/${product.id}`}>
+                        <Eye className="w-4 h-4 mr-2" />
+                        View & Request Quote
+                      </Link>
+                    </Button>
                   </div>
                   
                   {/* Mobile/Tablet actions - always visible */}
                   <div className="absolute top-4 right-4 md:hidden">
-                    <div className="flex flex-col gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        className="bg-white/90 text-foreground hover:bg-white w-10 h-10 p-0"
-                        asChild
-                      >
-                        <Link to={`/product/${product.id}`}>
-                          <Eye className="w-4 h-4" />
-                        </Link>
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => addItem(product)}
-                        className="bg-primary hover:bg-primary/90 w-10 h-10 p-0"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="bg-white/90 text-foreground hover:bg-white w-10 h-10 p-0"
+                      asChild
+                    >
+                      <Link to={`/product/${product.id}`}>
+                        <Eye className="w-4 h-4" />
+                      </Link>
+                    </Button>
                   </div>
                   
                   {/* Price info - responsive positioning */}

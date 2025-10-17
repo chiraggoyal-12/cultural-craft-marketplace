@@ -5,25 +5,21 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Heart, ShoppingCart, Star, Plus, Minus, Share, Truck, Shield, RotateCcw } from "lucide-react";
+import { Star, Share, Truck, Shield, RotateCcw } from "lucide-react";
 import { products } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
-import { useWishlist } from "@/contexts/WishlistContext";
 import ReviewsSection from "@/components/ReviewsSection";
 import ProductQA from "@/components/ProductQA";
 import { useProductMedia } from "@/hooks/useProductMedia";
 import { useProduct } from "@/hooks/useProducts";
 import { useProductReviewCount } from "@/hooks/useReviewCounts";
+import { QuotationModal } from "@/components/QuotationModal";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const { addItem } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { count: reviewCount } = useProductReviewCount(id || '');
   
-  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [quotationModalOpen, setQuotationModalOpen] = useState(false);
   
   const { product, loading: productLoading } = useProduct(id || null);
   const { allImages, primaryImage, loading: mediaLoading } = useProductMedia(id || "");
@@ -57,71 +53,6 @@ const ProductPage = () => {
   const relatedProducts = products
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
-
-  const handleAddToCart = () => {
-    if (!product) return;
-    
-    // Convert database product to cart format
-    const cartProduct = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-      category: product.category,
-      material: product.material,
-      image: displayImage || '',
-      images: productImages,
-      shortDescription: product.description.substring(0, 100) + '...',
-      inStock: product.in_stock,
-      region: 'India',
-      artisan: 'Handora Crafts',
-      reviewCount: 0,
-      rating: 5,
-      newArrival: product.new_arrival,
-      bestseller: product.bestseller,
-      featured: product.featured,
-      subcategory: '',
-      artisanStory: 'Handcrafted with traditional techniques passed down through generations.',
-      careInstructions: product.care_instructions || 'Handle with care. Clean gently with a soft cloth.',
-    };
-    
-    for (let i = 0; i < quantity; i++) {
-      addItem(cartProduct);
-    }
-  };
-
-  const handleWishlistToggle = () => {
-    if (!product) return;
-    
-    const wishlistProduct = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-      category: product.category,
-      material: product.material,
-      image: displayImage || '',
-      images: productImages,
-      shortDescription: product.description.substring(0, 100) + '...',
-      inStock: product.in_stock,
-      region: 'India',
-      artisan: 'Handora Crafts',
-      reviewCount: 0,
-      rating: 5,
-      newArrival: product.new_arrival,
-      bestseller: product.bestseller,
-      featured: product.featured,
-      subcategory: '',
-      artisanStory: 'Handcrafted with traditional techniques passed down through generations.',
-      careInstructions: product.care_instructions || 'Handle with care. Clean gently with a soft cloth.',
-    };
-    
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(wishlistProduct);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -185,13 +116,6 @@ const ProductPage = () => {
                 <h1 className="text-3xl font-bold text-foreground mb-2">{product.name}</h1>
                 <p className="text-muted-foreground">{product.description}</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={handleWishlistToggle}>
-                <Heart 
-                  className={`w-5 h-5 ${
-                    isInWishlist(product.id) ? "fill-primary text-primary" : "text-foreground"
-                  }`} 
-                />
-              </Button>
             </div>
 
             {/* Badges */}
@@ -215,6 +139,7 @@ const ProductPage = () => {
               <span className="text-3xl font-bold text-foreground">
                 ₹{product.price.toLocaleString()}
               </span>
+              <span className="text-sm text-muted-foreground">(Base Price)</span>
             </div>
 
             {/* Material & Dimensions */}
@@ -231,46 +156,17 @@ const ProductPage = () => {
               )}
             </div>
 
-            {/* Quantity & Add to Cart */}
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center border border-border rounded-md">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="rounded-r-none"
-                >
-                  <Minus className="w-4 h-4" />
-                </Button>
-                <span className="px-4 py-2 border-x border-border min-w-[60px] text-center">
-                  {quantity}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="rounded-l-none"
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-
-              <Button 
-                size="lg"
-                onClick={handleAddToCart}
-                disabled={!product.in_stock}
-                className="flex-1"
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                {product.in_stock ? "Add to Cart" : "Out of Stock"}
-              </Button>
-            </div>
+            {/* Get Quotation Button */}
+            <Button 
+              size="lg"
+              onClick={() => setQuotationModalOpen(true)}
+              className="w-full mb-6"
+            >
+              Get Quotation
+            </Button>
 
             {/* Action Buttons */}
             <div className="flex gap-3 mb-8">
-              <Button variant="outline" size="lg" className="flex-1">
-                Buy Now
-              </Button>
               <Button variant="outline" size="icon">
                 <Share className="w-4 h-4" />
               </Button>
@@ -302,6 +198,14 @@ const ProductPage = () => {
               <p className="text-muted-foreground leading-relaxed">
                 {product.description}
               </p>
+              {product.care_instructions && (
+                <>
+                  <h4 className="text-lg font-semibold mt-6 mb-2">Care Instructions</h4>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {product.care_instructions}
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -329,13 +233,6 @@ const ProductPage = () => {
                       alt={relatedProduct.name}
                       className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-                    >
-                      <Heart className="w-4 h-4" />
-                    </Button>
                   </div>
                   
                   <CardContent className="p-4">
@@ -355,6 +252,13 @@ const ProductPage = () => {
           </div>
         )}
       </main>
+      
+      <QuotationModal
+        open={quotationModalOpen}
+        onOpenChange={setQuotationModalOpen}
+        productId={product.id}
+        productName={product.name}
+      />
       
       <Footer />
     </div>

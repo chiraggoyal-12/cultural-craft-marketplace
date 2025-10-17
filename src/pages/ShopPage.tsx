@@ -8,16 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
-import { Heart, ShoppingCart, Star, Grid, List } from "lucide-react";
+import { Star, Grid, List, Eye } from "lucide-react";
 import { categories, getProductsByCategory, Product } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
-import { useWishlist } from "@/contexts/WishlistContext";
 import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const ShopPage = () => {
   const { category } = useParams();
-  const { addItem } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { products, loading: mediaLoading } = useProductsWithMedia();
   
   // Storage key based on category for separate state per category

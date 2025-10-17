@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, ShoppingCart, Eye, X, Play } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
-import { useWishlist } from '@/contexts/WishlistContext';
+import { Eye, X } from 'lucide-react';
 import { Product } from '@/data/products';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 interface QuickViewProps {
   product: Product;
@@ -17,104 +15,50 @@ interface QuickViewProps {
 const QuickView: React.FC<QuickViewProps> = ({ product, trigger }) => {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCart();
-  const { addToWishlist, isInWishlist } = useWishlist();
 
-  // Mock media - in real app this would come from database
-  const media = [
-    { id: '1', url: product.image, type: 'image' as const },
-    { id: '2', url: product.image, type: 'image' as const },
-    { id: '3', url: '/video-placeholder.mp4', type: 'video' as const },
-  ];
+  const images = product.images || [product.image];
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addItem(product);
-    }
-    setOpen(false);
-  };
-
-  const handleAddToWishlist = () => {
-    addToWishlist(product);
-  };
-
-  const getBadges = () => {
-    const badges = [];
-    if (product.featured) badges.push({ text: 'Featured', variant: 'default' as const });
-    if (product.bestseller) badges.push({ text: 'Bestseller', variant: 'secondary' as const });
-    if (product.newArrival) badges.push({ text: 'New', variant: 'destructive' as const });
-    return badges;
-  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none z-50 bg-background/80 backdrop-blur-sm p-2"
+        >
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </button>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
-              {media[selectedImage]?.type === 'video' ? (
-                <div className="relative w-full h-full bg-black">
-                  <video 
-                    src={media[selectedImage].url}
-                    className="w-full h-full object-cover"
-                    controls
-                    poster={product.image}
-                  />
-                </div>
-              ) : (
-                <img
-                  src={media[selectedImage]?.url || product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              )}
-              
-              {/* Video Badge */}
-              {media[selectedImage]?.type === 'video' && (
-                <div className="absolute top-4 left-4 bg-black/70 text-white px-2 py-1 rounded text-sm flex items-center gap-1">
-                  <Play className="h-3 w-3" />
-                  Video
-                </div>
-              )}
+            <div className="aspect-square overflow-hidden rounded-lg bg-muted">
+              <img
+                src={images[selectedImage]}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
             </div>
-
-            {/* Thumbnail Navigation */}
-            {media.length > 1 && (
-              <div className="flex gap-2">
-                {media.map((item, index) => (
+            {images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto">
+                {images.map((image, index) => (
                   <button
-                    key={item.id}
+                    key={index}
                     onClick={() => setSelectedImage(index)}
                     className={cn(
-                      "relative w-16 h-16 rounded border-2 overflow-hidden transition-all",
-                      selectedImage === index 
-                        ? "border-primary" 
-                        : "border-transparent hover:border-gray-300"
+                      "w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors",
+                      selectedImage === index ? "border-primary" : "border-border"
                     )}
                   >
-                    {item.type === 'video' ? (
-                      <div className="relative w-full h-full">
-                        <img
-                          src={product.image}
-                          alt="Video thumbnail"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                          <Play className="h-3 w-3 text-white" />
-                        </div>
-                      </div>
-                    ) : (
-                      <img
-                        src={item.url}
-                        alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+                    <img
+                      src={image}
+                      alt={`${product.name} ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -124,117 +68,57 @@ const QuickView: React.FC<QuickViewProps> = ({ product, trigger }) => {
           {/* Product Details */}
           <div className="space-y-4">
             <div>
-              <div className="flex items-start justify-between mb-2">
-                <h2 className="text-2xl font-bold">{product.name}</h2>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setOpen(false)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              {/* Badges */}
-              {getBadges().length > 0 && (
-                <div className="flex gap-2 mb-3">
-                  {getBadges().map((badge, index) => (
-                    <Badge key={index} variant={badge.variant}>
-                      {badge.text}
-                    </Badge>
-                  ))}
-                </div>
-              )}
+              <h2 className="text-2xl font-bold text-foreground mb-2">{product.name}</h2>
+              <p className="text-muted-foreground">{product.description}</p>
+            </div>
 
-              <p className="text-3xl font-bold text-primary">₹{product.price.toLocaleString()}</p>
+            {/* Badges */}
+            <div className="flex gap-2">
+              {product.newArrival && <Badge className="bg-secondary">New Arrival</Badge>}
+              {product.bestseller && <Badge className="bg-primary">Bestseller</Badge>}
+              {product.featured && <Badge className="bg-accent text-accent-foreground">Featured</Badge>}
+            </div>
+
+            {/* Price */}
+            <div className="flex items-center gap-3">
+              <span className="text-3xl font-bold text-foreground">
+                ₹{product.price.toLocaleString()}
+              </span>
+              <span className="text-sm text-muted-foreground">(Base Price)</span>
             </div>
 
             {/* Product Info */}
             <div className="space-y-2 text-sm">
-              <div><strong>Material:</strong> {product.material}</div>
-              <div><strong>Region:</strong> {product.region}</div>
-              <div><strong>In Stock:</strong> {product.inStock ? 'Yes' : 'No'}</div>
-            </div>
-
-            {/* Description */}
-            <div>
-              <h4 className="font-semibold mb-2">Description</h4>
-              <p className="text-muted-foreground text-sm">{product.description}</p>
-            </div>
-
-            {/* Quantity Selector */}
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium">Quantity:</label>
-              <div className="flex items-center border rounded">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  disabled={quantity <= 1}
-                >
-                  -
-                </Button>
-                <span className="px-4 py-1 min-w-[3rem] text-center">{quantity}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setQuantity(quantity + 1)}
-                >
-                  +
-                </Button>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Material:</span>
+                <span className="font-medium">{product.material}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Category:</span>
+                <span className="font-medium capitalize">{product.category.replace('-', ' ')}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Availability:</span>
+                <span className={cn(
+                  "font-medium",
+                  product.inStock ? "text-green-600" : "text-destructive"
+                )}>
+                  {product.inStock ? "In Stock" : "Out of Stock"}
+                </span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-3">
+            <div className="space-y-2 pt-4">
               <Button 
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-                className="w-full"
+                className="w-full" 
                 size="lg"
+                asChild
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Add to Cart
+                <Link to={`/product/${product.id}`}>
+                  View Full Details & Request Quote
+                </Link>
               </Button>
-              
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={handleAddToWishlist}
-                  className="flex-1"
-                >
-                  <Heart 
-                    className={cn(
-                      "h-4 w-4 mr-2",
-                      isInWishlist(product.id) && "fill-current text-red-500"
-                    )} 
-                  />
-                  Wishlist
-                </Button>
-                
-                <Button variant="outline" onClick={() => setOpen(false)}>
-                  <Eye className="h-4 w-4 mr-2" />
-                  View Full Details
-                </Button>
-              </div>
-            </div>
-
-            {/* Key Features */}
-            <div className="pt-4 border-t">
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                  <span>Free shipping on all orders</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  <span>Handcrafted with authentic materials</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                  <span>30-day return policy</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

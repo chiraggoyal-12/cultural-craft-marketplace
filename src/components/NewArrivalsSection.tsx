@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Eye } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { Eye } from "lucide-react";
 import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const NewArrivalsSection = () => {
-  const { addItem } = useCart();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const { products } = useProductsWithMedia();
 
@@ -60,30 +58,18 @@ const NewArrivalsSection = () => {
 
                 {/* Hover Actions Overlay */}
                 <div
-                  className={`absolute inset-0 bg-black/50 transition-opacity duration-300 flex items-center justify-center gap-2 z-20 ${
+                  className={`absolute inset-0 bg-black/50 transition-opacity duration-300 flex items-center justify-center z-20 ${
                     hoveredProduct === product.id ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
                 >
                   <Button
                     size="sm"
-                    className="bg-white text-black hover:bg-white/90 font-semibold text-xs px-3 h-8"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addItem(product);
-                    }}
-                  >
-                    <ShoppingCart className="w-3 h-3 md:w-4 md:h-4 mr-1" />
-                    Add
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-black font-semibold text-xs px-3 h-8"
+                    className="bg-white text-black hover:bg-white/90 font-semibold text-xs px-4 h-8"
                     asChild
                   >
                     <span>
                       <Eye className="w-3 h-3 md:w-4 md:h-4 mr-1" />
-                      View
+                      View & Quote
                     </span>
                   </Button>
                 </div>

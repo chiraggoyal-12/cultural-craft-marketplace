@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, User, ShoppingCart, Menu, X } from "lucide-react";
+import { User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import PredictiveSearch from "@/components/PredictiveSearch";
 import { Product } from "@/data/products";
@@ -10,7 +9,6 @@ import handoraLogo from "@/assets/handora-logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { itemCount } = useCart();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
@@ -112,16 +110,6 @@ const Header = () => {
                 className="w-full"
               />
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hidden sm:flex"
-              asChild
-            >
-              <Link to="/wishlist">
-                <Heart className="w-5 h-5" />
-              </Link>
-            </Button>
             {/* User Account */}
             {user ? (
               <Button variant="ghost" size="icon" asChild title="My Account">
@@ -136,16 +124,6 @@ const Header = () => {
                 </Link>
               </Button>
             )}
-            <Button variant="ghost" size="icon" className="relative" asChild>
-              <Link to="/cart">
-                <ShoppingCart className="w-5 h-5" />
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                    {itemCount}
-                  </span>
-                )}
-              </Link>
-            </Button>
 
             {/* Mobile Menu Button */}
             <Button

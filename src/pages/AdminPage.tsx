@@ -24,6 +24,8 @@ import {
   CreditCard,
   MapPin,
   Calendar,
+  FileText,
+  Eye,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
@@ -77,13 +79,29 @@ interface OrderItem {
   total_price: number;
 }
 
+interface QuotationRequest {
+  id: string;
+  product_id: string;
+  product_name: string;
+  quantity: number;
+  customization_notes?: string;
+  customer_name: string;
+  customer_company?: string;
+  customer_mobile: string;
+  customer_email?: string;
+  status: string;
+  created_at: string;
+}
+
 export const AdminPage: React.FC = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [quotationRequests, setQuotationRequests] = useState<QuotationRequest[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedQuotation, setSelectedQuotation] = useState<QuotationRequest | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
@@ -186,6 +204,15 @@ export const AdminPage: React.FC = () => {
         payment_status: order.payment_status || 'pending',
         payment_id: order.payment_id || undefined
       })));
+
+      // Fetch quotation requests
+      const { data: quotations, error: quotationsError } = await supabase
+        .from("quotation_requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (quotationsError) throw quotationsError;
+      setQuotationRequests(quotations || []);
     } catch (err) {
       console.error("Error fetching admin data:", err);
       setError("Failed to load admin data");
@@ -295,6 +322,29 @@ export const AdminPage: React.FC = () => {
     } catch (err) {
       console.error("Error confirming payment:", err);
       setError("Failed to confirm payment: " + (err as Error).message);
+    }
+  };
+
+  const updateQuotationStatus = async (quotationId: string, status: string) => {
+    try {
+      const { error } = await supabase
+        .from("quotation_requests")
+        .update({ status })
+        .eq("id", quotationId);
+
+      if (error) throw error;
+
+      setQuotationRequests((prev) =>
+        prev.map((req) => (req.id === quotationId ? { ...req, status } : req))
+      );
+
+      toast({
+        title: "Status Updated",
+        description: `Quotation status updated to ${status}.`,
+      });
+    } catch (err) {
+      console.error("Error updating quotation status:", err);
+      setError("Failed to update quotation status");
     }
   };
 
@@ -430,9 +480,13 @@ export const AdminPage: React.FC = () => {
           </Alert>
         )}
 
-        <Tabs defaultValue="orders" className="space-y-6">
+        <Tabs defaultValue="quotations" className="space-y-6">
           <div className="flex items-center justify-between">
             <TabsList>
+              <TabsTrigger value="quotations" className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                Quotation Requests ({quotationRequests.length})
+              </TabsTrigger>
               <TabsTrigger value="orders" className="flex items-center gap-2">
                 <Package className="w-4 h-4" />
                 Orders ({orders.length})
@@ -466,6 +520,116 @@ export const AdminPage: React.FC = () => {
               )}
             </div>
           </div>
+
+          <TabsContent value="quotations" className="space-y-4">
+            <div className="grid gap-4">
+              {quotationRequests.length === 0 ? (
+                <Card>
+                  <CardContent className="pt-6">
+                    <p className="text-center text-muted-foreground">
+                      No quotation requests found.
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                quotationRequests.map((request) => (
+                  <Card key={request.id}>
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg">
+                            {request.product_name}
+                          </CardTitle>
+                          <CardDescription>
+                            <div className="flex items-center gap-4 mt-2 flex-wrap">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" />
+                                {new Date(request.created_at).toLocaleDateString()}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Package className="w-4 h-4" />
+                                Qty: {request.quantity}
+                              </div>
+                            </div>
+                          </CardDescription>
+                        </div>
+                        <Badge 
+                          variant={request.status === 'pending' ? 'secondary' : 'default'}
+                        >
+                          {request.status}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground">Customer Name</p>
+                            <p className="font-medium">{request.customer_name}</p>
+                          </div>
+                          {request.customer_company && (
+                            <div>
+                              <p className="text-sm text-muted-foreground">Company</p>
+                              <p className="font-medium">{request.customer_company}</p>
+                            </div>
+                          )}
+                          <div>
+                            <p className="text-sm text-muted-foreground">Mobile</p>
+                            <p className="font-medium">{request.customer_mobile}</p>
+                          </div>
+                          {request.customer_email && (
+                            <div>
+                              <p className="text-sm text-muted-foreground">Email</p>
+                              <p className="font-medium">{request.customer_email}</p>
+                            </div>
+                          )}
+                        </div>
+
+                        {request.customization_notes && (
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">
+                              Customization Details
+                            </p>
+                            <p className="text-sm p-3 bg-muted rounded-md">
+                              {request.customization_notes}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="flex gap-2 pt-2">
+                          {request.status === 'pending' && (
+                            <>
+                              <Button
+                                size="sm"
+                                onClick={() => updateQuotationStatus(request.id, 'processing')}
+                              >
+                                Mark as Processing
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => updateQuotationStatus(request.id, 'completed')}
+                              >
+                                Mark as Completed
+                              </Button>
+                            </>
+                          )}
+                          {request.status === 'processing' && (
+                            <Button
+                              size="sm"
+                              onClick={() => updateQuotationStatus(request.id, 'completed')}
+                            >
+                              Mark as Completed
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </TabsContent>
 
           <TabsContent value="orders" className="space-y-4">
             <div className="grid gap-4">
