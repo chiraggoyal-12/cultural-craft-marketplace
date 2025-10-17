@@ -127,14 +127,6 @@ const ShopPage = () => {
     );
   };
 
-  const handleWishlistToggle = (product: Product) => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -292,20 +284,6 @@ const ShopPage = () => {
                       {product.bestseller && <Badge className="bg-primary">Bestseller</Badge>}
                       {product.featured && <Badge className="bg-accent text-accent-foreground">Featured</Badge>}
                     </div>
-                    
-                    {/* Wishlist Button */}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-                      onClick={() => handleWishlistToggle(product)}
-                    >
-                      <Heart 
-                        className={`w-4 h-4 ${
-                          isInWishlist(product.id) ? "fill-primary text-primary" : "text-foreground"
-                        }`} 
-                      />
-                    </Button>
                   </div>
                   
                   <CardContent className={`p-4 ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : ""}`}>
@@ -341,11 +319,12 @@ const ShopPage = () => {
                     <div className={`${viewMode === "list" ? "mt-4" : ""}`}>
                       <Button 
                         className="w-full"
-                        onClick={() => addItem(product)}
-                        disabled={!product.inStock}
+                        asChild
                       >
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        {product.inStock ? "Add to Cart" : "Out of Stock"}
+                        <Link to={`/product/${product.id}`}>
+                          <Eye className="w-4 h-4 mr-2" />
+                          View & Request Quote
+                        </Link>
                       </Button>
                     </div>
                   </CardContent>
