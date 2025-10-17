@@ -196,7 +196,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-8 mt-8 md:mt-12 border-t border-border">
+        <div className="pt-12 mt-16 md:mt-24 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col md:flex-row items-center gap-3">
               <img src={handoraLogo} alt="Handora" className="h-8 w-auto" />
