@@ -21,11 +21,11 @@ const Footer = () => {
 
   return (
     <footer 
-      className="relative border-t border-border/20 bg-cover bg-center bg-no-repeat"
+      className="relative border-t border-border/20 bg-cover bg-center bg-no-repeat min-h-[500px]"
       style={{ backgroundImage: `url(${footerBg})` }}
     >
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
-      <div className="container mx-auto px-4 py-12 relative z-10">
+      <div className="absolute inset-0 bg-background/30"></div>
+      <div className="container mx-auto px-4 py-16 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Explore Section */}
