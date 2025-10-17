@@ -25,9 +25,9 @@ const Footer = () => {
       style={{ backgroundImage: `url(${footerBg})` }}
     >
       <div className="absolute inset-0 bg-white/40"></div>
-      <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
+      <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {/* Explore Section */}
           <div>
             <h3 className="font-semibold text-foreground mb-4">Explore</h3>
@@ -196,7 +196,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-12 mt-16 md:mt-24 border-t border-border">
+        <div className="pt-16 mt-24 md:mt-32 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex flex-col md:flex-row items-center gap-3">
               <img src={handoraLogo} alt="Handora" className="h-8 w-auto" />
