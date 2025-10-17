@@ -21,11 +21,11 @@ const Footer = () => {
 
   return (
     <footer 
-      className="relative border-t border-border/20 bg-cover bg-center bg-no-repeat min-h-[500px]"
+      className="relative border-t border-border/20 bg-cover bg-bottom bg-no-repeat min-h-[700px] md:min-h-[800px]"
       style={{ backgroundImage: `url(${footerBg})` }}
     >
-      <div className="absolute inset-0 bg-background/30"></div>
-      <div className="container mx-auto px-4 py-16 relative z-10">
+      <div className="absolute inset-0 bg-white/40"></div>
+      <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Explore Section */}
@@ -196,16 +196,16 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="pt-8 border-t border-border">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+        <div className="pt-8 mt-8 md:mt-12 border-t border-border">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row items-center gap-3">
               <img src={handoraLogo} alt="Handora" className="h-8 w-auto" />
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground text-center md:text-left">
                 Connecting Cultures, One Craft at a Time
               </span>
             </div>
 
-            <p className="text-sm text-muted-foreground flex items-center">
+            <p className="text-sm text-muted-foreground flex items-center flex-wrap justify-center">
               © Handora {currentYear}. All Rights Reserved. Crafted with{" "}
               <Heart className="w-4 h-4 mx-1 text-primary fill-current" /> by
               Handora.
