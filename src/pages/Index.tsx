@@ -21,6 +21,7 @@ const Index = () => {
         <NewArrivalsSection />
         <AboutSection />
         <NewsletterSection />
+        <div className="h-32 md:h-48 bg-background"></div>
       </main>
       <Footer />
     </div>
