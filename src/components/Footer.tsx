@@ -20,7 +20,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t border-border/20 min-h-[700px] md:min-h-[800px] overflow-hidden">
+    <footer className="relative border-t border-border/20 min-h-[900px] md:min-h-[1000px] overflow-hidden">
       {/* Fixed max-width container for background */}
       <div 
         className="absolute inset-0 max-w-[1920px] mx-auto"

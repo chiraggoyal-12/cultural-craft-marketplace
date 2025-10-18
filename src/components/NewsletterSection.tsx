@@ -29,7 +29,7 @@ const NewsletterSection = () => {
           backgroundRepeat: 'no-repeat',
         }}
       />
-      <div className="container mx-auto px-4 pt-48 pb-32 md:pt-64 md:pb-48 lg:pt-80 lg:pb-64 relative z-10">
+      <div className="container mx-auto px-4 pt-48 pb-48 md:pt-64 md:pb-64 lg:pt-80 lg:pb-80 relative z-10">
         <Card className="bg-transparent border-transparent shadow-none overflow-hidden">
           <CardContent className="p-10 md:p-16 text-center text-foreground">
             <div className="max-w-2xl mx-auto">
