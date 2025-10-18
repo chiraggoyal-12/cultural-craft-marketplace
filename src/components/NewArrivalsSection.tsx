@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
 import { useProductsWithMedia } from "@/hooks/useProductsWithMedia";
 
 const NewArrivalsSection = () => {
-  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const { products } = useProductsWithMedia();
 
   // Get new arrivals and mix with some featured if we need more products (8 total)
@@ -15,73 +13,60 @@ const NewArrivalsSection = () => {
   ].slice(0, 8);
 
   return (
-    <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16">
-      {/* Header */}
-      <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl font-semibold mb-8 md:mb-12 text-center">
-        New Arrivals & Curated Picks
-      </h2>
+    <section className="py-16 md:py-24 px-4 md:px-8 lg:px-16 animate-fade-in">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-12 md:mb-16 text-center text-foreground">
+          Our Best Selling Products
+        </h2>
 
-      {/* Column-based layout matching Jaypore design */}
-      <div 
-        className="max-w-[1400px] mx-auto"
-        style={{
-          columnCount: 'auto',
-          columnWidth: '280px',
-          columnGap: '16px',
-        }}
-      >
-        {newProducts.map((product) => (
-          <div
-            key={product.id}
-            className="break-inside-avoid mb-4 group"
-            onMouseEnter={() => setHoveredProduct(product.id)}
-            onMouseLeave={() => setHoveredProduct(null)}
-          >
-            <Link to={`/product/${product.id}`} className="block">
-              {/* Image Container */}
-              <div className="relative overflow-hidden mb-3">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-
-                {/* NEW Badge */}
-                {product.newArrival && (
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="bg-black text-white text-xs font-bold px-3 py-1.5 tracking-widest">
-                      NEW
-                    </span>
-                  </div>
-                )}
-
-                {/* Hover Actions Overlay */}
-                <div
-                  className={`absolute inset-0 bg-black/50 transition-opacity duration-300 flex items-center justify-center z-20 ${
-                    hoveredProduct === product.id ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
-                >
-                  <Button
-                    size="sm"
-                    className="bg-white text-black hover:bg-white/90 font-semibold text-xs px-4 h-8"
-                    asChild
-                  >
-                    <span>
-                      <Eye className="w-3 h-3 md:w-4 md:h-4 mr-1" />
-                      View & Quote
-                    </span>
-                  </Button>
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {newProducts.map((product, index) => (
+            <div
+              key={product.id}
+              className="group animate-fade-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <Link to={`/product/${product.id}`}>
+                {/* Image Container */}
+                <div className="relative overflow-hidden mb-4 bg-[#f5f1e8] rounded-lg aspect-square">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
                 </div>
-              </div>
 
-              {/* Product Name - Below Image */}
-              <p className="text-center text-sm md:text-base font-bold tracking-wide uppercase text-foreground">
-                {product.name}
-              </p>
-            </Link>
-          </div>
-        ))}
+                {/* Product Name */}
+                <h3 className="text-center text-base md:text-lg font-semibold mb-4 text-foreground min-h-[3rem] flex items-center justify-center">
+                  {product.name}
+                </h3>
+
+                {/* Get Quote Button */}
+                <Button
+                  className="w-full bg-[#6b5744] hover:bg-[#5a4936] text-white"
+                  asChild
+                >
+                  <span>Get Quote</span>
+                </Button>
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* View All Products Button */}
+        <div className="text-center">
+          <Button
+            size="lg"
+            variant="outline"
+            className="px-12 py-6 text-lg font-semibold border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            asChild
+          >
+            <Link to="/shop">View All Products</Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

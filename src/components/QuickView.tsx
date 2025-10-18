@@ -79,13 +79,6 @@ const QuickView: React.FC<QuickViewProps> = ({ product, trigger }) => {
               {product.featured && <Badge className="bg-accent text-accent-foreground">Featured</Badge>}
             </div>
 
-            {/* Price */}
-            <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-foreground">
-                ₹{product.price.toLocaleString()}
-              </span>
-              <span className="text-sm text-muted-foreground">(Base Price)</span>
-            </div>
 
             {/* Product Info */}
             <div className="space-y-2 text-sm">

@@ -126,20 +126,12 @@ const ProductPage = () => {
             </div>
 
             {/* Review Count */}
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-6">
               <Star className="w-4 h-4 fill-primary text-primary" />
               <span className="font-medium">{reviewCount}</span>
               <span className="text-sm text-muted-foreground">
                 {reviewCount === 1 ? 'Review' : 'Reviews'}
               </span>
-            </div>
-
-            {/* Price */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-3xl font-bold text-foreground">
-                ₹{product.price.toLocaleString()}
-              </span>
-              <span className="text-sm text-muted-foreground">(Base Price)</span>
             </div>
 
             {/* Material & Dimensions */}
@@ -236,15 +228,15 @@ const ProductPage = () => {
                   </div>
                   
                   <CardContent className="p-4">
-                    <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                       {relatedProduct.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="text-sm text-muted-foreground mb-3">
                       {relatedProduct.shortDescription}
                     </p>
-                    <span className="text-lg font-bold text-foreground">
-                      ₹{relatedProduct.price.toLocaleString()}
-                    </span>
+                    <Button size="sm" className="w-full" asChild>
+                      <a href={`/product/${relatedProduct.id}`}>Get Quote</a>
+                    </Button>
                   </CardContent>
                 </Card>
               ))}

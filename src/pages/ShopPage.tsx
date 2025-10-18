@@ -162,22 +162,6 @@ const ShopPage = () => {
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-4">Filters</h3>
                 
-                {/* Price Range */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">Price Range</label>
-                  <Slider
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    max={10000}
-                    min={0}
-                    step={100}
-                    className="mb-2"
-                  />
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>₹{priceRange[0]}</span>
-                    <span>₹{priceRange[1]}</span>
-                  </div>
-                </div>
                 
                 {/* Materials */}
                 <div className="mb-6">
@@ -298,21 +282,10 @@ const ShopPage = () => {
                       </p>
                       
                       {/* Review Count */}
-                      <div className="flex items-center gap-1 mb-2">
+                      <div className="flex items-center gap-1 mb-3">
                         <span className="text-xs text-muted-foreground">
                           {product.reviewCount} reviews
                         </span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-lg font-bold text-foreground">
-                          ₹{product.price.toLocaleString()}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-muted-foreground line-through">
-                            ₹{product.originalPrice.toLocaleString()}
-                          </span>
-                        )}
                       </div>
                     </div>
                     
