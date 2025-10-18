@@ -20,11 +20,18 @@ const Footer = () => {
   };
 
   return (
-    <footer 
-      className="relative border-t border-border/20 bg-cover bg-bottom bg-no-repeat min-h-[700px] md:min-h-[800px]"
-      style={{ backgroundImage: `url(${footerBg})` }}
-    >
-      <div className="absolute inset-0 bg-white/40"></div>
+    <footer className="relative border-t border-border/20 min-h-[700px] md:min-h-[800px] overflow-hidden">
+      {/* Fixed max-width container for background */}
+      <div 
+        className="absolute inset-0 max-w-[1920px] mx-auto"
+        style={{ 
+          backgroundImage: `url(${footerBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center bottom',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="absolute inset-0 bg-white/40 max-w-[1920px] mx-auto"></div>
       <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">

@@ -18,16 +18,18 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section
-      className="bg-background"
-      style={{
-        backgroundImage: `url(${newsletterBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div className="container mx-auto px-4 pt-48 pb-32 md:pt-64 md:pb-48 lg:pt-80 lg:pb-64">
+    <section className="relative bg-background overflow-hidden">
+      {/* Fixed max-width container for background */}
+      <div 
+        className="absolute inset-0 max-w-[1920px] mx-auto"
+        style={{
+          backgroundImage: `url(${newsletterBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="container mx-auto px-4 pt-48 pb-32 md:pt-64 md:pb-48 lg:pt-80 lg:pb-64 relative z-10">
         <Card className="bg-transparent border-transparent shadow-none overflow-hidden">
           <CardContent className="p-10 md:p-16 text-center text-foreground">
             <div className="max-w-2xl mx-auto">
