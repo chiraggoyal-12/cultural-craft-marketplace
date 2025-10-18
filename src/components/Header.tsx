@@ -6,7 +6,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import PredictiveSearch from "@/components/PredictiveSearch";
 import { Product } from "@/data/products";
 import handoraLogo from "@/assets/handora-logo.png";
-import navbarBg from "@/assets/navbar-handora-bg.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,17 +24,10 @@ const Header = () => {
   ];
 
   return (
-    <header className="relative w-full border-b border-border smooth-transition" style={{
-      backgroundImage: `url(${navbarBg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    }}>
-      {/* Background overlay for text readability */}
-      <div className="absolute inset-0 bg-white/20"></div>
+    <header className="relative w-full border-b border-border smooth-transition bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       
       {/* Logo Section - Centered */}
-      <div className="container mx-auto px-4 py-4 relative z-10">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex justify-center">
           <Link to="/">
             <img
@@ -48,7 +40,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="container mx-auto px-4 pb-4 relative z-10">
+      <div className="container mx-auto px-4 pb-4">
         <div className="flex items-center justify-between">
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
