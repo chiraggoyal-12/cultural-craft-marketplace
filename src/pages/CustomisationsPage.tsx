@@ -78,10 +78,10 @@ const CustomisationsPage = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5"></div>
+            <div className="lg:col-span-7"></div>
             <div
               ref={contentAnim.ref as React.RefObject<HTMLDivElement>}
-              className={`lg:col-span-7 lg:pl-12 transition-all duration-1000 ${
+              className={`lg:col-span-5 lg:pl-16 xl:pl-20 transition-all duration-1000 ${
                 contentAnim.isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-10"
