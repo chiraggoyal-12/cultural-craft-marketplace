@@ -25,8 +25,8 @@ const AboutSection = () => {
     },
     {
       icon: Award,
-      title: "Quality Assured",
-      description: "Only the finest materials and craftsmanship go into our products, guaranteeing long-lasting value and authenticity."
+      title: "B2B Partnerships",
+      description: "Customized solutions for businesses, designers, and retail partners."
     }
   ];
 

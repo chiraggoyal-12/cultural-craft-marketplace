@@ -82,6 +82,12 @@ const Header = () => {
               </div>
             </div>
             <Link
+              to="/customisations"
+              className="text-foreground hover:text-primary smooth-transition"
+            >
+              Customisations
+            </Link>
+            <Link
               to="/about"
               className="text-foreground hover:text-primary smooth-transition"
             >
@@ -175,6 +181,12 @@ const Header = () => {
                 </Link>
               ))}
             </div>
+            <Link
+              to="/customisations"
+              className="block text-foreground hover:text-primary transition-colors"
+            >
+              Customisations
+            </Link>
             <Link
               to="/about"
               className="block text-foreground hover:text-primary transition-colors"

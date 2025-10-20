@@ -11,8 +11,9 @@ import ProductPage from "./pages/ProductPage";
 import AuthPage from "./pages/AuthPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
 import BlogPage from "./pages/BlogPage";
+import ContactPage from "./pages/ContactPage";
+import CustomisationsPage from "./pages/CustomisationsPage";
 import StoryDetailPage from "./pages/StoryDetailPage";
 import UserDashboard from "./pages/UserDashboard";
 import { AdminPage } from "./pages/AdminPage";
@@ -49,6 +50,7 @@ const App = () => (
                   element={<ProductMediaAdmin />}
                 />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/customisations" element={<CustomisationsPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:storyId" element={<StoryDetailPage />} />
                 <Route path="/contact" element={<ContactPage />} />
