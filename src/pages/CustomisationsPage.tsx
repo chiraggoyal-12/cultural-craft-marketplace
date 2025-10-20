@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Phone } from "lucide-react";
+import { Phone, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import customisationBg from "@/assets/customisation-page.png";
+import { Link } from "react-router-dom";
 
 const CustomisationsPage = () => {
   const headerAnim = useScrollAnimation(0.1);
@@ -60,6 +63,8 @@ const CustomisationsPage = () => {
 
   return (
     <div className="min-h-screen">
+      <Header />
+      
       {/* Hero Section with Background Image */}
       <section className="relative min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
         <div className="absolute inset-0">
@@ -72,45 +77,59 @@ const CustomisationsPage = () => {
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div></div>
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-5"></div>
             <div
               ref={contentAnim.ref as React.RefObject<HTMLDivElement>}
-              className={`transition-all duration-1000 ${
+              className={`lg:col-span-7 lg:pl-12 transition-all duration-1000 ${
                 contentAnim.isVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 translate-x-10"
               }`}
             >
-              <div className="bg-background/95 backdrop-blur-lg p-8 md:p-12 rounded-2xl border border-border shadow-elegant">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+              <div className="space-y-6">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                   Custom B2B Solutions
                 </h1>
-                <p className="text-lg md:text-xl text-foreground/90 mb-8 leading-relaxed">
+                <p className="text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-medium leading-relaxed">
                   Looking for customized handcrafted pieces for your next project or collection?
                 </p>
-                <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
+                <p className="text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed">
                   Whether you're sourcing bespoke marble decor, stoneware gifts, or planning to showcase Handora's crafts in your retail space, we'd love to collaborate!
                 </p>
-                <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed">
+                <p className="text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed">
                   Reach out to us directly on WhatsApp—we'll help you bring your creative vision to life.
                 </p>
                 
-                <Button
-                  size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-primary to-accent hover:shadow-glow transition-all duration-300"
-                  asChild
-                >
-                  <a
-                    href="https://wa.me/917340636904"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3"
+                <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                  <Button
+                    size="lg"
+                    className="group relative overflow-hidden bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-glow transition-all duration-300"
+                    asChild
                   >
-                    <Phone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                    Contact us on WhatsApp
-                  </a>
-                </Button>
+                    <a
+                      href="https://wa.me/917340636904"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-lg px-8 py-6"
+                    >
+                      <Phone className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                      Contact us on WhatsApp
+                    </a>
+                  </Button>
+                  
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="bg-white/10 backdrop-blur-sm border-white/50 text-white hover:bg-white/20 hover:text-white shadow-2xl"
+                    asChild
+                  >
+                    <Link to="/" className="flex items-center gap-2 text-lg px-8 py-6">
+                      <Home className="w-6 h-6" />
+                      Back to Home
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -211,6 +230,8 @@ const CustomisationsPage = () => {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

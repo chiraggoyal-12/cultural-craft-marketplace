@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, MapPin, ArrowRight, Home } from 'lucide-react';
 import { stories } from '@/data/stories';
 import { useNewsletterSubscription } from '@/hooks/useNewsletterSubscription';
 
@@ -55,10 +55,16 @@ const BlogPage = () => {
             <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-6 text-foreground leading-tight">
               Stories Behind the Craft
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
               Every handmade piece carries not just material, but memory, tradition, and the artisan's touch. 
               Here are real stories of the people and practices that shape our collection.
             </p>
+            <Button asChild variant="outline" size="lg">
+              <Link to="/" className="flex items-center gap-2">
+                <Home className="w-5 h-5" />
+                Back to Home
+              </Link>
+            </Button>
           </div>
         </section>
 

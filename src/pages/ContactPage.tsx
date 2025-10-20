@@ -7,9 +7,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Home } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
+import { Link } from 'react-router-dom';
 
 // Validation schema
 const contactSchema = z.object({
@@ -108,9 +109,15 @@ const ContactPage = () => {
         <section className="bg-gradient-to-br from-primary/10 to-secondary/5 py-16">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
               We'd love to hear from you. Send us a message and we'll respond as soon as possible.
             </p>
+            <Button asChild variant="outline" size="lg">
+              <Link to="/" className="flex items-center gap-2">
+                <Home className="w-5 h-5" />
+                Back to Home
+              </Link>
+            </Button>
           </div>
         </section>
 

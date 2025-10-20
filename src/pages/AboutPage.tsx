@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Users, Award, Leaf, CheckCircle, Globe, Sparkles, TrendingUp } from 'lucide-react';
+import { Heart, Users, Award, Leaf, CheckCircle, Globe, Sparkles, TrendingUp, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroImage from '@/assets/lifestyle-spiritual.jpg';
 import artisanImage from '@/assets/lifestyle-living.jpg';
@@ -31,6 +31,12 @@ const AboutPage = () => {
             <h1 className="font-playfair text-5xl md:text-7xl font-bold text-white drop-shadow-lg">
               About Handora
             </h1>
+            <Button asChild variant="secondary" size="lg" className="mt-6">
+              <Link to="/" className="flex items-center gap-2">
+                <Home className="w-5 h-5" />
+                Back to Home
+              </Link>
+            </Button>
           </div>
         </section>
 
