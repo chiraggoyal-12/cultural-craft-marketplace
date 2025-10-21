@@ -92,7 +92,7 @@ const CustomisationsPage = () => {
                   crafts in your retail space, we'd love to collaborate!
                 </p>
                 <p className="text-base sm:text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed px-4">
-                  Reach out to us directly on WhatsApp—we'll help you bring your creative vision to life.
+                  Reach out to us directly on WhatsApp, we'll help you bring your creative vision to life.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 px-4">
