@@ -69,59 +69,58 @@ const CustomisationsPage = () => {
       <section className="relative min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
         <div className="absolute inset-0">
           <img src={customisationBg} alt="Customisation Background" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7"></div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex items-center justify-center min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
             <div
               ref={contentAnim.ref as React.RefObject<HTMLDivElement>}
-              className={`lg:col-span-5 lg:pl-16 xl:pl-20 transition-all duration-1000 ${
-                contentAnim.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${
+                contentAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
             >
-              <div className="space-y-0">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                  Custom B2B Solutions
+              <div className="space-y-6">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                  Customisations
                 </h1>
-                <p className="text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-medium leading-relaxed">
+                <p className="text-lg sm:text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] leading-relaxed px-4">
                   Looking for customized handcrafted pieces for your next project or collection?
                 </p>
-                <p className="text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed px-4">
                   Whether you're sourcing bespoke marble decor, stoneware gifts, or planning to showcase Handora's
                   crafts in your retail space, we'd love to collaborate!
                 </p>
-                <p className="text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] leading-relaxed px-4">
                   Reach out to us directly on WhatsApp—we'll help you bring your creative vision to life.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 px-4">
                   <Button
                     size="lg"
-                    className="group relative overflow-hidden bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-glow transition-all duration-300"
+                    className="group relative overflow-hidden bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-glow transition-all duration-300 w-full sm:w-auto"
                     asChild
                   >
                     <a
                       href="https://wa.me/917340636904"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-lg px-8 py-6"
+                      className="flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
                     >
-                      <Phone className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                      Contact us on WhatsApp
+                      <Phone className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform" />
+                      <span className="whitespace-nowrap">Contact us on WhatsApp</span>
                     </a>
                   </Button>
 
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-white/10 backdrop-blur-sm border-white/50 text-white hover:bg-white/20 hover:text-white shadow-2xl"
+                    className="bg-white/10 backdrop-blur-sm border-white/50 text-white hover:bg-white/20 hover:text-white shadow-2xl w-full sm:w-auto"
                     asChild
                   >
-                    <Link to="/" className="flex items-center gap-2 text-lg px-8 py-6">
-                      <Home className="w-6 h-6" />
-                      Back to Home
+                    <Link to="/" className="flex items-center justify-center gap-2 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6">
+                      <Home className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <span>Back to Home</span>
                     </Link>
                   </Button>
                 </div>
