@@ -63,7 +63,7 @@ const CustomisationsCarousel = () => {
   return (
     <section 
       ref={ref}
-      className={`relative w-full min-h-screen bg-gradient-to-br from-muted via-background to-muted py-12 transition-all duration-1000 ${
+      className={`relative w-full min-h-screen bg-background py-12 transition-all duration-1000 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
