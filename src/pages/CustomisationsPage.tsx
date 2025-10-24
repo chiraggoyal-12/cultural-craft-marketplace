@@ -82,7 +82,7 @@ const CustomisationsPage = () => {
             >
               <div className="space-y-6">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                  Customisations
+                  Personalize Your Product
                 </h1>
                 <p className="text-lg sm:text-xl md:text-2xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] leading-relaxed px-4">
                   Looking for customized handcrafted pieces for your next project or collection?

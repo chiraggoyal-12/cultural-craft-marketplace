@@ -67,6 +67,11 @@ const CustomisationsCarousel = () => {
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
+      <div className="container mx-auto px-4 mb-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-foreground">
+          Personalize Your Product
+        </h2>
+      </div>
       <div className="container mx-auto px-4">
         <Carousel
           setApi={setApi}
@@ -78,7 +83,7 @@ const CustomisationsCarousel = () => {
             Autoplay({
               delay: 3000,
               stopOnInteraction: false,
-              stopOnMouseEnter: true,
+              stopOnMouseEnter: false,
             }),
           ]}
           className="w-full"
@@ -144,8 +149,8 @@ const CustomisationsCarousel = () => {
             ))}
           </CarouselContent>
           
-          <CarouselPrevious className="left-4 lg:left-8 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
-          <CarouselNext className="right-4 lg:right-8 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
+          <CarouselPrevious className="left-2 lg:left-4 h-10 w-10 lg:h-12 lg:w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
+          <CarouselNext className="right-2 lg:right-4 h-10 w-10 lg:h-12 lg:w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
         </Carousel>
 
         {/* Dots Indicator */}
