@@ -91,39 +91,39 @@ const CustomisationsCarousel = () => {
           <CarouselContent>
             {slides.map((slide, index) => (
               <CarouselItem key={index}>
-                <div className="relative w-full min-h-[80vh] flex items-center">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full items-center">
+                <div className="relative w-full min-h-[80vh] flex items-center px-4 sm:px-8 lg:px-16 xl:px-24">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 w-full items-center max-w-7xl mx-auto">
                     {/* Left Content */}
                     <div 
-                      className={`space-y-6 transition-all duration-700 delay-200 ${
+                      className={`space-y-4 md:space-y-6 transition-all duration-700 delay-200 ${
                         current === index ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
                       }`}
                     >
                       <div className="space-y-2">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
                           {slide.title}
                         </h2>
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground/90">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-foreground/90">
                           {slide.subtitle}
                         </h3>
-                        <p className="text-lg md:text-xl text-muted-foreground italic">
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground italic">
                           {slide.location}
                         </p>
                       </div>
 
-                      <p className="text-base md:text-lg text-foreground/80 leading-relaxed max-w-xl">
+                      <p className="text-sm sm:text-base md:text-lg text-foreground/80 leading-relaxed max-w-xl">
                         {slide.description}
                       </p>
 
                       <div className="space-y-4">
-                        <p className="text-xl md:text-2xl font-semibold text-foreground">
+                        <p className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground">
                           {slide.highlight}
                         </p>
                         
                         <Button 
                           onClick={() => navigate("/customisations")}
                           size="lg"
-                          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold transition-all hover:scale-105 hover:shadow-lg"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold transition-all hover:scale-105 hover:shadow-lg w-full sm:w-auto"
                         >
                           {slide.buttonText}
                         </Button>
@@ -132,7 +132,7 @@ const CustomisationsCarousel = () => {
 
                     {/* Right Image */}
                     <div 
-                      className={`relative h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 delay-300 ${
+                      className={`relative h-[300px] sm:h-[400px] lg:h-[500px] xl:h-[600px] rounded-xl lg:rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 delay-300 ${
                         current === index ? "opacity-100 translate-x-0 scale-100" : "opacity-0 translate-x-10 scale-95"
                       }`}
                     >
@@ -149,8 +149,8 @@ const CustomisationsCarousel = () => {
             ))}
           </CarouselContent>
           
-          <CarouselPrevious className="left-2 lg:left-4 h-10 w-10 lg:h-12 lg:w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
-          <CarouselNext className="right-2 lg:right-4 h-10 w-10 lg:h-12 lg:w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
+          <CarouselPrevious className="hidden xl:flex -left-16 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
+          <CarouselNext className="hidden xl:flex -right-16 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
         </Carousel>
 
         {/* Dots Indicator */}
