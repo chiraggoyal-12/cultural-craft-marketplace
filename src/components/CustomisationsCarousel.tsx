@@ -148,9 +148,6 @@ const CustomisationsCarousel = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          
-          <CarouselPrevious className="hidden xl:flex -left-16 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
-          <CarouselNext className="hidden xl:flex -right-16 h-12 w-12 bg-background/80 backdrop-blur-sm hover:bg-background border-2 border-primary/20" />
         </Carousel>
 
         {/* Dots Indicator */}
