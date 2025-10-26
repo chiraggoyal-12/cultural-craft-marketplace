@@ -22,9 +22,9 @@ import FAQPage from "./pages/FAQPage";
 import ShippingPage from "./pages/ShippingPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
+import ReplacementPolicyPage from "./pages/ReplacementPolicyPage";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
-import WelcomePopup from "./components/WelcomePopup";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +36,6 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
-              <WelcomePopup />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/shop" element={<ShopPage />} />
@@ -58,6 +57,7 @@ const App = () => (
                 <Route path="/shipping" element={<ShippingPage />} />
                 <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="/terms" element={<TermsPage />} />
+                <Route path="/replacement-policy" element={<ReplacementPolicyPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

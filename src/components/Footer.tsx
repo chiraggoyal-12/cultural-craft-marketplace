@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Instagram } from "lucide-react";
+import { Heart, Instagram, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
@@ -102,14 +102,6 @@ const Footer = () => {
                   Contact
                 </a>
               </li>
-              <li>
-                <a
-                  href="/artisans"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Meet Our Artisans
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -131,6 +123,14 @@ const Footer = () => {
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Shipping & Returns
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/replacement-policy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Return/Replacement Policy
                 </a>
               </li>
               <li>
@@ -168,8 +168,21 @@ const Footer = () => {
                 variant="ghost"
                 size="icon"
                 className="hover:bg-primary/10"
+                asChild
               >
-                <Instagram className="w-5 h-5" />
+                <a href="https://www.instagram.com/_handora_creations_/?igsh=N2hwYnk3bDIyYXU5&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-5 h-5" />
+                </a>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-primary/10"
+                asChild
+              >
+                <a href="https://www.facebook.com/share/1GgwnMsKhn/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="w-5 h-5" />
+                </a>
               </Button>
             </div>
 

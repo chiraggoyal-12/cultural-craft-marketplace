@@ -45,7 +45,7 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-8">
             <div className="relative group">
               <button className="text-foreground hover:text-primary smooth-transition flex items-center">
-                Shop
+                Products
                 <svg
                   className="w-4 h-4 ml-1"
                   fill="none"

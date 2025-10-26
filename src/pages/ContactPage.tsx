@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
-import { Mail, Phone, Clock, Home } from 'lucide-react';
+import { Mail, Phone, Clock, Home, Instagram, Facebook } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
@@ -252,6 +252,37 @@ const ContactPage = () => {
                             <p>Sunday: Closed</p>
                           </div>
                         </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-6">
+                      <h3 className="font-semibold mb-4">Follow Us</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Stay connected with us on social media for updates, behind-the-scenes, and more.
+                      </p>
+                      <div className="flex gap-3">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="hover:bg-primary/10 hover:border-primary"
+                          asChild
+                        >
+                          <a href="https://www.instagram.com/_handora_creations_/?igsh=N2hwYnk3bDIyYXU5&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                            <Instagram className="h-5 w-5" />
+                          </a>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="hover:bg-primary/10 hover:border-primary"
+                          asChild
+                        >
+                          <a href="https://www.facebook.com/share/1GgwnMsKhn/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+                            <Facebook className="h-5 w-5" />
+                          </a>
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
