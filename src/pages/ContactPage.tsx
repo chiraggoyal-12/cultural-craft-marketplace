@@ -260,60 +260,6 @@ const ContactPage = () => {
             </div>
           </div>
         </section>
-
-        {/* FAQ Section */}
-        <section className="py-16 bg-muted/50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-muted-foreground">
-                Quick answers to common questions
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">How long does shipping take?</h3>
-                  <p className="text-muted-foreground">
-                    Most orders are shipped within 2-3 business days and typically 
-                    arrive within 5-7 business days in the US.
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">What is your return policy?</h3>
-                  <p className="text-muted-foreground">
-                    We offer a 30-day return policy for unused items in their 
-                    original condition. Custom items cannot be returned.
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">Are your products really handmade?</h3>
-                  <p className="text-muted-foreground">
-                    Yes! Every product is crafted by hand using traditional techniques 
-                    passed down through generations of artisans.
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-3">Do you ship internationally?</h3>
-                  <p className="text-muted-foreground">
-                    Currently we ship within the US and Canada. International 
-                    shipping will be available soon!
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
       </main>
       
       <Footer />
