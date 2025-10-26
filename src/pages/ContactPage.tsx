@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
-import { Mail, Phone, MapPin, Clock, Home } from 'lucide-react';
+import { Mail, Phone, Clock, Home } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
@@ -212,7 +212,7 @@ const ContactPage = () => {
                         </div>
                         <div>
                           <h3 className="font-semibold mb-1">Email</h3>
-                          <p className="text-muted-foreground">hello@handora.com</p>
+                          <p className="text-muted-foreground">2025handora@gmail.com</p>
                           <p className="text-sm text-muted-foreground">
                             We typically respond within 24 hours
                           </p>
@@ -229,27 +229,9 @@ const ContactPage = () => {
                         </div>
                         <div>
                           <h3 className="font-semibold mb-1">Phone</h3>
-                          <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                          <p className="text-muted-foreground">+91 73406 36904</p>
                           <p className="text-sm text-muted-foreground">
                             Mon-Fri 9AM-6PM EST
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="bg-primary/10 p-3 rounded-lg">
-                          <MapPin className="h-6 w-6 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold mb-1">Address</h3>
-                          <p className="text-muted-foreground">
-                            123 Artisan Street<br />
-                            Craft District, CD 12345<br />
-                            United States
                           </p>
                         </div>
                       </div>
