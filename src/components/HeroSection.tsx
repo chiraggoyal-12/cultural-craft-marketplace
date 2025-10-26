@@ -52,7 +52,7 @@ const HeroSection = () => {
                     size="lg"
                     className="bg-[#e6b34d] hover:bg-[#d4a043] text-white px-8 sm:px-10 py-4 text-lg font-bold rounded-full shadow-lg smooth-transition hover:shadow-xl hover:scale-105"
                   >
-                    <Link to="/shop">Shop Now</Link>
+                    <Link to="/shop">Browse Collection</Link>
                   </Button>
                   <Button
                     asChild
