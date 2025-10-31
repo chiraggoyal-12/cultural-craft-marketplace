@@ -843,7 +843,7 @@ const UserDashboard: React.FC = () => {
                             </p>
                             <div className="flex gap-2 mt-3">
                               <Button size="sm" className="flex-1" asChild>
-                                <Link to={`/product/${product.id}`}>
+                                <Link to={`/product/${encodeURIComponent(product.id)}`}>
                                   View Product
                                 </Link>
                               </Button>

@@ -51,7 +51,7 @@ const ProductShowcase = () => {
               </div>
               
               <CardContent className="p-4">
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/product/${encodeURIComponent(product.id)}`}>
                   <h3 className="font-semibold text-foreground mb-2 line-clamp-2 hover:text-primary transition-colors">
                     {product.name}
                   </h3>
@@ -73,12 +73,12 @@ const ProductShowcase = () => {
                     </span>
                   </div>
                   
-                  <Button
+                  <Button 
                     size="sm"
                     asChild
                     className="gap-1"
                   >
-                    <Link to={`/product/${product.id}`}>
+                    <Link to={`/product/${encodeURIComponent(product.id)}`}>
                       <Eye className="h-3 w-3" />
                       View
                     </Link>

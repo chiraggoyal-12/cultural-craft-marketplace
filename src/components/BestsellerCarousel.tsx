@@ -80,7 +80,7 @@ const BestsellerCarousel = () => {
                           className="w-full bg-white/90 text-foreground hover:bg-white"
                           asChild
                         >
-                          <Link to={`/product/${product.id}`}>
+                          <Link to={`/product/${encodeURIComponent(product.id)}`}>
                             <Eye className="w-4 h-4 mr-2" />
                             View & Request Quote
                           </Link>
@@ -90,7 +90,7 @@ const BestsellerCarousel = () => {
                   </div>
 
                   <CardContent className="p-4">
-                    <Link to={`/product/${product.id}`}>
+                    <Link to={`/product/${encodeURIComponent(product.id)}`}>
                       <h3 className="font-semibold text-foreground mb-2 line-clamp-1 hover:text-primary transition-colors">
                         {product.name}
                       </h3>

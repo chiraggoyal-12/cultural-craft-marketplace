@@ -43,7 +43,7 @@ const NewArrivalsSection = () => {
                 transitionDelay: sectionVisible ? `${300 + index * 100}ms` : '0ms'
               }}
             >
-              <Link to={`/product/${product.id}`}>
+              <Link to={`/product/${encodeURIComponent(product.id)}`}>
                 {/* Image Container */}
                 <div className="relative overflow-hidden mb-4 bg-[#f5f1e8] rounded-lg aspect-square shadow-md group-hover:shadow-xl transition-all duration-500">
                   <img

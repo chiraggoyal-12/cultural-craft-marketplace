@@ -15,7 +15,8 @@ import { useProductReviewCount } from "@/hooks/useReviewCounts";
 import { QuotationModal } from "@/components/QuotationModal";
 
 const ProductPage = () => {
-  const { id } = useParams();
+  const { id: encodedId } = useParams();
+  const id = encodedId ? decodeURIComponent(encodedId) : '';
   const { count: reviewCount } = useProductReviewCount(id || '');
   
   const [selectedImage, setSelectedImage] = useState(0);

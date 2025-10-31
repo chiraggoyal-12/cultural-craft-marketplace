@@ -108,7 +108,7 @@ const QuickView: React.FC<QuickViewProps> = ({ product, trigger }) => {
                 size="lg"
                 asChild
               >
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/product/${encodeURIComponent(product.id)}`}>
                   View Full Details & Request Quote
                 </Link>
               </Button>

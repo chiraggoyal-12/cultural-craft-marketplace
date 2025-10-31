@@ -272,7 +272,7 @@ const ShopPage = () => {
                   
                   <CardContent className={`p-4 ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : ""}`}>
                     <div>
-                      <Link to={`/product/${product.id}`}>
+                      <Link to={`/product/${encodeURIComponent(product.id)}`}>
                         <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors cursor-pointer">
                           {product.name}
                         </h3>
@@ -294,7 +294,7 @@ const ShopPage = () => {
                         className="w-full"
                         asChild
                       >
-                        <Link to={`/product/${product.id}`}>
+                        <Link to={`/product/${encodeURIComponent(product.id)}`}>
                           <Eye className="w-4 h-4 mr-2" />
                           View & Request Quote
                         </Link>

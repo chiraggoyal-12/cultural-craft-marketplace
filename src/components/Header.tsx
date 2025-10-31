@@ -13,7 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleProductSelect = (product: Product) => {
-    navigate(`/product/${product.id}`);
+    navigate(`/product/${encodeURIComponent(product.id)}`);
   };
 
   const categories = [

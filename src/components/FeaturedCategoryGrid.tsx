@@ -60,7 +60,7 @@ const FeaturedCategoryGrid = () => {
                       className="bg-white/90 text-foreground hover:bg-white"
                       asChild
                     >
-                      <Link to={`/product/${product.id}`}>
+                      <Link to={`/product/${encodeURIComponent(product.id)}`}>
                         <Eye className="w-4 h-4 mr-2" />
                         View & Request Quote
                       </Link>
@@ -75,7 +75,7 @@ const FeaturedCategoryGrid = () => {
                       className="bg-white/90 text-foreground hover:bg-white w-10 h-10 p-0"
                       asChild
                     >
-                      <Link to={`/product/${product.id}`}>
+                      <Link to={`/product/${encodeURIComponent(product.id)}`}>
                         <Eye className="w-4 h-4" />
                       </Link>
                     </Button>
@@ -97,7 +97,7 @@ const FeaturedCategoryGrid = () => {
                 </div>
 
                 <CardContent className="p-6">
-                  <Link to={`/product/${product.id}`}>
+                  <Link to={`/product/${encodeURIComponent(product.id)}`}>
                     <h3 className="font-semibold text-lg text-foreground mb-2 hover:text-primary transition-colors">
                       {product.name}
                     </h3>
