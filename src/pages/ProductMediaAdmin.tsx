@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -47,6 +50,7 @@ export default function ProductMediaAdmin() {
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [showMediaForm, setShowMediaForm] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   
   const [editedProduct, setEditedProduct] = useState<Partial<Product>>({});
   const [editingMediaId, setEditingMediaId] = useState<string | null>(null);
@@ -662,31 +666,47 @@ export default function ProductMediaAdmin() {
             <CardDescription>Choose a product to view and manage its details and media</CardDescription>
           </CardHeader>
           <CardContent>
-            <Select
-              value={selectedProduct?.id}
-              onValueChange={(value) => {
-                const product = products.find(p => p.id === value);
-                setSelectedProduct(product || null);
-                setShowMediaForm(false);
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a product" />
-              </SelectTrigger>
-              <SelectContent className="max-h-[400px] bg-background z-50">
-                {products.length === 0 ? (
-                  <div className="p-4 text-center text-muted-foreground">
-                    No products found. Create a new product to get started.
-                  </div>
-                ) : (
-                  products.map((product) => (
-                    <SelectItem key={product.id} value={product.id}>
-                      {product.name} {!product.published && '(Unpublished)'}
-                    </SelectItem>
-                  ))
-                )}
-              </SelectContent>
-            </Select>
+            <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={searchOpen}
+                  className="w-full justify-between"
+                >
+                  {selectedProduct ? selectedProduct.name : "Select a product"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0 bg-background z-50" style={{ width: 'var(--radix-popover-trigger-width)' }}>
+                <Command>
+                  <CommandInput placeholder="Search products..." />
+                  <CommandList>
+                    <CommandEmpty>No products found.</CommandEmpty>
+                    <CommandGroup>
+                      {products.map((product) => (
+                        <CommandItem
+                          key={product.id}
+                          value={product.name}
+                          onSelect={() => {
+                            setSelectedProduct(product);
+                            setShowMediaForm(false);
+                            setSearchOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={`mr-2 h-4 w-4 ${
+                              selectedProduct?.id === product.id ? "opacity-100" : "opacity-0"
+                            }`}
+                          />
+                          {product.name} {!product.published && '(Unpublished)'}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </CardContent>
         </Card>
 
