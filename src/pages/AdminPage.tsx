@@ -26,12 +26,14 @@ import {
   Calendar,
   FileText,
   Eye,
+  BarChart3,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ProductMediaImporter } from "@/components/ProductMediaImporter";
+import AnalyticsDashboard from "@/components/AnalyticsDashboard";
 
 interface ContactMessage {
   id: string;
@@ -480,9 +482,13 @@ export const AdminPage: React.FC = () => {
           </Alert>
         )}
 
-        <Tabs defaultValue="quotations" className="space-y-6">
+        <Tabs defaultValue="analytics" className="space-y-6">
           <div className="flex items-center justify-between">
             <TabsList>
+              <TabsTrigger value="analytics" className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4" />
+                Analytics
+              </TabsTrigger>
               <TabsTrigger value="quotations" className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 Quotation Requests ({quotationRequests.length})
@@ -520,6 +526,10 @@ export const AdminPage: React.FC = () => {
               )}
             </div>
           </div>
+
+          <TabsContent value="analytics">
+            <AnalyticsDashboard />
+          </TabsContent>
 
           <TabsContent value="quotations" className="space-y-4">
             <div className="grid gap-4">

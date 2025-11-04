@@ -259,6 +259,33 @@ export type Database = {
         }
         Relationships: []
       }
+      page_views: {
+        Row: {
+          created_at: string
+          id: string
+          page_path: string
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page_path: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page_path?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       product_answers: {
         Row: {
           answer: string
@@ -698,10 +725,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      now_ist: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      now_ist: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin" | "user"

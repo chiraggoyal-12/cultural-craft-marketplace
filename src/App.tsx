@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { usePageTracking } from "@/hooks/usePageTracking";
 import Index from "./pages/Index";
 import ShopPage from "./pages/ShopPage";
 import ProductPage from "./pages/ProductPage";
@@ -28,6 +29,39 @@ import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
+// Wrapper component to use hooks inside Router context
+const AppContent = () => {
+  usePageTracking();
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/shop" element={<ShopPage />} />
+      <Route path="/shop/:category" element={<ShopPage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/dashboard" element={<UserDashboard />} />
+      <Route path="/admin" element={<AdminPage />} />
+      <Route
+        path="/admin/product-media"
+        element={<ProductMediaAdmin />}
+      />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/customisations" element={<CustomisationsPage />} />
+      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog/:storyId" element={<StoryDetailPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/faq" element={<FAQPage />} />
+      <Route path="/shipping" element={<ShippingPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/replacement-policy" element={<ReplacementPolicyPage />} />
+      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -36,31 +70,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/shop" element={<ShopPage />} />
-                <Route path="/shop/:category" element={<ShopPage />} />
-                <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                <Route path="/dashboard" element={<UserDashboard />} />
-                <Route path="/admin" element={<AdminPage />} />
-                <Route
-                  path="/admin/product-media"
-                  element={<ProductMediaAdmin />}
-                />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/customisations" element={<CustomisationsPage />} />
-                <Route path="/blog" element={<BlogPage />} />
-                <Route path="/blog/:storyId" element={<StoryDetailPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/shipping" element={<ShippingPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="/replacement-policy" element={<ReplacementPolicyPage />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <AppContent />
             </BrowserRouter>
           </TooltipProvider>
     </AuthProvider>
