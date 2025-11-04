@@ -62,8 +62,10 @@ export default function AnalyticsDashboard() {
         .select('page_path')
         .gte('created_at', thirtyDaysAgo.toISOString());
 
+      // Clean up URLs by removing query parameters
       const pageCounts = (pageData || []).reduce((acc: Record<string, number>, { page_path }) => {
-        acc[page_path] = (acc[page_path] || 0) + 1;
+        const cleanPath = page_path.split('?')[0]; // Remove query params
+        acc[cleanPath] = (acc[cleanPath] || 0) + 1;
         return acc;
       }, {});
 
@@ -186,28 +188,37 @@ export default function AnalyticsDashboard() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {analytics.dailyStats.map((stat) => (
-              <div key={stat.date} className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">
-                  {new Date(stat.date).toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}
-                </span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-secondary h-2 rounded-full overflow-hidden">
-                    <div 
-                      className="bg-primary h-full" 
-                      style={{ 
-                        width: `${Math.min((stat.views / Math.max(...analytics.dailyStats.map(s => s.views))) * 100, 100)}%` 
-                      }}
-                    />
+            {analytics.dailyStats.length > 0 ? (
+              analytics.dailyStats.map((stat) => {
+                const maxViews = Math.max(...analytics.dailyStats.map(s => s.views), 1);
+                return (
+                  <div key={stat.date} className="flex items-center justify-between py-2">
+                    <span className="text-sm font-medium text-foreground min-w-[100px]">
+                      {new Date(stat.date + 'T00:00:00').toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })}
+                    </span>
+                    <div className="flex items-center gap-3 flex-1 justify-end">
+                      <div className="w-48 bg-muted h-3 rounded-full overflow-hidden">
+                        <div 
+                          className="bg-primary h-full transition-all duration-300" 
+                          style={{ 
+                            width: `${(stat.views / maxViews) * 100}%` 
+                          }}
+                        />
+                      </div>
+                      <Badge variant="secondary" className="min-w-[60px] justify-center">
+                        {stat.views} views
+                      </Badge>
+                    </div>
                   </div>
-                  <Badge variant="secondary">{stat.views}</Badge>
-                </div>
-              </div>
-            ))}
+                );
+              })
+            ) : (
+              <p className="text-sm text-muted-foreground py-4">No data available yet</p>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -220,17 +231,22 @@ export default function AnalyticsDashboard() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {analytics.topPages.map((page, index) => (
-              <div key={page.path} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline">{index + 1}</Badge>
-                  <span className="text-sm font-mono">{page.path}</span>
+            {analytics.topPages.length > 0 ? (
+              analytics.topPages.map((page, index) => (
+                <div key={page.path} className="flex items-center justify-between py-2 hover:bg-muted/50 rounded-lg px-3 transition-colors">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <Badge variant="outline" className="shrink-0 w-8 h-8 flex items-center justify-center">
+                      {index + 1}
+                    </Badge>
+                    <span className="text-sm font-medium text-foreground truncate">
+                      {page.path === '/' ? 'Home' : page.path}
+                    </span>
+                  </div>
+                  <Badge className="shrink-0 ml-2">{page.count} views</Badge>
                 </div>
-                <Badge>{page.count} views</Badge>
-              </div>
-            ))}
-            {analytics.topPages.length === 0 && (
-              <p className="text-sm text-muted-foreground">No data available yet</p>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground py-4">No data available yet</p>
             )}
           </div>
         </CardContent>
