@@ -197,6 +197,28 @@ All colors MUST be HSL format for proper theming.
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
+  /* Stats Marquee Animation */
+  @keyframes stats-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .stats-marquee {
+    width: max-content;
+  }
+  
+  .marquee-animate {
+    animation: stats-marquee 40s linear infinite;
+  }
+  
+  .marquee-animate:hover {
+    animation-play-state: paused;
+  }
+  
   
   
   /* Parallax container */

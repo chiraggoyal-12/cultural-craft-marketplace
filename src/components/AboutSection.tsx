@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles, Globe, Award, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import InfiniteStatsMarquee from "./InfiniteStatsMarquee";
 
 const AboutSection = () => {
   const { ref: sectionRef, isVisible } = useScrollAnimation(0.1);
@@ -107,43 +108,14 @@ const AboutSection = () => {
             </div>
           </div>
 
-          {/* Bottom Stats */}
+          {/* Infinite Scrolling Stats Marquee */}
           <div 
             ref={statsRef as React.RefObject<HTMLDivElement>}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6"
+            className={`transition-all duration-1000 ${
+              statsVisible ? 'opacity-100' : 'opacity-0'
+            }`}
           >
-            <div className={`text-center p-6 rounded-lg bg-gradient-to-br from-primary/10 to-transparent hover:scale-105 transition-all duration-700 ${
-              statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: statsVisible ? '200ms' : '0ms' }}
-            >
-              <div className="text-4xl font-bold text-primary mb-2">100+</div>
-              <div className="text-sm text-muted-foreground">Unique Products</div>
-            </div>
-            <div className={`text-center p-6 rounded-lg bg-gradient-to-br from-secondary/10 to-transparent hover:scale-105 transition-all duration-700 ${
-              statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: statsVisible ? '350ms' : '0ms' }}
-            >
-              <div className="text-4xl font-bold text-secondary mb-2">50+</div>
-              <div className="text-sm text-muted-foreground">Years Heritage</div>
-            </div>
-            <div className={`text-center p-6 rounded-lg bg-gradient-to-br from-accent/10 to-transparent hover:scale-105 transition-all duration-700 ${
-              statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: statsVisible ? '500ms' : '0ms' }}
-            >
-              <div className="text-4xl font-bold text-accent mb-2">1000+</div>
-              <div className="text-sm text-muted-foreground">Happy Customers</div>
-            </div>
-            <div className={`text-center p-6 rounded-lg bg-gradient-to-br from-primary/10 to-transparent hover:scale-105 transition-all duration-700 ${
-              statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: statsVisible ? '650ms' : '0ms' }}
-            >
-              <div className="text-4xl font-bold text-primary mb-2">100%</div>
-              <div className="text-sm text-muted-foreground">Handcrafted</div>
-            </div>
+            <InfiniteStatsMarquee />
           </div>
         </div>
       </div>
