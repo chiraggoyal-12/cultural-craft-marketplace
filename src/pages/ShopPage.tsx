@@ -30,7 +30,7 @@ const ShopPage = () => {
       console.error('Error loading saved state:', error);
     }
     return {
-      sortBy: "newest",
+      sortBy: "random",
       viewMode: "grid",
       priceRange: [0, 10000],
       selectedMaterials: [],
@@ -40,7 +40,7 @@ const ShopPage = () => {
 
   const initialState = getInitialState();
   
-  const [sortBy, setSortBy] = useState(initialState.sortBy);
+  const [sortBy, setSortBy] = useState(initialState.sortBy || "random");
   const [viewMode, setViewMode] = useState<"grid" | "list">(initialState.viewMode);
   const [priceRange, setPriceRange] = useState(initialState.priceRange);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>(initialState.selectedMaterials);
@@ -114,8 +114,11 @@ const ShopPage = () => {
         return a.name.localeCompare(b.name);
       case "name-z-a":
         return b.name.localeCompare(a.name);
-      default:
+      case "newest":
         return b.newArrival ? 1 : -1;
+      default:
+        // Random sorting for default view
+        return Math.random() - 0.5;
     }
   });
 
@@ -209,6 +212,7 @@ const ShopPage = () => {
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="random">Random</SelectItem>
                     <SelectItem value="newest">Newest</SelectItem>
                     <SelectItem value="popularity">Popularity</SelectItem>
                     <SelectItem value="price-low">Price: Low to High</SelectItem>

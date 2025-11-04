@@ -16,11 +16,22 @@ import {
 const BestsellerCarousel = () => {
   const { products } = useProductsWithMedia();
 
-  // Get bestsellers and featured products
-  const bestsellerProducts = [
-    ...products.filter(p => p.bestseller),
-    ...products.filter(p => p.featured && !p.bestseller)
-  ].slice(0, 8);
+  // Hardcoded bestseller product IDs - one from each category
+  const bestsellerIds = [
+    'urli-lotus',
+    'elephant-oil-diffuser',
+    'banswara-oval-soap-dish',
+    'travertine-cake-stand',
+    'laltain',
+    'rose-quartz-coasters',
+    'pooja-thali',
+    'onyx-tortoise'
+  ];
+
+  // Get products by IDs in the specified order
+  const bestsellerProducts = bestsellerIds
+    .map(id => products.find(p => p.id === id))
+    .filter(Boolean) as typeof products;
 
   return (
     <section className="py-16 bg-background">
