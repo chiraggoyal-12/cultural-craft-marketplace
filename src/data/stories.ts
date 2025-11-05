@@ -30,7 +30,7 @@ export const stories: Story[] = [
     date: "2024-01-20",
     readTime: "8 min read",
     category: "Marble Craft",
-    image: "/src/assets/products/banswara-cake-stand.jpg",
+    image: "/assets/stories/marble-artisan-banswara.jpg",
     featured: true,
     fullContent: {
       sections: [
@@ -68,7 +68,7 @@ export const stories: Story[] = [
     date: "2024-01-15",
     readTime: "7 min read",
     category: "Textile Craft",
-    image: "/src/assets/lifestyle-living.jpg",
+    image: "/assets/stories/sikki-craft-bihar.jpg",
     featured: false,
     fullContent: {
       sections: [
@@ -106,7 +106,7 @@ export const stories: Story[] = [
     date: "2024-01-10",
     readTime: "6 min read",
     category: "Terracotta Craft",
-    image: "/src/assets/lifestyle-spiritual.jpg",
+    image: "/assets/stories/molela-terracotta.jpg",
     featured: false,
     fullContent: {
       sections: [
@@ -144,7 +144,7 @@ export const stories: Story[] = [
     date: "2024-01-05",
     readTime: "9 min read",
     category: "Textile Craft",
-    image: "/src/assets/lifestyle-dining.jpg",
+    image: "/assets/stories/manchaha-rug-weaving.jpg",
     featured: false,
     fullContent: {
       sections: [
