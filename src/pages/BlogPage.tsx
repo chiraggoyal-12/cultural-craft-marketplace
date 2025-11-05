@@ -6,9 +6,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Calendar, Clock, MapPin, ArrowRight, Home } from 'lucide-react';
+import { Calendar, Clock, MapPin, ArrowRight, Home, Sparkles } from 'lucide-react';
 import { stories } from '@/data/stories';
 import { useNewsletterSubscription } from '@/hooks/useNewsletterSubscription';
+import heroBanner from '@/assets/hero-banner.jpg';
 
 const BlogPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
@@ -41,25 +42,31 @@ const BlogPage = () => {
       
       <main className="flex-1">
         {/* Hero Banner Section */}
-        <section className="relative py-24 overflow-hidden">
+        <section className="relative py-32 overflow-hidden">
           <div 
             className="absolute inset-0 z-0"
             style={{
-              backgroundImage: 'url(/src/assets/hero-banner.jpg)',
+              backgroundImage: `url(${heroBanner})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
-          />
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
+          </div>
           
           <div className="container mx-auto px-4 text-center relative z-10">
-            <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-6 text-foreground leading-tight">
+            <Badge className="mb-6 text-base px-6 py-2 bg-terracotta text-white border-0">
+              <Sparkles className="w-4 h-4 mr-2 inline" />
+              Artisan Journal
+            </Badge>
+            <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-8 text-foreground leading-tight drop-shadow-sm">
               Stories Behind the Craft
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+            <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto leading-relaxed mb-8 font-medium">
               Every handmade piece carries not just material, but memory, tradition, and the artisan's touch. 
-              Here are real stories of the people and practices that shape our collection.
+              Discover the real stories of the people and practices that shape our collection.
             </p>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg" className="shadow-lg">
               <Link to="/" className="flex items-center gap-2">
                 <Home className="w-5 h-5" />
                 Back to Home
@@ -69,13 +76,17 @@ const BlogPage = () => {
         </section>
 
         {/* Filter Section */}
-        <section className="py-8 border-y bg-muted/20">
+        <section className="py-10 border-y bg-gradient-to-r from-warm-beige via-background to-warm-beige">
           <div className="container mx-auto px-4">
+            <p className="text-center text-sm font-semibold text-muted-foreground mb-6 tracking-wider uppercase">
+              Filter by Category or Region
+            </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Button
                 variant={selectedFilter === 'all' ? 'default' : 'outline'}
                 onClick={() => setSelectedFilter('all')}
-                size="sm"
+                size="lg"
+                className="rounded-full shadow-sm"
               >
                 All Stories
               </Button>
@@ -84,7 +95,8 @@ const BlogPage = () => {
                   key={category}
                   variant={selectedFilter === category ? 'default' : 'outline'}
                   onClick={() => setSelectedFilter(category)}
-                  size="sm"
+                  size="lg"
+                  className="rounded-full shadow-sm"
                 >
                   {category}
                 </Button>
@@ -94,7 +106,8 @@ const BlogPage = () => {
                   key={region}
                   variant={selectedFilter === region ? 'default' : 'outline'}
                   onClick={() => setSelectedFilter(region)}
-                  size="sm"
+                  size="lg"
+                  className="rounded-full shadow-sm"
                 >
                   {region}
                 </Button>
@@ -105,66 +118,70 @@ const BlogPage = () => {
 
         {/* Featured Story */}
         {featuredStory && (
-          <section className="py-20">
+          <section className="py-24 bg-gradient-warm">
             <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <Badge className="mb-4 text-base px-6 py-2">Featured Story</Badge>
-                <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-3">Spotlight</h2>
-                <p className="text-xl text-muted-foreground">The craft and the hands that create it</p>
+              <div className="mb-16 text-center">
+                <Badge className="mb-4 text-base px-8 py-3 bg-terracotta text-white border-0 shadow-lg">
+                  <Sparkles className="w-4 h-4 mr-2 inline" />
+                  Featured Story
+                </Badge>
+                <h2 className="font-playfair text-5xl md:text-6xl font-bold mb-4 text-foreground">Spotlight</h2>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">The craft and the hands that create it</p>
               </div>
               
-              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500">
+              <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 border-2 border-border">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div className="relative overflow-hidden h-[450px] lg:h-auto">
+                  <div className="relative overflow-hidden h-[500px] lg:h-auto">
                     <img 
-                      src={featuredStory.image}
+                      src={featuredStory.image.replace('/src', '')}
                       alt={featuredStory.title}
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                     <div className="absolute top-6 left-6">
-                      <Badge variant="secondary" className="backdrop-blur-sm bg-background/90 text-base px-4 py-2">
+                      <Badge variant="secondary" className="backdrop-blur-md bg-background/90 text-base px-5 py-2 shadow-lg border">
                         {featuredStory.category}
                       </Badge>
                     </div>
                   </div>
-                  <CardContent className="p-10 lg:p-12 flex flex-col justify-center">
-                    <h3 className="font-playfair text-3xl md:text-4xl font-bold mb-5 text-foreground leading-tight">
+                  <CardContent className="p-12 lg:p-16 flex flex-col justify-center bg-card">
+                    <h3 className="font-playfair text-4xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
                       {featuredStory.title}
                     </h3>
-                    <p className="text-lg mb-8 leading-relaxed text-muted-foreground">
+                    <p className="text-lg mb-10 leading-relaxed text-muted-foreground">
                       {featuredStory.excerpt}
                     </p>
                     
-                    <div className="space-y-4 mb-8 text-sm">
-                      <div className="flex items-start gap-3 text-muted-foreground">
-                        <span className="font-semibold text-foreground min-w-[90px]">Artisan:</span>
-                        <span className="text-base">{featuredStory.artisan}</span>
+                    <div className="space-y-5 mb-10 p-6 rounded-lg bg-muted/30">
+                      <div className="flex items-start gap-3">
+                        <span className="font-bold text-foreground min-w-[100px] text-sm uppercase tracking-wider">Artisan:</span>
+                        <span className="text-base font-medium text-foreground">{featuredStory.artisan}</span>
                       </div>
-                      <div className="flex items-start gap-3 text-muted-foreground">
-                        <span className="font-semibold text-foreground min-w-[90px]">Craft:</span>
-                        <span className="text-base">{featuredStory.craft}</span>
+                      <div className="flex items-start gap-3">
+                        <span className="font-bold text-foreground min-w-[100px] text-sm uppercase tracking-wider">Craft:</span>
+                        <span className="text-base font-medium text-foreground">{featuredStory.craft}</span>
                       </div>
-                      <div className="flex items-start gap-3 text-muted-foreground">
-                        <MapPin className="w-5 h-5 mt-0.5 shrink-0" />
-                        <span className="text-base">{featuredStory.region}</span>
+                      <div className="flex items-start gap-3">
+                        <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-terracotta" />
+                        <span className="text-base font-medium text-foreground">{featuredStory.region}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-6 text-sm text-muted-foreground mb-8 pb-8 border-b">
+                    <div className="flex items-center gap-6 text-sm text-muted-foreground mb-10 pb-10 border-b">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>{new Date(featuredStory.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        <Calendar className="w-5 h-5 text-terracotta" />
+                        <span className="font-medium">{new Date(featuredStory.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{featuredStory.readTime}</span>
+                        <Clock className="w-5 h-5 text-terracotta" />
+                        <span className="font-medium">{featuredStory.readTime}</span>
                       </div>
                     </div>
                     
                     <Link to={`/blog/${featuredStory.id}`}>
-                      <Button size="lg" className="w-full group">
+                      <Button size="lg" className="w-full group text-base py-6 shadow-lg bg-terracotta hover:bg-terracotta-dark text-white">
                         Read Full Story
-                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                       </Button>
                     </Link>
                   </CardContent>
@@ -175,57 +192,57 @@ const BlogPage = () => {
         )}
 
         {/* Stories Grid */}
-        <section className="py-20 bg-muted/20">
+        <section className="py-24 bg-background">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-6">More Artisan Stories</h2>
+            <div className="text-center mb-20">
+              <h2 className="font-playfair text-5xl md:text-6xl font-bold mb-6 text-foreground">More Artisan Stories</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 Every craft has a story. Every artisan has a voice. Discover the people and traditions behind our collection.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {regularStories.map(story => (
-                <Card key={story.id} className="overflow-hidden hover:shadow-xl transition-all duration-500 group flex flex-col">
-                  <Link to={`/blog/${story.id}`}>
-                    <div className="relative overflow-hidden h-64">
+                <Card key={story.id} className="overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group flex flex-col border-2">
+                  <Link to={`/blog/${story.id}`} className="flex flex-col h-full">
+                    <div className="relative overflow-hidden h-72">
                       <img 
-                        src={story.image}
+                        src={story.image.replace('/src', '')}
                         alt={story.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <Badge className="absolute top-4 left-4 backdrop-blur-sm bg-background/90 text-sm px-3 py-1">
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                      <Badge className="absolute top-5 left-5 backdrop-blur-md bg-background/95 text-sm px-4 py-2 shadow-lg border font-semibold">
                         {story.category}
                       </Badge>
                     </div>
                     
-                    <CardContent className="p-7 flex flex-col flex-1">
-                      <h3 className="font-playfair text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                    <CardContent className="p-8 flex flex-col flex-1 bg-card">
+                      <h3 className="font-playfair text-2xl font-bold mb-5 text-foreground group-hover:text-terracotta transition-colors line-clamp-2 leading-tight">
                         {story.title}
                       </h3>
-                      <p className="text-muted-foreground mb-6 line-clamp-3 leading-relaxed flex-1">
+                      <p className="text-muted-foreground mb-8 line-clamp-3 leading-relaxed flex-1 text-base">
                         {story.excerpt}
                       </p>
                       
-                      <div className="space-y-3 mb-6 text-sm">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <span className="font-semibold text-foreground">Artisan:</span>
-                          <span>{story.artisan}</span>
+                      <div className="space-y-4 mb-8 p-5 rounded-lg bg-muted/20 border">
+                        <div className="flex items-start gap-3 text-sm">
+                          <span className="font-bold text-foreground min-w-[70px] uppercase tracking-wider text-xs">Artisan:</span>
+                          <span className="font-medium text-foreground">{story.artisan}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                          <MapPin className="w-4 h-4 shrink-0" />
-                          <span>{story.region}</span>
+                        <div className="flex items-start gap-3 text-sm">
+                          <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-terracotta" />
+                          <span className="font-medium text-foreground">{story.region}</span>
                         </div>
                       </div>
 
                       <div className="pt-6 border-t flex items-center justify-between">
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="w-4 h-4" />
-                          <span>{story.readTime}</span>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="w-4 h-4 text-terracotta" />
+                          <span className="font-medium">{story.readTime}</span>
                         </div>
-                        <Button variant="ghost" size="sm" className="group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                          Read Story
+                        <Button variant="ghost" size="sm" className="group-hover:bg-terracotta group-hover:text-white transition-all font-semibold">
+                          Read More
                           <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                         </Button>
                       </div>
@@ -239,11 +256,15 @@ const BlogPage = () => {
 
 
         {/* Newsletter */}
-        <section className="py-20">
-          <div className="container mx-auto px-4 text-center">
+        <section className="py-24 bg-gradient-to-br from-terracotta via-forest to-terracotta-dark text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+          </div>
+          <div className="container mx-auto px-4 text-center relative z-10">
             <div className="max-w-2xl mx-auto">
-              <h2 className="font-playfair text-4xl font-bold mb-6">Join Our Story</h2>
-              <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
+              <Sparkles className="w-12 h-12 mx-auto mb-6 opacity-90" />
+              <h2 className="font-playfair text-5xl font-bold mb-6">Join Our Story</h2>
+              <p className="text-lg text-white/90 mb-12 leading-relaxed font-medium">
                 Subscribe to receive the latest artisan stories, craft insights, and behind-the-scenes glimpses into 
                 the world of traditional Indian craftsmanship.
               </p>
@@ -255,18 +276,18 @@ const BlogPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="flex-1 px-5 py-4 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-background text-base"
+                  className="flex-1 px-6 py-6 border-2 border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white bg-white/10 backdrop-blur-sm text-white placeholder:text-white/60 text-base"
                 />
                 <Button 
                   type="submit" 
                   size="lg" 
                   disabled={isLoading}
-                  className="px-8"
+                  className="px-10 py-6 bg-white text-terracotta hover:bg-white/90 font-bold shadow-xl"
                 >
                   {isLoading ? "Subscribing..." : "Subscribe"}
                 </Button>
               </form>
-              <p className="text-sm text-muted-foreground mt-6">
+              <p className="text-sm text-white/80 mt-8 font-medium">
                 We respect your privacy. Unsubscribe at any time.
               </p>
             </div>
