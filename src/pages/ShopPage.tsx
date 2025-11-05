@@ -128,6 +128,7 @@ const ShopPage = () => {
         ? prev.filter(m => m !== material)
         : [...prev, material]
     );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
