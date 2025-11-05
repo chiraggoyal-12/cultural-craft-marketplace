@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -62,11 +62,11 @@ const ProductPage = () => {
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="text-sm text-muted-foreground mb-6">
-          <a href="/" className="hover:text-primary">Home</a>
+          <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
-          <a href={`/shop/${product.category}`} className="hover:text-primary capitalize">
+          <Link to={`/shop/${product.category}`} className="hover:text-primary capitalize">
             {product.category.replace('-', ' ')}
-          </a>
+          </Link>
           <span className="mx-2">/</span>
           <span className="text-foreground">{product.name}</span>
         </nav>
@@ -236,7 +236,7 @@ const ProductPage = () => {
                       {relatedProduct.shortDescription}
                     </p>
                     <Button size="sm" className="w-full" asChild>
-                      <a href={`/product/${relatedProduct.id}`}>Get Quote</a>
+                      <Link to={`/product/${relatedProduct.id}`}>Get Quote</Link>
                     </Button>
                   </CardContent>
                 </Card>
